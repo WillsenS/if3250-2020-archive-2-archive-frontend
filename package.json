@@ -14,6 +14,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
+    "test": "echo \"test script is not configured\"",
+    "lint": "echo \"lint script is not configured\""
   }
 }
