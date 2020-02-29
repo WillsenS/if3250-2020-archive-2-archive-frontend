@@ -214,12 +214,12 @@ const HomepageContent = props => {
 
 const Index = props => {
   return (
-    <div>
+    <>
       <Header />
       <Welcome width={props.width} />
       <HomepageContent width={props.width} />
       <Footer />
-    </div>
+    </>
   );
 };
 
