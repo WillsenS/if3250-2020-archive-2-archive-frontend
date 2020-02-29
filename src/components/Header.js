@@ -3,7 +3,7 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import logoITB from '../asset/logo-itb-1024px.png';
 import { Toolbar, Typography } from '@material-ui/core';
-import theme from '../src/theme/theme';
+import theme from '../theme/index';
 import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles(theme =>({
