@@ -1,29 +1,38 @@
 import React from "react";
+import { useState } from "react";
 import theme from "../theme/index";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
+import { Paper, InputBase, IconButton, Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    margin: "0 auto"
+  },
+  form: {
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 600,
-    marginTop: "48px",
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderBottom: "2px solid rgba(0,0,0,.4)",
     color: theme.palette.common.darkGray
   },
   input: {
-    flex: 1
+    flex: 1,
+    borderBottom: "2px solid rgba(0,0,0,.4)",
+    borderRadius: "0"
+  },
+  inputFocused: {
+    borderBottom: "2px solid #175389"
   },
   iconButton: {
-    padding: 10,
-    color: theme.palette.primary.main
+    marginLeft: "12px",
+    padding: "10px",
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.primary.main
+    }
   },
   divider: {
     height: 28,
@@ -31,21 +40,46 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Search() {
+const Search = props => {
   const classes = useStyles();
+  const { value, setValue } = props;
+  const [searchQuery, setSearchQUery] = useState(value);
+
+  const onChangeSearch = event => {
+    setSearchQUery(event.target.value);
+  };
+
+  const onSubmitForm = (event, value) => {
+    setValue(searchQuery);
+    event.preventDefault();
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper elevation={0} component="form" className={classes.root}>
-        <InputBase
-          name="q"
-          className={classes.input}
-          placeholder="Cari Arsip"
-        />
-        <IconButton type="submit" className={classes.iconButton}>
-          <SearchIcon />
-        </IconButton>
-      </Paper>
+      <Grid container spacing={0}>
+        <Grid item lg={6} xs={12} className={classes.root}>
+          <Paper
+            elevation={0}
+            component="form"
+            className={classes.form}
+            onSubmit={onSubmitForm}
+          >
+            <InputBase
+              name="q"
+              className={classes.input}
+              classes={{ focused: classes.inputFocused }}
+              placeholder="Cari Arsip"
+              value={searchQuery}
+              onChange={onChangeSearch}
+            />
+            <IconButton type="submit" className={classes.iconButton}>
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
-}
+};
+
+export default Search;

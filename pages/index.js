@@ -6,6 +6,7 @@ import MuiLink from "@material-ui/core/Link";
 import ProTip from "../src/ProTip";
 import Link from "../src/Link";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function Copyright() {
   return (
@@ -36,6 +37,7 @@ export default function Index() {
           <Copyright />
         </Box>
       </Container>
+      <Footer />
     </>
   );
 }
