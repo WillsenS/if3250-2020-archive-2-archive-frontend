@@ -6,14 +6,19 @@ const theme = createMuiTheme({
     common: {
       black: "rgba(0, 0, 0, 0.87)",
       white: "#FFF",
-      darkGray: "292D35"
+      darkGray: "#292D35",
+      yellow: "#FFCE1F"
     },
     primary: {
       main: "#175389",
+      light: "#4B9DD3",
       bg: "#C4C4C4"
     },
-    secondary: {
+    warning: {
       main: "#FFCE1F"
+    },
+    secondary: {
+      main: "#292D35"
     },
     background: {
       default: "#fafafa"
@@ -21,6 +26,12 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: "Montserrat",
+    body1: {
+      fontSize: "14px"
+    },
+    body2: {
+      fontSize: "12px"
+    },
     h3: {
       fontSize: "18px",
       fontWeight: "600"
@@ -28,6 +39,9 @@ const theme = createMuiTheme({
     h4: {
       fontSize: "14px",
       fontWeight: "600"
+    },
+    h5: {
+      fontSize: "12px"
     }
   }
 });

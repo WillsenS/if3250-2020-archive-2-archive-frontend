@@ -12,6 +12,9 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
+  root: {
+    marginBottom: "32px"
+  },
   title: {
     marginTop: "auto",
     marginBottom: "auto"
