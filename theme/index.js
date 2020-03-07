@@ -32,16 +32,28 @@ const theme = createMuiTheme({
     body2: {
       fontSize: "12px"
     },
+    h1: {
+      fontSize:"48px",
+      fontWeight:"fontWeightBold"
+    },
+    h2: {
+      fontSize:"32px"
+    },
     h3: {
-      fontSize: "18px",
+      fontSize:"24px",
       fontWeight: "600"
     },
     h4: {
+      fontSize: "18px",
+      fontWeight: "fontWeightBold"
+    },
+    h5: {
       fontSize: "14px",
       fontWeight: "600"
     },
-    h5: {
-      fontSize: "12px"
+    h6: {
+      fontSize: "14px",
+      fontWeight:"fontWeightBold"
     }
   }
 });

@@ -7,9 +7,6 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import { Toolbar, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
-  root: {
-    marginBottom: "32px"
-  },
   title: {
     flexGrow: 1,
     marginLeft: "22px"
@@ -28,7 +25,7 @@ function Header() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="static" className={classes.root}>
+        <AppBar position="static">
           <Container>
             <Toolbar className={classes.toolbar}>
               <img
@@ -39,18 +36,18 @@ function Header() {
               />
               <Box className={classes.title}>
                 <Box>
-                  <Typography variant="h3" className={classes.yellow}>
+                  <Typography variant="h4" className={classes.yellow}>
                     SISTEM ARSIP
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h3">
+                  <Typography variant="h4">
                     INSTITUT TEKNOLOGI BANDUNG
                   </Typography>
                 </Box>
               </Box>
               <a color="inherit">
-                <Typography variant="h4">LOGIN</Typography>
+                <Typography variant="h5">LOGIN</Typography>
               </a>
             </Toolbar>
           </Container>

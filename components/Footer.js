@@ -61,7 +61,7 @@ function Footer() {
                 </Grid>
                 <Grid item lg={4} xs={12} className={classes.grid}>
                   <Box>
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                       PPID Institut Teknologi Bandung
                     </Typography>
                   </Box>
@@ -82,7 +82,7 @@ function Footer() {
                 </Grid>
                 <Grid item lg={4} xs={12} className={classes.grid}>
                   <Box>
-                    <Typography variant="h4">Media Sosial</Typography>
+                    <Typography variant="h5">Media Sosial</Typography>
                   </Box>
                   <Grid container spacing={1}>
                     <Grid item xs={6}>
