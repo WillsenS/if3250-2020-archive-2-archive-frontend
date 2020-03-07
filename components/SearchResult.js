@@ -1,14 +1,11 @@
 import React from "react";
 import theme from "../theme/index";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import { Paper, Grid, Typography } from "@material-ui/core";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import { defaultPublicURL } from "../config";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "720px",
     marginTop: "18px"
   },
   title: {
@@ -18,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.yellow
   },
   frame: {
-    width: "96px"
+    width: "100%"
   },
   image: {
     maxWidth: "100%",
@@ -36,8 +33,8 @@ const SearchResult = props => {
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
-        <Grid container spacing={0}>
-          <Grid item lg={2}>
+        <Grid container spacing={2}>
+          <Grid item lg={2} xs={3}>
             <div className={classes.frame}>
               <img
                 className={classes.image}
@@ -45,7 +42,7 @@ const SearchResult = props => {
               />
             </div>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item lg={10} xs={9}>
             <Typography variant="h4" className={classes.title}>
               {title}
             </Typography>
