@@ -3,7 +3,7 @@ import { defaultAPIURL } from "../config";
 
 const validateStatus = () => true;
 
-export const getArchiveList = (searchQuery, currentPage) =>
+export const getArchiveList = (searchQuery, currentPage, filter) =>
   new Promise(async (resolve, reject) => {
     try {
       const url = `${defaultAPIURL}/search?q=${searchQuery}`;
@@ -11,7 +11,8 @@ export const getArchiveList = (searchQuery, currentPage) =>
         url,
         method: "GET",
         params: {
-          page: currentPage
+          page: currentPage,
+          filters: filter.join(",")
         },
         validateStatus
       });

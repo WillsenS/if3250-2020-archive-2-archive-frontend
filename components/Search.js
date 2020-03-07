@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import theme from "../theme/index";
 import { Paper, InputBase, IconButton, Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import theme from "../theme/index";
 
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
@@ -42,14 +42,20 @@ const useStyles = makeStyles(theme => ({
 
 const Search = props => {
   const classes = useStyles();
-  const { value, setValue } = props;
+  const { value, setValue, setIsSearch, setFilter, setHeader } = props;
   const [searchQuery, setSearchQUery] = useState(value);
 
   const onChangeSearch = event => {
     setSearchQUery(event.target.value);
   };
 
-  const onSubmitForm = (event, value) => {
+  const onSubmitForm = event => {
+    const obj = {};
+    const header = [];
+
+    setFilter({ ...obj });
+    setHeader([...header]);
+    setIsSearch(true);
     setValue(searchQuery);
     event.preventDefault();
   };
