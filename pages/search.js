@@ -25,6 +25,9 @@ const useStyles = makeStyles(() => ({
   bold: {
     fontWeight: "600"
   },
+  container: {
+    marginTop: "32px"
+  },
   hidden: {
     display: "none"
   }
@@ -114,7 +117,7 @@ const SearchPage = props => {
     <>
       <ThemeProvider theme={theme}>
         <Header />
-        <Container>
+        <Container className={classes.container}>
           <Search
             value={searchQuery}
             setValue={setSearchQuery}

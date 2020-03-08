@@ -12,9 +12,6 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
-  root: {
-    marginBottom: "32px"
-  },
   title: {
     marginTop: "auto",
     marginBottom: "auto"
@@ -47,7 +44,7 @@ const Header = props => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="static" className={classes.root}>
+        <AppBar position="static">
           <Container>
             <Toolbar className={classes.toolbar}>
               <Grid container spacing={0}>
