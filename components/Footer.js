@@ -18,15 +18,15 @@ const useStyles = makeStyles(() => ({
     padding: "28px 0"
   },
   grid: {
-    margin: "10px auto"
+    margin: "10px 0"
   },
   image: {
     display: "block",
-    maxWidth: "60%"
+    maxWidth: "70%"
   },
   image100Tahun: {
     display: "block",
-    maxWidth: "90%",
+    maxWidth: "75%",
     margin: "0 auto"
   },
   description: {
@@ -52,14 +52,14 @@ function Footer() {
           <Container>
             <Toolbar className={classes.toolbar}>
               <Grid container spacing={0}>
-                <Grid item lg={2} xs={12} className={classes.grid}>
+                <Grid item lg={2} sm={2} xs={8} className={classes.grid}>
                   <img
                     src="./static/img/ppid.png"
                     alt="logo PPID"
                     className={classes.image}
                   />
                 </Grid>
-                <Grid item lg={4} xs={12} className={classes.grid}>
+                <Grid item lg={4} sm={4} xs={12} className={classes.grid}>
                   <Box>
                     <Typography variant="h5">
                       PPID Institut Teknologi Bandung
@@ -80,12 +80,12 @@ function Footer() {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item lg={4} xs={12} className={classes.grid}>
+                <Grid item lg={4} sm={4} xs={12} className={classes.grid}>
                   <Box>
                     <Typography variant="h5">Media Sosial</Typography>
                   </Box>
                   <Grid container spacing={1}>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={7}>
                       <Box className={classes.description}>
                         <Grid container spacing={0}>
                           <TwitterIcon
@@ -131,7 +131,7 @@ function Footer() {
                         </Grid>
                       </Box>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={5}>
                       <Box className={classes.description}>
                         <Grid container spacing={0}>
                           <InstagramIcon
@@ -165,7 +165,7 @@ function Footer() {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item lg={2} xs={9} className={classes.grid}>
+                <Grid item lg={2} sm={2} xs={12} className={classes.grid}>
                   <img
                     src="./static/img/100-tahun-itb.png"
                     alt="100 Tahun ITB"
