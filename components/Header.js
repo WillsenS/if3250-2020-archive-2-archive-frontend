@@ -38,7 +38,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function Header(props) {
+const Header = props => {
   const classes = useStyles();
 
   return (
@@ -48,7 +48,7 @@ function Header(props) {
           <Container>
             <Toolbar className={classes.toolbar}>
               <Grid container spacing={0}>
-                <Grid item xs={2} lg={1} className={classes.grid}>
+                <Grid item xs={2} sm={1} lg={1} className={classes.grid}>
                   <img
                     src="./static/img/logo-itb.png"
                     alt="logo ITB"
@@ -90,6 +90,6 @@ function Header(props) {
       </ThemeProvider>
     </>
   );
-}
+};
 
 export default withWidth()(Header);
