@@ -63,7 +63,7 @@ function Header(props) {
                   <Box className={classes.title}>
                     <Box>
                       <Typography
-                        variant={isWidthDown("sm", props.width) ? "h5" : "h4"}
+                        variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                         className={classes.yellow}
                       >
                         SISTEM ARSIP
@@ -71,7 +71,7 @@ function Header(props) {
                     </Box>
                     <Box>
                       <Typography
-                        variant={isWidthDown("sm", props.width) ? "h5" : "h4"}
+                        variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                       >
                         INSTITUT TEKNOLOGI BANDUNG
                       </Typography>
@@ -80,7 +80,7 @@ function Header(props) {
                 </Grid>
                 <Grid item lg={3} xs={2} className={classes.grid}>
                   <div className={classes.login}>
-                    <Typography variant="h5">LOGIN</Typography>
+                    <Typography variant="h4">LOGIN</Typography>
                   </div>
                 </Grid>
               </Grid>
