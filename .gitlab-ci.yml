@@ -1,0 +1,41 @@
+cache:
+  paths:
+  - node_modules
+  - .yarn
+
+image: node:alpine
+
+before_script:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+  - yarn install
+
+stages:
+  - test
+  - integration
+  - production
+
+lint:
+  stage: test
+  script:
+    - yarn lint
+
+test:
+  stage: test
+  script:
+    - yarn test
+
+deployToStaging:
+  stage: integration
+  script:
+    - echo "No staging server configuration"
+  only:
+    - develop
+
+deployToProduction:
+  stage: production
+  script:
+    - echo "No production server configuration"
+  only:
+    - master
+  when: manual
