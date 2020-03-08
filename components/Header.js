@@ -44,7 +44,7 @@ const Header = props => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.root}>
           <Container>
             <Toolbar className={classes.toolbar}>
               <Grid container spacing={0}>
