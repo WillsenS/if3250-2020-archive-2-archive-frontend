@@ -3,7 +3,7 @@ const next = require("next");
 const app = require("express")();
 const { parse } = require("url");
 const bodyParser = require("body-parser");
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 
