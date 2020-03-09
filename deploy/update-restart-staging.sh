@@ -15,4 +15,4 @@ npm install -g
 
 # Restart the node
 echo "Restarting node..."
-pm2 start app.js --name "frontend"
+pm2 start server.js --name "frontend"
