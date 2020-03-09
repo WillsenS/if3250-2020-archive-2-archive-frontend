@@ -28,7 +28,10 @@ test:
 deployToStaging:
   stage: integration
   script:
-    - echo "No staging server configuration"
+    - bash deploy/deploy-staging.sh
+  environment:
+    name: staging
+    url: https://demoapp.my.id
   only:
     - develop
 
