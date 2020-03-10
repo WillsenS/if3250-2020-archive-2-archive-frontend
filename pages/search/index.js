@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getArchiveList } from "../resources/archive";
+import { getArchiveList } from "../../resources/archive";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Search from "../components/Search";
-import SearchResult from "../components/SearchResult";
-import FilterSearch from "../components/FilterSearch";
-import theme from "../theme/index";
+import Header from "../../src/components/Header";
+import Footer from "../../src/components/Footer";
+import Search from "../../src/components/Search";
+import SearchResult from "../../src/components/SearchResult";
+import FilterSearch from "../../src/components/FilterSearch";
+import theme from "../../src/theme";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   result: {
     marginTop: "12px"
   },

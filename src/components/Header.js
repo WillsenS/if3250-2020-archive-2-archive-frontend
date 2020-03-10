@@ -1,5 +1,5 @@
 import React from "react";
-import theme from "../theme/index";
+import theme from "../theme";
 import {
   Box,
   AppBar,
@@ -11,7 +11,7 @@ import {
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   title: {
     marginTop: "auto",
     marginBottom: "auto"
