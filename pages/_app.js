@@ -20,10 +20,11 @@ export default class MyApp extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>PPID</title>
+          <title>Arsip Statis ITB</title>
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
+            key="viewport"
           />
         </Head>
         <ThemeProvider theme={theme}>

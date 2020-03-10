@@ -2,7 +2,7 @@ import React from "react";
 import theme from "../theme/index";
 import { Paper, Grid, Typography } from "@material-ui/core";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import { defaultPublicURL } from "../config";
+import { defaultPublicURL } from "../../config";
 
 const useStyles = makeStyles(theme => ({
   root: {
