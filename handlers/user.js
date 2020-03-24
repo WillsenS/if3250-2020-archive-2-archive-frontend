@@ -2,6 +2,8 @@
 const axios = require("axios");
 const convert = require("xml-js");
 
+const { defaultAPIURL } = require("../config");
+
 /**
  * Router that will check ticket from SSO ITB
  * if the ticket is match, then user is authentication.
@@ -14,35 +16,15 @@ exports.checkSSORedirect = () => {
 
     if (ticket != null) {
       try {
-        const response = await axios.get(
-          `https://login.itb.ac.id/cas/serviceValidate?ticket=${ticket}&service=${redirectURL}`
-        );
+        const response = await axios.get(`${defaultAPIURL}/?ticket=${ticket}`);
 
         console.log(response);
-
-        const result = await JSON.parse(
-          convert.xml2json(response.data, { compact: true, spaces: 4 })
-        );
-        const serviceResponse = result["cas:serviceResponse"];
-
-        if (serviceResponse["cas:authenticationFailure"]) {
-          return res.redirect(
-            `https://login.itb.ac.id/cas/login?service=${redirectURL}`
-          );
-        }
-
-        // console.log("success");
 
         return res.redirect(redirectURL);
       } catch (err) {
         console.error(err);
-        return res.status(500).json({
-          apiVersion: res.locals.apiVersion,
-          error: {
-            code: 500,
-            message: "Error occured during sign in process"
-          }
-        });
+
+        return res.redirect(redirectURL);
       }
     }
 
