@@ -31,7 +31,7 @@ function AdminLayout(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   if (!section) {
-    section == 1;
+    section = 1;
   }
   if (!title) {
     title = "Halaman Utama Admin Panel";
@@ -63,7 +63,7 @@ function AdminLayout(props) {
           <ListItem
             button
             key={"Home"}
-            classes={{ root: section == 1 ? classes.currentLink : "" }}
+            classes={{ root: section === 1 ? classes.currentLink : "" }}
             className={classes.buttonHover}
           >
             <ListItemIcon>
@@ -76,7 +76,7 @@ function AdminLayout(props) {
           <ListItem
             button
             key={"Admins"}
-            classes={{ root: section == 2 ? classes.currentLink : "" }}
+            classes={{ root: section === 2 ? classes.currentLink : "" }}
             className={classes.buttonHover}
           >
             <ListItemIcon>
@@ -89,7 +89,7 @@ function AdminLayout(props) {
           <ListItem
             button
             key={"Archives"}
-            classes={{ root: section == 3 ? classes.currentLink : "" }}
+            classes={{ root: section === 3 ? classes.currentLink : "" }}
             className={classes.buttonHover}
           >
             <ListItemIcon>

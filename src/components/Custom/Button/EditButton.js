@@ -1,19 +1,28 @@
 import React from "react";
 import EditIcon from "@material-ui/icons/Edit";
-import { Button } from "@material-ui/core";
+
+//PropTypes validation
+import PropTypes from 'prop-types';
+import IconButton from "@material-ui/core/IconButton";
 
 export default function EditButton(props) {
-  return (
-    <Button
-      size="small"
-      startIcon={<EditIcon />}
-      variant="contained"
-      color="default"
-      disableElevation
-      style={{ margin: "0 1rem" }}
-      onClick={props.handleClick}
-    >
-      Ubah
-    </Button>
-  );
+    return (
+        <IconButton
+            aria-label="archive edit"
+            color="default"
+            size="small"
+            onClick={() => {
+            props.handleClick(props.data)
+        }}
+            style={{margin: "0 .5rem"}}
+        >
+            <EditIcon/>
+        </IconButton>
+    );
 }
+
+
+EditButton.propTypes = {
+    data: PropTypes.object,
+    handleClick: PropTypes.func
+};
