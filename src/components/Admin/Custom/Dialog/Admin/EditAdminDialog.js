@@ -14,7 +14,7 @@ import {
     FormHelperText,
     Box
 } from "@material-ui/core";
-import FacultyList from "../../../Admin/constants/Faculty";
+import FacultyList from "../../../constants/Faculty";
 
 //PropTypes validation
 import PropTypes from 'prop-types';
