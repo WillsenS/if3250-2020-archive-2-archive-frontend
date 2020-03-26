@@ -1,30 +1,27 @@
 import React from "react";
-import { Button, withStyles } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { red } from "@material-ui/core/colors";
+import PropTypes from 'prop-types';
+import IconButton from "@material-ui/core/IconButton";
 
-const ColorButton = withStyles(theme => ({
-  root: {
-    // color: theme.palette.getContrastText(red[500]),
-    color: theme.palette.getContrastText("#cb2431"),
-    backgroundColor: "#cb2431",
-    "&:hover": {
-      backgroundColor: red[500]
-    }
-  }
-}))(Button);
 
 export default function RemoveButton(props) {
-  return (
-    <ColorButton
-      size="small"
-      startIcon={<DeleteIcon />}
-      variant="contained"
-      disableElevation
-      style={{ margin: "0 1rem" }}
-      onClick={props.handleClick}
-    >
-      Hapus
-    </ColorButton>
-  );
+    const {handleClick, data} = props;
+    return (
+        <IconButton
+            size="small"
+            aria-label="archive remove"
+            style={{margin: "0 .5rem", color: "#cb2431"}}
+            onClick={() => {
+                handleClick(data)
+            }}
+        >
+            <DeleteIcon/>
+        </IconButton>
+    );
 }
+
+
+RemoveButton.propTypes = {
+    handleClick: PropTypes.func,
+    data: PropTypes.object
+};
