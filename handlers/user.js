@@ -1,8 +1,11 @@
 /* eslint-disable dot-notation */
 const axios = require("axios");
-const convert = require("xml-js");
 
 const { defaultAPIURL } = require("../config");
+
+const validateStatus = () => true;
+axios.defaults.withCredentials = true;
+const withCredentials = true;
 
 /**
  * Router that will check ticket from SSO ITB
@@ -16,9 +19,16 @@ exports.checkSSORedirect = () => {
 
     if (ticket != null) {
       try {
-        const response = await axios.get(`${defaultAPIURL}/?ticket=${ticket}`);
+        const url = `${defaultAPIURL}/?ticket=${ticket}`;
 
-        console.log(response);
+        const { data: response } = await axios({
+          url,
+          method: "get",
+          validateStatus,
+          withCredentials
+        });
+
+        res.cookie("token", response.token, { httpOnly: true });
 
         return res.redirect(redirectURL);
       } catch (err) {
@@ -27,8 +37,6 @@ exports.checkSSORedirect = () => {
         return res.redirect(redirectURL);
       }
     }
-
-    console.log("A");
 
     return next();
   };
