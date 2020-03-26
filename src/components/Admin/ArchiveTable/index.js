@@ -7,21 +7,21 @@ import Paper from "@material-ui/core/Paper";
 import TableRow from "@material-ui/core/TableRow";
 import {InputAdornment} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import AdminPagination from "../../Custom/Pagination/AdminPagination";
+import AdminPagination from "../Custom/Pagination/AdminPagination";
 
 //Custom components and styles and data
 import useStyles from "./style";
-import StyledTableCell from "../../Custom/Table/StyledTableCell";
-import StyledTableRow from "../../Custom/Table/StyledTableRow";
-import EditButton from "../../Custom/Button/EditButton";
-import DetailButton from "../../Custom/Button/DetailButton";
-import RemoveButton from "../../Custom/Button/RemoveButton";
-import Search from "../../Custom/Input/Search";
-import AddButton from "../../Custom/Button/AddButton";
-import FormArchive from "../../Custom/Dialog/Archive/FormArchive";
+import StyledTableCell from "../Custom/Table/StyledTableCell";
+import StyledTableRow from "../Custom/Table/StyledTableRow";
+import EditButton from "../Custom/Button/EditButton";
+import DetailButton from "../Custom/Button/DetailButton";
+import RemoveButton from "../Custom/Button/RemoveButton";
+import Search from "../Custom/Input/Search";
+import AddButton from "../Custom/Button/AddButton";
+import FormArchive from "../Custom/Dialog/Archive/FormArchive";
 import {baseArchiveObjectTemplate} from "../../../scheme/Archive";
 import cleanObject from "../../../utils/CleanInput";
-import ArchiveDetail from "../../Custom/Dialog/Archive/ArchiveDetail";
+import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
 //PropTypes validation
 import PropTypes from 'prop-types';
 

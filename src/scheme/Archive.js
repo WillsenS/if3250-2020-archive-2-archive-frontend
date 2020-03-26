@@ -1,22 +1,3 @@
-export const archiveTypeList = [
-    {
-        id: 1,
-        name: "Audio"
-    },
-    {
-        id: 2,
-        name: "Video"
-    },
-    {
-        id: 3,
-        name: "Foto"
-    },
-    {
-        id: 4,
-        name: "Tekstual"
-    }
-];
-
 export const baseArchiveObjectTemplate = {
     // The attribute are the id's of the input elements.
     //Mandatory metadata

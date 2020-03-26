@@ -10,16 +10,16 @@ import SearchIcon from "@material-ui/icons/Search";
 
 //Custom components and styles and data
 import useStyles from "./style";
-import StyledTableCell from "../../Custom/Table/StyledTableCell";
-import StyledTableRow from "../../Custom/Table/StyledTableRow";
-import Search from "../../Custom/Input/Search";
-import EditButton from "../../Custom/Button/EditButton";
-import RemoveButton from "../../Custom/Button/RemoveButton";
-import AddButton from "../../Custom/Button/AddButton";
-import DeleteConfirmDialog from "../../Custom/Dialog/Admin/DeleteConfirmDialog";
-import AddAdminDialog from "../../Custom/Dialog/Admin/AddAdminDialog";
-import EditAdminDialog from "../../Custom/Dialog/Admin/EditAdminDialog";
-import AdminPagination from "../../Custom/Pagination/AdminPagination"
+import StyledTableCell from "../Custom/Table/StyledTableCell";
+import StyledTableRow from "../Custom/Table/StyledTableRow";
+import Search from "../Custom/Input/Search";
+import EditButton from "../Custom/Button/EditButton";
+import RemoveButton from "../Custom/Button/RemoveButton";
+import AddButton from "../Custom/Button/AddButton";
+import DeleteConfirmDialog from "../Custom/Dialog/Admin/DeleteConfirmDialog";
+import AddAdminDialog from "../Custom/Dialog/Admin/AddAdminDialog";
+import EditAdminDialog from "../Custom/Dialog/Admin/EditAdminDialog";
+import AdminPagination from "../Custom/Pagination/AdminPagination"
 
 //PropTypes validation
 import PropTypes from 'prop-types';

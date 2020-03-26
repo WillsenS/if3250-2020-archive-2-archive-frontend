@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core";
 import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
-import {archiveTypeList} from "../../../../scheme/Archive";
+import archiveTypeList from "../../../constants/ArchiveType";
 //PropTypes validation
 import PropTypes from 'prop-types';
 

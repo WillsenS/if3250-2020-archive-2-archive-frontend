@@ -2,8 +2,7 @@ import React from "react";
 
 import AdminLayout from "../../../src/components/Admin/Layout";
 import AdminTable from "../../../src/components/Admin/AdminTable";
-// import Header from "../../../src/components/Header";
-// import Footer from "../../../src/components/Footer";
+
 
 const ADMIN = 2;
 const SUPERADMIN = 3;
@@ -108,19 +107,15 @@ export default function AdminUsers() {
     };
 
     return (
-        <>
-            {/* <Header /> */}
-            <AdminLayout section={section} title="Pengaturan Data Admin">
-                <AdminTable
-                    dataAdmin={mockAdminListResponse}
-                    dataUser={mockUserListResponse}
-                    handlePageRequest={handlePageRequest}
-                    handleAddNewDataRequest={handleAddNewAdminRequest}
-                    handleDeleteDataRequest={handleDeleteAdminRequest}
-                    handleEditDataRequest={handleEditAdminRequest}
-                />
-            </AdminLayout>
-            {/* <Footer /> */}
-        </>
+        <AdminLayout section={section} title="Pengaturan Data Admin">
+            <AdminTable
+                dataAdmin={mockAdminListResponse}
+                dataUser={mockUserListResponse}
+                handlePageRequest={handlePageRequest}
+                handleAddNewDataRequest={handleAddNewAdminRequest}
+                handleDeleteDataRequest={handleDeleteAdminRequest}
+                handleEditDataRequest={handleEditAdminRequest}
+            />
+        </AdminLayout>
     );
 }

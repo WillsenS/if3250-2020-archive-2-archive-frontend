@@ -54,7 +54,7 @@ function Footer() {
               <Grid container spacing={0}>
                 <Grid item lg={2} sm={2} xs={8} className={classes.grid}>
                   <img
-                    src="./static/img/ppid.png"
+                    src="/static/img/ppid.png"
                     alt="logo PPID"
                     className={classes.image}
                   />
@@ -170,7 +170,7 @@ function Footer() {
                 <Grid item lg={2} sm={2} xs={12} className={classes.grid}>
                    <Link href="http://seabaditb.id/">
                     <img
-                        src="./static/img/100-tahun-itb.png"
+                        src="/static/img/100-tahun-itb.png"
                         alt="100 Tahun ITB"
                         className={classes.image100Tahun}
                       />

@@ -16,7 +16,7 @@ import {
 
 //PropTypes validation
 import PropTypes from 'prop-types';
-import Faculty from "../../../Admin/constants/Faculty";
+import Faculty from "../../../constants/Faculty";
 
 const useStyles = makeStyles(theme => ({
     root: {
