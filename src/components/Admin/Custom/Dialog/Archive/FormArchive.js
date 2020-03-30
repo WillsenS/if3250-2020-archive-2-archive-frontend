@@ -60,6 +60,12 @@ export default function FormArchive(props) {
         handleClose();
     };
 
+    const handleAutoComplete = (id, val) => {
+        if (val !== null) {
+            handleInput(id, val.kode);
+        }
+    };
+
     return (
         <div>
             <Dialog
@@ -127,7 +133,7 @@ export default function FormArchive(props) {
                         getOptionLabel={(option) => option.kode + " " + option.nama.toUpperCase()}
                         renderInput={(params) => <TextField {...params} label="Skema Klasifikasi"/>}
                         onChange={(event, value) => {
-                            handleInput("classificationScheme", value.kode)
+                            handleAutoComplete("classificationScheme", value)
                         }}
                     />
                     <CustomTextField
