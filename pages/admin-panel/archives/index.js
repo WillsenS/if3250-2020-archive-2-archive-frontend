@@ -2,6 +2,7 @@ import React from "react";
 
 import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
+import Classification from "../../../src/scheme/Classification";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -35,7 +36,7 @@ export default function AdminUsers() {
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
         const newArchiveId = Math.floor(Math.random() * Math.floor(1000)) + 10; //Assign random ID
-        const newArchive = {...newArchiveData, id: newArchiveId};
+        const newArchive = {...newArchiveData, id: newArchiveId, submittedOnWebsiteDate: new Date()};
         mockArchiveResponse.payload.push(newArchive);
     };
 
@@ -57,6 +58,7 @@ export default function AdminUsers() {
         <AdminLayout section={section} title="Pengaturan Data Arsip">
             <ArchiveTable
                 archiveList={mockArchiveResponse}
+                classification={Classification.klasifikasi}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}
                 handleEditRequests={handleEditArchiveRequest}

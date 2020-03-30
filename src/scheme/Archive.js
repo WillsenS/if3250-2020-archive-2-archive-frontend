@@ -10,6 +10,7 @@ export const baseArchiveObjectTemplate = {
     date: new Date().toLocaleDateString(),
     archiveLocation: "",
     mime: "",
+    archivedOnWebsiteDate: null,
     // Video and Audio only metadata
     narrator: "",
     reporter: "",

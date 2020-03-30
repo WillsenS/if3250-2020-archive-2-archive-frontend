@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,8 +18,12 @@ import {
 import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
 import archiveTypeList from "../../../constants/ArchiveType";
+import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
+
 //PropTypes validation
 import PropTypes from 'prop-types';
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -34,11 +38,11 @@ const useStyles = makeStyles(() => ({
 
 
 export default function FormArchive(props) {
-    const {isOpen, handleClose, archive} = props;
     const classes = useStyles();
+    const [classification, setClassification] = useState(ParseClassificationJsonArray(props.classification));
+    const {isOpen, handleClose, archive} = props;
 
     const editMode = props.type === "edit";
-
     const handleUpload = () => {
         props.handleUpload();
     };
@@ -113,15 +117,19 @@ export default function FormArchive(props) {
                     <CustomTextField
                         id="code"
                         label="Nomor Arsip"
-                        placeholder="AK/OA.AE.04/58"
+                        placeholder="AK/OA.AE.04/58 TODO: Ini yang mana ?"
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.code : ""}/>
-                    <CustomTextField
+                    <Autocomplete
+                        //Get the selected classification scheme code, for example DD.00.00.01
                         id="classificationScheme"
-                        label="Skema Klasifikasi"
-                        placeholder="OA.AE.04"
-                        handleInput={handleInput}
-                        defaultValue={editMode ? archive.classificationScheme : ""}/>
+                        options={classification}
+                        getOptionLabel={(option) => option.kode + " " + option.nama.toUpperCase()}
+                        renderInput={(params) => <TextField {...params} label="Skema Klasifikasi"/>}
+                        onChange={(event, value) => {
+                            handleInput("classificationScheme", value.kode)
+                        }}
+                    />
                     <CustomTextField
                         id="location"
                         label="Tempat Kegiatan/Pembuatan"
@@ -216,6 +224,7 @@ export default function FormArchive(props) {
 FormArchive.propTypes = {
     type: PropTypes.string,
     archive: PropTypes.object,
+    classification: PropTypes.array,
     title: PropTypes.string,
     isOpen: PropTypes.bool,
     isEdit: PropTypes.bool,

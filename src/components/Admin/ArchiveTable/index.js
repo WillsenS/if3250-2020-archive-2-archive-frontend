@@ -48,6 +48,7 @@ export default function ArchiveTable(props) {
     //Read props from parent component
     const {currentPage, totalPage, payload} = props.archiveList;
     const {handleAddRequests, handleEditRequests, handleDeleteRequests} = props;
+    const classification = props.classification;
 
     const handleOpenDetailDialog = (data) => {
         setSelectedArchive({...data});
@@ -181,6 +182,7 @@ export default function ArchiveTable(props) {
             <FormArchive
                 type="add"
                 archive={selectedArchive}
+                classification={classification}
                 title="Tambah Arsip Baru"
                 isOpen={openAddDialog}
                 handleClose={handleCloseAddDialog}
@@ -193,6 +195,7 @@ export default function ArchiveTable(props) {
             <FormArchive
                 type="edit"
                 archive={selectedArchive}
+                classification={classification}
                 title="Edit Arsip"
                 isOpen={openEditDialog}
                 handleClose={handleCloseEditDialog}
@@ -223,6 +226,7 @@ export default function ArchiveTable(props) {
 
 ArchiveTable.propTypes = {
     archiveList: PropTypes.object,
+    classification: PropTypes.array,
     handlePageRequests: PropTypes.func,
     handleAddRequests: PropTypes.func,
     handleEditRequests: PropTypes.func,
