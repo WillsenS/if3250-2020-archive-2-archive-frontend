@@ -13,6 +13,8 @@ pm2 delete frontend
 echo "Running npm install -g"
 npm install -g
 
-# Restart the node
-echo "Restarting node..."
-pm2 start server.js --name "frontend"
+echo "Running npm run build"
+npm run build
+
+echo "Starting npm on pm2"
+pm2 start npm --name "frontend" -- start

@@ -15,9 +15,4 @@ sudo bash -c 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
 echo "Deploying to ${STAGING_SERVER}"
 ssh ubuntu@${STAGING_SERVER} 'bash' < ./deploy/clone-staging.sh
 
-# Create .env variables
-echo NODE_ENV=staging >> .env
-
-scp ./.env ubuntu@${STAGING_SERVER}:/home/ubuntu/archive-frontend/
-
 ssh ubuntu@${STAGING_SERVER} 'bash' < ./deploy/update-restart-staging.sh
