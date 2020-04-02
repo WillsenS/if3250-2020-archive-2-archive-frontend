@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import theme from "../theme/index";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import { Box, Grid, Toolbar, Typography } from "@material-ui/core";
+import { Box, Grid, Toolbar, Typography, Link } from "@material-ui/core";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
@@ -54,7 +54,7 @@ function Footer() {
               <Grid container spacing={0}>
                 <Grid item lg={2} sm={2} xs={8} className={classes.grid}>
                   <img
-                    src="./static/img/ppid.png"
+                    src="/static/img/ppid.png"
                     alt="logo PPID"
                     className={classes.image}
                   />
@@ -62,7 +62,9 @@ function Footer() {
                 <Grid item lg={4} sm={4} xs={12} className={classes.grid}>
                   <Box>
                     <Typography variant="h4">
-                      PPID Institut Teknologi Bandung
+                      <Link href="https://ppid.itb.ac.id/" color="inherit">
+                        PPID Institut Teknologi Bandung
+                      </Link>
                     </Typography>
                   </Box>
                   <Box className={classes.description}>
@@ -92,7 +94,7 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="#">
+                          <a className={classes.linkGroup} href="https://twitter.com/PPID_ITB">
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -106,7 +108,7 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="#">
+                          <a className={classes.linkGroup} href="https://www.facebook.com/PPID.ITB.Bandung/">
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -120,7 +122,7 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="#">
+                          <a className={classes.linkGroup} href="https://api.whatsapp.com/send?phone=+6281290401959">
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -138,7 +140,7 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="#">
+                          <a className={classes.linkGroup} href="https://www.instagram.com/ppid.itb/?hl=en">
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -152,7 +154,7 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="#">
+                          <a className={classes.linkGroup} href="https://www.youtube.com/channel/UCxlYLLsK5YdsrGCtVBU3kYQ">
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -166,11 +168,13 @@ function Footer() {
                   </Grid>
                 </Grid>
                 <Grid item lg={2} sm={2} xs={12} className={classes.grid}>
-                  <img
-                    src="./static/img/100-tahun-itb.png"
-                    alt="100 Tahun ITB"
-                    className={classes.image100Tahun}
-                  />
+                   <Link href="http://seabaditb.id/">
+                    <img
+                        src="/static/img/100-tahun-itb.png"
+                        alt="100 Tahun ITB"
+                        className={classes.image100Tahun}
+                      />
+                   </Link>
                 </Grid>
               </Grid>
             </Toolbar>

@@ -1,14 +1,12 @@
 cache:
   paths:
   - node_modules
-  - .yarn
 
 image: node:alpine
 
 before_script:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-  - yarn install
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - npm install
 
 stages:
   - test
@@ -18,17 +16,20 @@ stages:
 lint:
   stage: test
   script:
-    - yarn lint
+    - npm run lint
 
 test:
   stage: test
   script:
-    - yarn test
+    - npm run test
 
 deployToStaging:
   stage: integration
   script:
-    - echo "No staging server configuration"
+    - bash deploy/deploy-staging.sh
+  environment:
+    name: staging
+    url: https://demoapp.my.id
   only:
     - develop
 

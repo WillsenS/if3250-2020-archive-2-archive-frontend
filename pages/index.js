@@ -9,15 +9,15 @@ import {
   Container,
   Grid
 } from "@material-ui/core";
-import theme from "../theme/home";
+import theme from "../src/theme/home";
 import SearchIcon from "@material-ui/icons/Search";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../src/components/Header";
+import Footer from "../src/components/Footer";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { getAuthCheck } from "../resources/auth";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   newDocument: {
     paddingLeft: "32px"
   },

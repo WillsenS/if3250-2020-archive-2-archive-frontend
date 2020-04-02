@@ -3,12 +3,15 @@
   "version": "4.0.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "latest",
+    "@date-io/date-fns": "1.x",
+    "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
+    "@material-ui/pickers": "^3.2.10",
     "axios": "^0.19.2",
     "clsx": "latest",
     "cookie-parser": "^1.4.5",
+    "date-fns": "^2.10.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "js-cookie": "^2.2.1",
@@ -27,5 +30,10 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "test": "echo \"test script is not configured\"",
     "lint": "echo \"lint script is not configured\""
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-react": "^7.19.0"
   }
 }
