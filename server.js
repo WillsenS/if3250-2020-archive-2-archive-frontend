@@ -21,8 +21,8 @@ nextApp
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get("/login", (req, res) => {
-      const redirectURL = `https%3A%2F%2F${req.headers.host}${req.baseUrl}`;
-      // const redirectURL = `https%3A%2F%2Fdemoapp.my.id`;
+      // const redirectURL = `https%3A%2F%2F${req.headers.host}${req.baseUrl}`;
+      const redirectURL = `https%3A%2F%2Fdemoapp.my.id`;
 
       res.redirect(`https://login.itb.ac.id/cas/login?service=${redirectURL}`);
     });

@@ -15,7 +15,8 @@ const withCredentials = true;
 exports.checkSSORedirect = () => {
   return async (req, res, next) => {
     const { ticket } = req.query;
-    const redirectURL = `https://${req.headers.host}${req.path}`;
+    // const redirectURL = `https://${req.headers.host}${req.path}`;
+    const redirectURL = `https://demoapp.my.id`;
 
     if (ticket != null) {
       try {
