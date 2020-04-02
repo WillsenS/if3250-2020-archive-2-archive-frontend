@@ -1,12 +1,12 @@
 import axios from "axios";
 import { defaultAPIURL } from "../config";
-import Cookies from "js-cookie";
 
 const validateStatus = () => true;
 axios.defaults.withCredentials = true;
 const withCredentials = true;
 
 export const getAuthCheck = token =>
+  // eslint-disable-next-line no-async-promise-executor
   new Promise(async (resolve, reject) => {
     try {
       axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
