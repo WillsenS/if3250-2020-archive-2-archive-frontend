@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable no-console */
+/* eslint-disable react/prop-types */
+import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import {
   Box,
@@ -15,6 +17,7 @@ import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
+import { getAuthCheck } from "../resources/auth";
 
 const useStyles = makeStyles(theme => ({
   newDocument: {
@@ -216,6 +219,17 @@ const HomepageContent = props => {
 };
 
 const Index = props => {
+  const { token } = props;
+
+  const doAuth = async () => {
+    const response = await getAuthCheck(token);
+    console.log(response);
+  };
+
+  useEffect(() => {
+    doAuth();
+  }, []);
+
   return (
     <>
       <Header />
@@ -224,6 +238,10 @@ const Index = props => {
       <Footer />
     </>
   );
+};
+
+Index.getInitialProps = ({ req }) => {
+  return { token: req.cookies.token };
 };
 
 export default withWidth()(Index);
