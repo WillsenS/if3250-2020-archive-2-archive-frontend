@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
+import DoubleMultiSelect from "../../Input/DoubleMultiSelect";
 import archiveTypeList from "../../../constants/ArchiveType";
 import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
 
@@ -126,6 +127,7 @@ export default function FormArchive(props) {
                         placeholder="AK/OA.AE.04/58 TODO: Ini yang mana ?"
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.code : ""}/>
+                    {/*    TODO: Edit mode buat doubleinput sama autocomplete*/}
                     <Autocomplete
                         //Get the selected classification scheme code, for example DD.00.00.01
                         id="classificationScheme"
@@ -136,6 +138,13 @@ export default function FormArchive(props) {
                             handleAutoComplete("classificationScheme", value)
                         }}
                     />
+                    {/*TODO: Bikin fungsi yang ngecek opsi workunit dipilih atau nggak*/}
+                    <DoubleMultiSelect
+                        accessData={props.accessList}
+                        workUnitData={props.workUnitList}
+                        showWorkUnitForm={true}
+                        handleInput={props.handleInput}/>
+
                     <CustomTextField
                         id="location"
                         label="Tempat Kegiatan/Pembuatan"
@@ -231,6 +240,8 @@ FormArchive.propTypes = {
     type: PropTypes.string,
     archive: PropTypes.object,
     classification: PropTypes.array,
+    workUnitList: PropTypes.array,
+    accessList: PropTypes.array,
     title: PropTypes.string,
     isOpen: PropTypes.bool,
     isEdit: PropTypes.bool,

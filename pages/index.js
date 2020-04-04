@@ -86,7 +86,10 @@ const Welcome = props => {
             SELAMAT DATANG DI
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
-            WEBSITE ARSIP STATIS
+            ARCHIVE DIGITAL
+          </Typography>
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+            INFORMATION CENTER
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
             INSTITUT TEKNOLOGI BANDUNG
