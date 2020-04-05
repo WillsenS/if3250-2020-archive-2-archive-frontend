@@ -79,7 +79,7 @@ export default function ArchiveDetail(props) {
                     <ArchiveListItem label="Nama Arsip" data={archive.name}/>
                     <ArchiveListItem label="Tipe Arsip" data={archive.type}/>
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
-                    <ArchiveListItem label="Skema Klasifikasi" data={archive.classificationScheme}/>
+                    <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
                     <ArchiveListItem label="Lokasi" data={archive.location}/>
                     <ArchiveListItem label="Deskripsi Arsip" data={archive.description}/>
                     <ArchiveListItem label="Tanggal Pembuatan Arsip" data={archive.date.toString()}/>

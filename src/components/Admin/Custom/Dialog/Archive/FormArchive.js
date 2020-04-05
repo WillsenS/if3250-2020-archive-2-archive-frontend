@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 
 export default function FormArchive(props) {
     const classes = useStyles();
-    const [classification, setClassification] = useState(ParseClassificationJsonArray(props.classification));
+    const [classification] = useState(ParseClassificationJsonArray(props.classification));
     const {isOpen, handleClose, archive} = props;
 
     const editMode = props.type === "edit";
@@ -136,7 +136,7 @@ export default function FormArchive(props) {
                         onChange={(event, value) => {
                             handleAutoComplete("classificationPattern", value)
                         }}
-                        value={editMode ? archive.classificationPattern  : null}
+                        defaultValue={editMode ? archive.classificationPattern  : null}
                     />
                     <DoubleMultiSelect
                         editMode={true}
