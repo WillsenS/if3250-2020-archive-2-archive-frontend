@@ -89,7 +89,10 @@ const Welcome = props => {
             SELAMAT DATANG DI
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
-            WEBSITE ARSIP STATIS
+            ARCHIVE DIGITAL
+          </Typography>
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+            INFORMATION CENTER
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
             INSTITUT TEKNOLOGI BANDUNG
@@ -216,16 +219,16 @@ const HomepageContent = props => {
 };
 
 const Index = props => {
-  const { token } = props;
-
-  const doAuth = async () => {
-    const response = await getAuthCheck(token);
-    console.log(response);
-  };
-
-  useEffect(() => {
-    doAuth();
-  }, []);
+  // const { token } = props;
+  //
+  // const doAuth = async () => {
+  //   const response = await getAuthCheck(token);
+  //   console.log(response);
+  // };
+  //
+  // useEffect(() => {
+  //   doAuth();
+  // }, []);
 
   return (
     <>
@@ -237,8 +240,8 @@ const Index = props => {
   );
 };
 
-Index.getInitialProps = ({ req }) => {
-  return { token: req.cookies.token };
-};
+// Index.getInitialProps = ({ req }) => {
+//   return { token: req.cookies.token };
+// };
 
 export default withWidth()(Index);

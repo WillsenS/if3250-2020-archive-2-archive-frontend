@@ -8,9 +8,8 @@ const useStyles = makeStyles(() => ({
         width: "80%",
         margin: "2rem auto"
     },
-
     table: {
-        maxWitdh: 700
+        // maxWidth: 700
     },
     wrapper: {
         width: "80%",
