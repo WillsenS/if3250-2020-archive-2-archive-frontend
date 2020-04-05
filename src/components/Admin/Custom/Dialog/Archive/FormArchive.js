@@ -139,10 +139,11 @@ export default function FormArchive(props) {
                         value={editMode ? archive.classificationPattern  : null}
                     />
                     <DoubleMultiSelect
+                        editMode={true}
                         accessData={props.accessList}
-                        workUnitData={props.workUnitList}
-                        showWorkUnitForm={false}
-                        handleInput={props.handleInput}/>
+                        handleInput={props.handleInput}
+                        defaultValue={editMode? archive.accessRightsList: []}
+                    />
 
                     <CustomTextField
                         id="location"
@@ -226,6 +227,7 @@ export default function FormArchive(props) {
                     <Button onClick={handleClose} color="primary">
                         Batal
                     </Button>
+                    {/*TODO: Validasi semua isi form gaboleh ada yang kosong*/}
                     <Button onClick={handleSubmitArchive} color="primary">
                         {editMode ? 'Ubah' : 'Tambah'}
                     </Button>

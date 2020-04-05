@@ -37,6 +37,7 @@ export default function AdminUsers() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
+        console.log(newArchiveData);
         const newArchiveId = Math.floor(Math.random() * Math.floor(1000)) + 10; //Assign random ID
         const newArchive = {...newArchiveData, id: newArchiveId, submittedOnWebsiteDate: new Date()};
         mockArchiveResponse.payload.push(newArchive);

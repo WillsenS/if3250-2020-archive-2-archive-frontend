@@ -1,7 +1,7 @@
 import React from "react";
 import InputMultipleSelectChips from "./InputMultipleSelectChips";
 
-import PropTypes from 'prop-types';
+import PropTypes, {array} from 'prop-types';
 
 
 export default function DoubleMultiSelect(props) {
@@ -13,17 +13,10 @@ export default function DoubleMultiSelect(props) {
                 title={"Akses Keamanan Arsip"}
                 data={props.accessData}
                 slug={"hak-akses"}
-                handleInput={props.handleInput}/>
-            {
-                props.showWorkUnitForm ? (
-                    <InputMultipleSelectChips
-                        id="accessRightsForWorkUnit"
-                        title={"Akses Unit Kerja"}
-                        data={props.workUnitData}
-                        slug={"hak-akses-unit-kerja"}
-                        handleInput={props.handleInput}/>
-                ) : (<></>)
-            }
+                handleInput={props.handleInput}
+                defaultValue={props.defaultValue}
+            />
+
         </>
 
 
@@ -33,7 +26,8 @@ export default function DoubleMultiSelect(props) {
 
 DoubleMultiSelect.propTypes = {
     accessData: PropTypes.array,
-    workUnitData: PropTypes.array,
-    showWorkUnitForm: PropTypes.bool,
-    handleInput: PropTypes.func
+    handleInput: PropTypes.func,
+    editMode: PropTypes.bool,
+    defaultValue: PropTypes.array
+
 };

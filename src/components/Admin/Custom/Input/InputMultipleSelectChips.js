@@ -42,7 +42,7 @@ function getStyles(name, data, theme) {
 export default function InputMultipleSelectChips(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [data, setData] = React.useState([]);
+    const [data, setData] = React.useState(props.defaultValue);
 
     const handleChange = (event) => {
         setData(event.target.value);
@@ -87,5 +87,6 @@ InputMultipleSelectChips.propTypes = {
     title: PropTypes.string,
     data: PropTypes.array,
     slug: PropTypes.string,
-    handleInput: PropTypes.func
+    handleInput: PropTypes.func,
+    defaultValue: PropTypes.array,
 };

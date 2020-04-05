@@ -5,6 +5,7 @@ export const baseArchiveObjectTemplate = {
     type: "Audio",
     code: "",
     classificationPattern: "",
+    accessRightsList: [],
     location: "",
     description: "",
     date: new Date().toLocaleDateString(),
