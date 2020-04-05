@@ -4,7 +4,7 @@ export const baseArchiveObjectTemplate = {
     name: "",
     type: "Audio",
     code: "",
-    classificationPattern: {},
+    classificationPattern: {kode: '', nama: ''},
     accessRightsList: [],
     location: "",
     description: "",

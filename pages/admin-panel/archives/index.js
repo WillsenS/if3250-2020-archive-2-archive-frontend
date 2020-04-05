@@ -16,7 +16,7 @@ const mockArchiveResponse = {
             name: "Arsip 1",
             type: "Audio",
             code: "X1",
-            classificationScheme: "-",
+            classificationPattern: {kode: '', nama: ''},
             location: "-",
             description: "-",
             date: new Date().toLocaleDateString(),

@@ -29,14 +29,16 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ArchiveListItem(props) {
-    return (
-        <ListItem button divider role="listitem">
+    const showedData = Array.isArray(props.data) ? props.data.join(', '): props.data;
+    return <ListItem button divider role="listitem">
+        {
             <ListItemText
-                primary={props.label}
-                secondary={props.data}
+            primary={props.label}
+            secondary={showedData}
             />
-        </ListItem>
-    );
+        }
+
+    </ListItem>;
 }
 
 
@@ -80,6 +82,7 @@ export default function ArchiveDetail(props) {
                     <ArchiveListItem label="Tipe Arsip" data={archive.type}/>
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
                     <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
+                    <ArchiveListItem label="Hak Akses Arsip" data={archive.accessRightsList} />
                     <ArchiveListItem label="Lokasi" data={archive.location}/>
                     <ArchiveListItem label="Deskripsi Arsip" data={archive.description}/>
                     <ArchiveListItem label="Tanggal Pembuatan Arsip" data={archive.date.toString()}/>
@@ -149,5 +152,8 @@ ArchiveDetail.propTypes = {
 
 ArchiveListItem.propTypes = {
     label: PropTypes.string,
-    data: PropTypes.string
+    data: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array
+    ]),
 };
