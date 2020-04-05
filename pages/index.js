@@ -219,16 +219,16 @@ const HomepageContent = props => {
 };
 
 const Index = props => {
-  const { token } = props;
-
-  const doAuth = async () => {
-    const response = await getAuthCheck(token);
-    console.log(response);
-  };
-
-  useEffect(() => {
-    doAuth();
-  }, []);
+  // const { token } = props;
+  //
+  // const doAuth = async () => {
+  //   const response = await getAuthCheck(token);
+  //   console.log(response);
+  // };
+  //
+  // useEffect(() => {
+  //   doAuth();
+  // }, []);
 
   return (
     <>
@@ -240,8 +240,8 @@ const Index = props => {
   );
 };
 
-Index.getInitialProps = ({ req }) => {
-  return { token: req.cookies.token };
-};
+// Index.getInitialProps = ({ req }) => {
+//   return { token: req.cookies.token };
+// };
 
 export default withWidth()(Index);
