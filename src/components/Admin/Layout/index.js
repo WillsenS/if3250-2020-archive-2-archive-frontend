@@ -138,10 +138,9 @@ function AdminLayout(props) {
             <span className={classes.contentWrapper}>
                 <Header/>
               <main className={classes.content}>
-        <div className={classes.toolbar}/>
+                    <div className={classes.toolbar}/>
                   {props.children ? props.children : ""}
-      </main>
-                <Footer/>
+              </main><Footer/>
             </span>
 
         </div>

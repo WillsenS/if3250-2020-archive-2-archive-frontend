@@ -2,6 +2,9 @@ import React from "react";
 
 import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
+import Classification from "../../../src/scheme/Classification";
+import WorkUnit from "../../../src/scheme/Unit";
+import Access from "../../../src/scheme/Access";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -13,7 +16,7 @@ const mockArchiveResponse = {
             name: "Arsip 1",
             type: "Audio",
             code: "X1",
-            classificationScheme: "-",
+            classificationPattern: {kode: '', nama: ''},
             location: "-",
             description: "-",
             date: new Date().toLocaleDateString(),
@@ -34,8 +37,9 @@ export default function AdminUsers() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
+        console.log(newArchiveData);
         const newArchiveId = Math.floor(Math.random() * Math.floor(1000)) + 10; //Assign random ID
-        const newArchive = {...newArchiveData, id: newArchiveId};
+        const newArchive = {...newArchiveData, id: newArchiveId, submittedOnWebsiteDate: new Date()};
         mockArchiveResponse.payload.push(newArchive);
     };
 
@@ -57,6 +61,9 @@ export default function AdminUsers() {
         <AdminLayout section={section} title="Pengaturan Data Arsip">
             <ArchiveTable
                 archiveList={mockArchiveResponse}
+                classification={Classification.klasifikasi}
+                workUnitList={WorkUnit}
+                accessList={Access}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}
                 handleEditRequests={handleEditArchiveRequest}

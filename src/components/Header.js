@@ -77,7 +77,7 @@ const Header = props => {
                                                 variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                                                 className={classes.yellow}
                                             >
-                                                SISTEM ARSIP
+                                                Archive Digital Information Center
                                             </Typography>
                                         </Box>
                                         <Box>

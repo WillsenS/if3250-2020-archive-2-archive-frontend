@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     contentWrapper: {
         display: "flex",
         flexDirection: "column",
-        flexGrow: 1
+        minHeight: '100vh'
     },
     drawer: {
         [theme.breakpoints.up("sm")]: {
