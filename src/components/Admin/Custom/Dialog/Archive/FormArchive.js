@@ -63,7 +63,7 @@ export default function FormArchive(props) {
 
     const handleAutoComplete = (id, val) => {
         if (val !== null) {
-            handleInput(id, val.kode);
+            handleInput(id, val);
         }
     };
 
@@ -127,22 +127,21 @@ export default function FormArchive(props) {
                         placeholder="AK/OA.AE.04/58 TODO: Ini yang mana ?"
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.code : ""}/>
-                    {/*    TODO: Edit mode buat doubleinput sama autocomplete*/}
                     <Autocomplete
-                        //Get the selected classification scheme code, for example DD.00.00.01
-                        id="classificationScheme"
+                        //Get the selected classification pattern, for example DD.00.00.01
+                        id="classificationPattern"
                         options={classification}
-                        getOptionLabel={(option) => option.kode + " " + option.nama.toUpperCase()}
-                        renderInput={(params) => <TextField {...params} label="Skema Klasifikasi"/>}
+                        getOptionLabel={(option) => option.kode + " " + option.nama}
+                        renderInput={(params) => <TextField {...params} label="Pola Klasifikasi"/>}
                         onChange={(event, value) => {
-                            handleAutoComplete("classificationScheme", value)
+                            handleAutoComplete("classificationPattern", value)
                         }}
+                        value={editMode ? archive.classificationPattern  : null}
                     />
-                    {/*TODO: Bikin fungsi yang ngecek opsi workunit dipilih atau nggak*/}
                     <DoubleMultiSelect
                         accessData={props.accessList}
                         workUnitData={props.workUnitList}
-                        showWorkUnitForm={true}
+                        showWorkUnitForm={false}
                         handleInput={props.handleInput}/>
 
                     <CustomTextField
@@ -228,7 +227,7 @@ export default function FormArchive(props) {
                         Batal
                     </Button>
                     <Button onClick={handleSubmitArchive} color="primary">
-                        Ubah
+                        {editMode ? 'Ubah' : 'Tambah'}
                     </Button>
                 </DialogActions>
             </Dialog>

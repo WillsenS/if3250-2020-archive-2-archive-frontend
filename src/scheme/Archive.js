@@ -4,7 +4,7 @@ export const baseArchiveObjectTemplate = {
     name: "",
     type: "Audio",
     code: "",
-    classificationScheme: "",
+    classificationPattern: "",
     location: "",
     description: "",
     date: new Date().toLocaleDateString(),
