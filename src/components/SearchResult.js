@@ -1,8 +1,7 @@
 import React from "react";
 import theme from "../theme/index";
-import { Paper, Grid, Typography } from "@material-ui/core";
+import { Paper, Grid, Typography, Link } from "@material-ui/core";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import { defaultPublicURL } from "../../config";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,12 +34,11 @@ const SearchResult = props => {
       <Paper elevation={0} className={classes.root}>
         <Grid container spacing={2}>
           <Grid item lg={2} xs={3}>
-            <div className={classes.frame}>
-              <img
-                className={classes.image}
-                src={`${defaultPublicURL}${image}`}
-              />
-            </div>
+            <Link href="/detail">
+              <div className={classes.frame}>
+                <img className={classes.image} src={`${image}`} />
+              </div>
+            </Link>
           </Grid>
           <Grid item lg={10} xs={9}>
             <Typography variant="h4" className={classes.title}>

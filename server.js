@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const compression = require("compression");
 const next = require("next");
 const app = require("express")();
@@ -32,6 +33,15 @@ nextApp
       return res.redirect("/not-found");
     });
 
+    app.get("/detail/:archiveId", (req, res) => {
+      const query = {
+        ...req.params,
+        ...req.query,
+      };
+
+      return nextApp.render(req, res, "/detail", query);
+    });
+
     app.use((req, res, next) => {
       if (req.url.startsWith("/_private")) {
         return res.redirect("/not-found");
@@ -46,17 +56,17 @@ nextApp
         ...parsedURL,
         query: {
           ...parsedURL.query,
-          ...req.filteredSession
-        }
+          ...req.filteredSession,
+        },
       };
       return handle(req, res, parsedURLObject);
     });
 
-    app.listen(port, "0.0.0.0", err => {
+    app.listen(port, "0.0.0.0", (err) => {
       if (err) throw err;
       console.log(`Server is now listening on port, ${port}`);
     });
   })
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
   });

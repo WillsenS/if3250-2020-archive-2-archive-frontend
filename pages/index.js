@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Router from "next/router";
 import {
   Box,
@@ -17,7 +17,9 @@ import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import { getAuthCheck } from "../resources/auth";
+
+import Layout from "../layout";
+import { StateUserContext } from "../reducers/user";
 
 const useStyles = makeStyles(theme => ({
   newDocument: {
@@ -215,30 +217,26 @@ const HomepageContent = props => {
   );
 };
 
-const Index = props => {
+const Home = props => {
   const { token } = props;
-
-  const doAuth = async () => {
-    const response = await getAuthCheck(token);
-    console.log(response);
-  };
-
-  useEffect(() => {
-    doAuth();
-  }, []);
+  const userState = useContext(StateUserContext);
 
   return (
     <>
-      <Header />
-      <Welcome width={props.width} />
-      <HomepageContent width={props.width} />
-      <Footer />
+      <Layout token={token}>
+        <ThemeProvider theme={theme}>
+          <Header user={userState.user} />
+          <Welcome width={props.width} />
+          <HomepageContent width={props.width} />
+          <Footer />
+        </ThemeProvider>
+      </Layout>
     </>
   );
 };
 
-Index.getInitialProps = ({ req }) => {
+Home.getInitialProps = ({ req }) => {
   return { token: req.cookies.token };
 };
 
-export default withWidth()(Index);
+export default withWidth()(Home);
