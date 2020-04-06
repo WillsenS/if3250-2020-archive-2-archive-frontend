@@ -1,7 +1,7 @@
 import React from "react";
 import InputMultipleSelectChips from "./InputMultipleSelectChips";
 
-import PropTypes, {array} from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 export default function DoubleMultiSelect(props) {

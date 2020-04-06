@@ -44,8 +44,11 @@ export default function FormArchive(props) {
     const {isOpen, handleClose, archive} = props;
 
     const editMode = props.type === "edit";
-    const handleUpload = () => {
-        props.handleUpload();
+    const handleUpload = (event) => {
+        const file = event.target.files[0];
+        if (file != null) {
+            props.handleUpload(file);
+        }
     };
 
     const handleArchiveTypeChange = event => {
@@ -67,6 +70,20 @@ export default function FormArchive(props) {
         }
     };
 
+    const getArchiveUploaderFilter = (type) => {
+        switch (type) {
+            case 'Audio':
+                return 'audio/*';
+            case 'Video':
+                return 'video/*';
+            case 'Tekstual':
+                return '*';
+            case 'Foto':
+                return 'image/*';
+            default:
+                return '*';
+        }
+    };
     return (
         <div>
             <Dialog
@@ -80,26 +97,7 @@ export default function FormArchive(props) {
                     <DialogContentText>
                         Input data file yang akan ditambahkan
                     </DialogContentText>
-                    <Box>
-                        <input
-                            hidden
-                            accept="*"
-                            className={classes.input}
-                            id="archive-upload"
-                            type="file"
-                            onChange={handleUpload}
-                        />
-                        <label htmlFor="archive-upload">
-                            <Button variant="contained" color="primary" component="span">
-                                Upload Arsip
-                            </Button>
-                        </label>
-                        <Typography component="span">
-                            <Box fontWeight="fontWeightLight" m={1} component="span">
-                                {archive.name}
-                            </Box>
-                        </Typography>
-                    </Box>
+                    {/*Tipe Arsip*/}
                     <FormControl required className={classes.formControl}>
                         <InputLabel id="user-label">Tipe</InputLabel>
                         <Select
@@ -119,12 +117,32 @@ export default function FormArchive(props) {
                         </Select>
                         <FormHelperText>Tipe Klasifikasi Dari Arsip </FormHelperText>
                     </FormControl>
-
+                    {/*Uploader File*/}
+                    <Box>
+                        <input
+                            hidden
+                            accept={getArchiveUploaderFilter(archive.type)}
+                            className={classes.input}
+                            id="archive-upload"
+                            type="file"
+                            onChange={(e) => handleUpload(e)}
+                        />
+                        <label htmlFor="archive-upload">
+                            <Button variant="contained" color="primary" component="span">
+                                Upload Arsip
+                            </Button>
+                        </label>
+                        <Typography component="span">
+                            <Box fontWeight="fontWeightLight" m={1} component="span">
+                                {archive.filename}
+                            </Box>
+                        </Typography>
+                    </Box>
                     {/* Metadata fields that exist on every archive type*/}
                     <CustomTextField
                         id="code"
                         label="Nomor Arsip"
-                        placeholder="AK/OA.AE.04/58 TODO: Ini yang mana ?"
+                        placeholder=""
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.code : ""}/>
                     <Autocomplete
@@ -157,23 +175,6 @@ export default function FormArchive(props) {
                         placeholder="-"
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.description : ""}/>
-                    <DatePicker
-                        id="date"
-                        handleInput={handleInput}
-                        defaultDateObj={editMode ? archive.date : new Date()}
-                    />
-                    <CustomTextField
-                        id="archiveLocation"
-                        label="Lokasi Simpan Arsip"
-                        placeholder="AK1.L29"
-                        handleInput={handleInput}
-                        defaultValue={editMode ? archive.archiveLocation : ""}/>
-                    <CustomTextField
-                        id="mime"
-                        label="Format File (Mime)"
-                        placeholder="Mp3, Audio,WAV"
-                        handleInput={handleInput}
-                        defaultValue={editMode ? archive.mime : ""}/>
 
                     {/*Show extra fields depending on the selected archive type*/}
                     {
@@ -222,6 +223,17 @@ export default function FormArchive(props) {
 
                         ) : (<></>)
                     }
+                    <DatePicker
+                        id="date"
+                        handleInput={handleInput}
+                        defaultDateObj={editMode ? archive.date : new Date()}
+                    />
+                    <CustomTextField
+                        id="archiveLocation"
+                        label="Lokasi Simpan Arsip"
+                        placeholder="AK1.L29"
+                        handleInput={handleInput}
+                        defaultValue={editMode ? archive.archiveLocation : ""}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

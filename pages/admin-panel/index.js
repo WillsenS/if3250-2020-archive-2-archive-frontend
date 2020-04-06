@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 import HomeTable from "../../src/components/Admin/Home/HomeTable";
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
     }

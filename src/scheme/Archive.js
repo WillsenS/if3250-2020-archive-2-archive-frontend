@@ -1,7 +1,7 @@
 const baseArchiveObjectTemplate = {
     // The attribute are the id's of the input elements.
     //Mandatory metadata
-    name: "",
+    filename: "",
     type: "",
     code: "",
     classificationPattern: {kode: '', nama: ''},
@@ -42,7 +42,7 @@ export const photoArchiveObject = {
 
 export const textArchiveObject = {
   ...baseArchiveObjectTemplate,
-    type: 'Tesktual',
+    type: 'Tekstual',
     textualArchiveNumber: "",
     author: "",
 };

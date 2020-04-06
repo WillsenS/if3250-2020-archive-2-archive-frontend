@@ -19,7 +19,7 @@ import RemoveButton from "../Custom/Button/RemoveButton";
 import Search from "../Custom/Input/Search";
 import AddButton from "../Custom/Button/AddButton";
 import FormArchive from "../Custom/Dialog/Archive/FormArchive";
-import {baseArchiveObjectTemplate} from "../../../scheme/Archive";
+import {audioArchiveObject, videoArchiveObject, photoArchiveObject, textArchiveObject} from "../../../scheme/Archive";
 import cleanObject from "../../../utils/CleanInput";
 import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
 //PropTypes validation
@@ -43,7 +43,7 @@ export default function ArchiveTable(props) {
     const [openDetailDialog, setOpenDetailDialog] = React.useState(false);
 
     //Selected archive hooks
-    const [selectedArchive, setSelectedArchive] = React.useState(baseArchiveObjectTemplate);
+    const [selectedArchive, setSelectedArchive] = React.useState(audioArchiveObject);
 
     //Read props from parent component
     const {currentPage, totalPage, payload} = props.archiveList;
@@ -82,7 +82,7 @@ export default function ArchiveTable(props) {
 
     const handleCloseEditDialog = () => {
         setOpenEditDialog(false);
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
 
@@ -95,16 +95,32 @@ export default function ArchiveTable(props) {
     };
 
 
-    const handleUpload = () => {
-        // eslint-disable-next-line no-undef
-        let fakePath = document.getElementById("archive-upload").value;
-        // eslint-disable-next-line no-useless-escape
-        fakePath = fakePath.replace(/.*[\/\\]/, "");
-        setSelectedArchive({...selectedArchive, name: fakePath});
+    const handleUpload = (file) => {
+        const fileUrl = URL.createObjectURL(file);
+        const filename = file.name;
+        const mime = file.type;
+        setSelectedArchive({...selectedArchive, file, filename, fileUrl, mime});
     };
 
     const handleArchiveTypeChange = event => {
         setSelectedArchive({...selectedArchive, type: event.target.value});
+        switch (event.target.value) {
+            case 'Audio':
+                setSelectedArchive({...audioArchiveObject});
+                break;
+            case 'Video':
+                setSelectedArchive({...videoArchiveObject});
+                break;
+            case 'Tekstual':
+                setSelectedArchive({...textArchiveObject});
+                break;
+            case 'Foto':
+                setSelectedArchive({...photoArchiveObject});
+                break;
+            default:
+                //TODO: Logging ?
+                break;
+        }
     };
 
     const handleInput = (attr, val) => {
@@ -115,17 +131,17 @@ export default function ArchiveTable(props) {
     const handleSubmitArchive = () => {
         handleAddRequests(cleanObject({...selectedArchive}));
         //Reset form
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
     const handleChangeArchive = () => {
         handleEditRequests(cleanObject({...selectedArchive}));
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
     const handleDeleteArchive = () => {
         handleDeleteRequests(cleanObject({...selectedArchive}));
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
 
@@ -154,12 +170,12 @@ export default function ArchiveTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {payload.map((archive, idx) => (
-                            <StyledTableRow key={archive.id} hover>
+                        {payload? payload.map((archive, idx) => (
+                            <StyledTableRow key={archive.filename} hover>
                                 <StyledTableCell>{idx + 1}</StyledTableCell>
-                                <StyledTableCell>{archive.name}</StyledTableCell>
+                                <StyledTableCell>{archive.filename}</StyledTableCell>
                                 <StyledTableCell>
-                                    {archive.classificationScheme}
+                                    {archive.classificationPattern.kode}
                                 </StyledTableCell>
                                 <StyledTableCell>{archive.type}</StyledTableCell>
                                 <StyledTableCell>
@@ -170,7 +186,7 @@ export default function ArchiveTable(props) {
                                     </span>
                                 </StyledTableCell>
                             </StyledTableRow>
-                        ))}
+                        )): <></>}
                     </TableBody>
                 </Table>
             </TableContainer>

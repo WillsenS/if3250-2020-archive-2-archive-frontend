@@ -7,25 +7,8 @@ import Access from "../../../src/scheme/Access";
 
 const mockArchiveResponse = {
     currentPage: 1,
-    totalPage: 10,
-    payload: [
-        {
-            //Mandatory metadata
-            id: 1,
-            name: "Arsip 1",
-            type: "Audio",
-            code: "X1",
-            classificationPattern: {kode: '', nama: ''},
-            location: "-",
-            description: "-",
-            date: new Date().toLocaleDateString(),
-            archiveLocation: "-",
-            mime: "-",
-            // Video and Audio only metadata
-            narrator: "-",
-            reporter: "-",
-        }
-    ],
+    totalPage: 0,
+    payload: [],
     status: 200
 };
 
@@ -36,8 +19,6 @@ export default function AdminUsers() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
-        // const newArchiveId = Math.floor(Math.random() * Math.floor(1000)) + 10; //Assign random ID
-        // const newArchive = {...newArchiveData, id: newArchiveId, submittedOnWebsiteDate: new Date()};
         mockArchiveResponse.payload.push(newArchiveData);
     };
 
