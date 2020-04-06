@@ -46,7 +46,6 @@ export default function InputMultipleSelectChips(props) {
 
     const handleChange = (event) => {
         setData(event.target.value);
-        props.handleInput(props.id, event.target.value);
     };
 
     useEffect(() => {
