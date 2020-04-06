@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import Chip from "@material-ui/core/Chip";
@@ -48,6 +48,11 @@ export default function InputMultipleSelectChips(props) {
         setData(event.target.value);
         props.handleInput(props.id, event.target.value);
     };
+
+    useEffect(() => {
+        props.handleInput(props.id, data);
+
+    }, [data]);
 
     return (
 

@@ -23,6 +23,8 @@ import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
 import CustomAutocomplete from "../../Input/CustomAutocomplete";
 //PropTypes validation
 import PropTypes from 'prop-types';
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 
 const useStyles = makeStyles(() => ({
@@ -40,6 +42,8 @@ const useStyles = makeStyles(() => ({
 export default function FormArchive(props) {
     const classes = useStyles();
     const [classification] = useState(ParseClassificationJsonArray(props.classification));
+    const [errorSnackbar, setErrorSnackbar] = useState(false);
+
     const {isOpen, handleClose, archive} = props;
 
     const editMode = props.type === "edit";
@@ -59,14 +63,27 @@ export default function FormArchive(props) {
     };
 
     const handleSubmitArchive = () => {
-        props.handleSubmitArchive();
-        handleClose();
-    };
-
-    const handleAutoComplete = (id, val) => {
-        if (val !== null) {
-            handleInput(id, val);
+        console.log(archive);
+        if (editMode || isAllInputFilled()) {
+            props.handleSubmitArchive();
+            handleClose();
+        } else {
+            setErrorSnackbar(true);
         }
+
+    };
+    const isAllInputFilled = () => {
+        for (const property in archive) {
+            if (!archive[property] || archive[property].length <= 0) {
+                console.log(property);
+                return false;
+            }
+        }
+        return true;
+
+    };
+    const handleAutoComplete = (id, val) => {
+         handleInput(id, val);
     };
 
     const getArchiveUploaderFilter = (type) => {
@@ -149,13 +166,13 @@ export default function FormArchive(props) {
                         label="Pola Klasifikasi"
                         classificationList={classification}
                         handleAutoComplete={handleAutoComplete}
-                        pattern={editMode ? archive.classificationPattern: {}}
+                        pattern={editMode ? archive.classificationPattern : null}
                     />
                     <DoubleMultiSelect
                         editMode={true}
                         accessData={props.accessList}
                         handleInput={props.handleInput}
-                        defaultValue={editMode? archive.accessRightsList: []}
+                        defaultValue={editMode ? archive.accessRightsList : []}
                     />
 
                     <CustomTextField
@@ -169,7 +186,8 @@ export default function FormArchive(props) {
                         label="Keterangan"
                         placeholder="-"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.description : ""}/>
+                        defaultValue={editMode ? archive.description : ""}
+                    />
 
                     {/*Show extra fields depending on the selected archive type*/}
                     {
@@ -240,6 +258,21 @@ export default function FormArchive(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            {/*Error snackbar/ toast*/}
+            <Snackbar
+                open={errorSnackbar && !editMode}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                key={`bottom center`}
+                autoHideDuration={3000}
+                onClose={() => {
+                    setErrorSnackbar(false)
+                }}>
+                <Alert onClose={() => {
+                    setErrorSnackbar(false)
+                }} severity="error">
+                    Isi Seluruh Input pada Form
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

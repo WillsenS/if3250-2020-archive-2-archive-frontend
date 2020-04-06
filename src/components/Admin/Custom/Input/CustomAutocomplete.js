@@ -23,7 +23,12 @@ export default function CustomAutocomplete(props) {
             getOptionLabel={(option) => option.kode ? `${option.kode} ${option.nama}` : ''}
             renderInput={(params) => <TextField {...params} label={props.label}/>}
             onChange={(event, value) => {
-                handleChange(event, value)
+                handleChange(event, value);
+            }}
+            onInputChange={(event, value, reason) => {
+                if (reason === 'clear') {
+                    props.handleAutoComplete(props.id, null);
+                }
             }}
         />
     );

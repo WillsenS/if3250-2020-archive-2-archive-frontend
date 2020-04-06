@@ -20,7 +20,6 @@ import Search from "../Custom/Input/Search";
 import AddButton from "../Custom/Button/AddButton";
 import FormArchive from "../Custom/Dialog/Archive/FormArchive";
 import {audioArchiveObject, videoArchiveObject, photoArchiveObject, textArchiveObject} from "../../../scheme/Archive";
-import cleanObject from "../../../utils/CleanInput";
 import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
 //PropTypes validation
 import PropTypes from 'prop-types';
@@ -103,7 +102,6 @@ export default function ArchiveTable(props) {
     };
 
     const handleArchiveTypeChange = event => {
-        setSelectedArchive({...selectedArchive, type: event.target.value});
         switch (event.target.value) {
             case 'Audio':
                 setSelectedArchive({...audioArchiveObject});
@@ -118,7 +116,6 @@ export default function ArchiveTable(props) {
                 setSelectedArchive({...photoArchiveObject});
                 break;
             default:
-                //TODO: Logging ?
                 break;
         }
     };
@@ -129,18 +126,18 @@ export default function ArchiveTable(props) {
     };
 
     const handleSubmitArchive = () => {
-        handleAddRequests(cleanObject({...selectedArchive}));
+        handleAddRequests({...selectedArchive});
         //Reset form
         setSelectedArchive(audioArchiveObject);
     };
 
     const handleChangeArchive = () => {
-        handleEditRequests(cleanObject({...selectedArchive}));
+        handleEditRequests({...selectedArchive});
         setSelectedArchive(audioArchiveObject);
     };
 
     const handleDeleteArchive = () => {
-        handleDeleteRequests(cleanObject({...selectedArchive}));
+        handleDeleteRequests({...selectedArchive});
         setSelectedArchive(audioArchiveObject);
     };
 
