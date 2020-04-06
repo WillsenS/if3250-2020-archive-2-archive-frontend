@@ -171,7 +171,7 @@ export default function ArchiveTable(props) {
                     </TableHead>
                     <TableBody>
                         {payload? payload.map((archive, idx) => (
-                            <StyledTableRow key={archive.filename} hover>
+                            <StyledTableRow key={idx} hover>
                                 <StyledTableCell>{idx + 1}</StyledTableCell>
                                 <StyledTableCell>{archive.filename}</StyledTableCell>
                                 <StyledTableCell>

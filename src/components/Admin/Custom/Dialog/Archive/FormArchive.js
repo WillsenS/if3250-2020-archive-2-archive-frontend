@@ -20,11 +20,10 @@ import CustomTextField from "../../Input/CustomTextField";
 import DoubleMultiSelect from "../../Input/DoubleMultiSelect";
 import archiveTypeList from "../../../constants/ArchiveType";
 import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
-
+import CustomAutocomplete from "../../Input/CustomAutocomplete";
 //PropTypes validation
 import PropTypes from 'prop-types';
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
+
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -145,16 +144,12 @@ export default function FormArchive(props) {
                         placeholder=""
                         handleInput={handleInput}
                         defaultValue={editMode ? archive.code : ""}/>
-                    <Autocomplete
-                        //Get the selected classification pattern, for example DD.00.00.01
+                    <CustomAutocomplete
                         id="classificationPattern"
-                        options={classification}
-                        getOptionLabel={(option) => option.kode + " " + option.nama}
-                        renderInput={(params) => <TextField {...params} label="Pola Klasifikasi"/>}
-                        onChange={(event, value) => {
-                            handleAutoComplete("classificationPattern", value)
-                        }}
-                        defaultValue={editMode ? archive.classificationPattern  : null}
+                        label="Pola Klasifikasi"
+                        classificationList={classification}
+                        handleAutoComplete={handleAutoComplete}
+                        pattern={editMode ? archive.classificationPattern: {}}
                     />
                     <DoubleMultiSelect
                         editMode={true}

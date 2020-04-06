@@ -4,7 +4,7 @@ const baseArchiveObjectTemplate = {
     filename: "",
     type: "",
     code: "",
-    classificationPattern: {kode: '', nama: ''},
+    classificationPattern: {},
     accessRightsList: [],
     location: "",
     description: "",
