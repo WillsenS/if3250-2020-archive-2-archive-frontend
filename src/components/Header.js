@@ -6,7 +6,7 @@ import {
   Container,
   Toolbar,
   Typography,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
@@ -16,34 +16,34 @@ import Link from "next/link";
 //PropTypes validation
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   title: {
     marginTop: "auto",
-    marginBottom: "auto"
+    marginBottom: "auto",
   },
   yellow: {
-    color: theme.palette.warning.main
+    color: theme.palette.warning.main,
   },
   imageLg: {
-    maxWidth: "75%"
+    maxWidth: "75%",
   },
   imageXs: {
-    maxWidth: "90%"
+    maxWidth: "90%",
   },
   grid: {
-    display: "inline-flex"
+    display: "inline-flex",
   },
   toolbar: {
-    padding: "16px 0"
+    padding: "16px 0",
   },
   login: {
     marginTop: "auto",
     marginBottom: "auto",
-    marginLeft: "auto"
-  }
+    marginLeft: "auto",
+  },
 }));
 
-const Header = props => {
+const Header = (props) => {
   const classes = useStyles();
   const { user } = props;
 
@@ -150,5 +150,5 @@ const Header = props => {
 export default withWidth()(Header);
 
 Header.propTypes = {
-  width: PropTypes.string
+  width: PropTypes.string,
 };

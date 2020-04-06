@@ -9,7 +9,7 @@ import {
   Typography,
   Hidden,
   Container,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import theme from "../src/theme/home";
 import SearchIcon from "@material-ui/icons/Search";
@@ -21,56 +21,56 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import Layout from "../layout";
 import { StateUserContext } from "../reducers/user";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   newDocument: {
-    paddingLeft: "32px"
+    paddingLeft: "32px",
   },
   title: {
-    marginBottom: "16px"
+    marginBottom: "16px",
   },
   title2: {
     marginTop: "32px",
-    marginBottom: "16px"
+    marginBottom: "16px",
   },
   searchBar: {
     background: "white",
     borderColor: "black",
     [theme.breakpoints.up("md")]: {
-      width: "800px"
+      width: "800px",
     },
     [theme.breakpoints.between("sm", "md")]: {
-      width: "500px"
+      width: "500px",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "250px"
-    }
+      width: "250px",
+    },
   },
   sideMenu: {
-    borderRight: `solid 2px ${theme.palette.common.darkGray}`
+    borderRight: `solid 2px ${theme.palette.common.darkGray}`,
   },
   yellow: {
-    color: theme.palette.warning.main
+    color: theme.palette.warning.main,
   },
   pagination: {
-    padding: "16px 0"
-  }
+    padding: "16px 0",
+  },
 }));
 
-const Welcome = props => {
+const Welcome = (props) => {
   const classes = useStyles();
   const data = props.width;
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const onSubmitForm = event => {
+  const onSubmitForm = (event) => {
     event.preventDefault();
     Router.push({
       pathname: "/search",
-      query: { q: searchQuery }
+      query: { q: searchQuery },
     });
   };
 
@@ -83,7 +83,7 @@ const Welcome = props => {
         style={{
           backgroundImage: "url(./static/img/itb.png)",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "cover"
+          backgroundSize: "cover",
         }}
       >
         <Box textAlign="center" margin="0 0 24px 0">
@@ -91,7 +91,10 @@ const Welcome = props => {
             SELAMAT DATANG DI
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
-            WEBSITE ARSIP STATIS
+            ARCHIVE DIGITAL
+          </Typography>
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+            INFORMATION CENTER
           </Typography>
           <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
             INSTITUT TEKNOLOGI BANDUNG
@@ -122,7 +125,7 @@ const Welcome = props => {
   );
 };
 
-const HomepageContent = props => {
+const HomepageContent = (props) => {
   const classes = useStyles();
   const data = props.width;
 
@@ -217,7 +220,7 @@ const HomepageContent = props => {
   );
 };
 
-const Home = props => {
+const Home = (props) => {
   const { token } = props;
   const userState = useContext(StateUserContext);
 
@@ -236,7 +239,7 @@ const Home = props => {
 };
 
 Home.getInitialProps = ({ req }) => {
-  return { token: req.cookies.token };
+  return req.cookies ? { token: req.cookies.token } : null;
 };
 
 export default withWidth()(Home);
