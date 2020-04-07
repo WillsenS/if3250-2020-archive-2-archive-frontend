@@ -80,7 +80,14 @@ const Detail = (props) => {
 
       setFile(response.data.file);
 
-      const notIncludedKey = ["_id", "file", "createdAt", "updatedAt", "__v"];
+      const notIncludedKey = [
+        "_id",
+        "file",
+        "createdAt",
+        "updatedAt",
+        "__v",
+        "keamanan_terbuka",
+      ];
 
       notIncludedKey.map((key) => {
         delete response.data[key];
