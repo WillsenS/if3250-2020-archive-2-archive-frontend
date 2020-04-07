@@ -25,6 +25,23 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
     }
   });
 
+export const getArchiveDetail = (archiveId, token) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/detail/${archiveId}`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
 export const postBorrowArchive = (token, payload) => {
   new Promise(async (resolve, reject) => {
     try {

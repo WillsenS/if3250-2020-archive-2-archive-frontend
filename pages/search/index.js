@@ -16,28 +16,28 @@ import { defaultPublicURL } from "../../config";
 import Layout from "../../layout";
 import { StateUserContext } from "../../reducers/user";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   result: {
-    marginTop: "12px"
+    marginTop: "12px",
   },
   pagination: {
     width: "fit-content",
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: "24px"
+    marginTop: "24px",
   },
   bold: {
-    fontWeight: "600"
+    fontWeight: "600",
   },
   container: {
-    marginTop: "32px"
+    marginTop: "32px",
   },
   hidden: {
-    display: "none"
-  }
+    display: "none",
+  },
 }));
 
-const SearchPage = props => {
+const SearchPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
   // const { token, query } = props;
@@ -56,8 +56,8 @@ const SearchPage = props => {
   const fetchArchiveList = async (searchQuery, currentPage, filter) => {
     try {
       const f = [];
-      Object.keys(filter).map(key => {
-        filter[key].map(val => {
+      Object.keys(filter).map((key) => {
+        filter[key].map((val) => {
           f.push(`${key}==${val}`);
         });
       });
@@ -65,7 +65,7 @@ const SearchPage = props => {
       router.replace(
         {
           pathname: "/search",
-          query: { name: searchQuery, page: currentPage }
+          query: { name: searchQuery, page: currentPage },
         },
         `/search?${searchQuery ? `q=${searchQuery}` : ""}${
           searchQuery && currentPage ? `&page=${currentPage}` : ""
@@ -85,7 +85,7 @@ const SearchPage = props => {
 
       if (header.length === 0) {
         const h = [];
-        Object.keys(response.filtersCandidate).map(key => {
+        Object.keys(response.filtersCandidate).map((key) => {
           h.push(false);
         });
         setHeader(h);
@@ -104,15 +104,16 @@ const SearchPage = props => {
     window.scroll({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }, [searchQuery, currentPage, filter]);
 
   const searchResults = archiveList.map((archive, idx) => (
     <SearchResult
       key={`searchResult-${idx}`}
+      id={archive._id}
       title={archive.judul}
-      code={archive.pola}
+      code={archive.nomor}
       description={archive.keterangan}
       image={
         archive.keamanan_terbuka
