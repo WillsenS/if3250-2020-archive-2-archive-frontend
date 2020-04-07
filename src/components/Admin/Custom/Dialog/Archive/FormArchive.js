@@ -64,7 +64,7 @@ export default function FormArchive(props) {
 
     const handleSubmitArchive = () => {
         console.log(archive);
-        if (editMode || isAllInputFilled()) {
+        if (isAllInputFilled()) {
             props.handleSubmitArchive();
             handleClose();
         } else {
@@ -160,13 +160,13 @@ export default function FormArchive(props) {
                         label="Nomor Arsip"
                         placeholder=""
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.code : ""}/>
+                        value={archive.code}/>
                     <CustomAutocomplete
                         id="classificationPattern"
                         label="Pola Klasifikasi"
                         classificationList={classification}
                         handleAutoComplete={handleAutoComplete}
-                        pattern={editMode ? archive.classificationPattern : null}
+                        value={archive.classificationPattern}
                     />
                     <DoubleMultiSelect
                         editMode={true}
@@ -180,13 +180,13 @@ export default function FormArchive(props) {
                         label="Tempat Kegiatan/Pembuatan"
                         placeholder="Senat Akademik ITB"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.location : ""}/>
+                        value={archive.location}/>
                     <CustomTextField
                         id="description"
                         label="Keterangan"
                         placeholder="-"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.description : ""}
+                        value={archive.description}
                     />
 
                     {/*Show extra fields depending on the selected archive type*/}
@@ -195,10 +195,10 @@ export default function FormArchive(props) {
                             <>
                                 <CustomTextField id="narrator" label="Narator" placeholder="-"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.narrator : ""}/>
+                                                 value={archive.narrator}/>
                                 <CustomTextField id="reporter" label="Reporter" placeholder="-"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.reporter : ""}/>
+                                                 value={archive.reporter}/>
                             </>
 
                         ) : (<></>)
@@ -208,18 +208,18 @@ export default function FormArchive(props) {
                             <>
                                 <CustomTextField id="activityDescription" label="Deskripsi Kegiatan" placeholder="-"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.activityDescription : ""}/>
+                                                 value={archive.activityDescription}/>
                                 <CustomTextField id="photographer" label="Fotografer" placeholder="-"
                                                  handleInput={handleInput}/>
                                 <CustomTextField id="photoType" label="Jenis Foto" placeholder="Cetak (c)"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoType : ""}/>
+                                                 value={archive.photoType}/>
                                 <CustomTextField id="photoSize" label="Ukuran Foto" placeholder="3R"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoSize : ""}/>
+                                                 value={archive.photoSize}/>
                                 <CustomTextField id="photoCondition" label="Kondisi Foto" placeholder="Baik"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoCondition : ""}/>
+                                                 value={archive.photoCondition}/>
                             </>
 
                         ) : (<></>)
@@ -229,9 +229,9 @@ export default function FormArchive(props) {
                             <>
                                 <CustomTextField id="textualArchiveNumber" label="Nomor Arsip Tekstual" placeholder="5"
                                                  handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.textualArchiveNumber : ""}/>
+                                                 value={archive.textualArchiveNumber}/>
                                 <CustomTextField id="author" label="Pembuat" placeholder="-" handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.author : ""}/>
+                                                 value={archive.author}/>
                             </>
 
                         ) : (<></>)
@@ -246,7 +246,7 @@ export default function FormArchive(props) {
                         label="Lokasi Simpan Arsip"
                         placeholder="AK1.L29"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.archiveLocation : ""}/>
+                        value={archive.archiveLocation}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

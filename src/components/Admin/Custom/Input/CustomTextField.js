@@ -29,14 +29,14 @@ export default function CustomTextField(props) {
             required
             classes={{root: classes.input}}
             onChange={handleOnChange}
-            defaultValue={props.defaultValue ? props.defaultValue : ""}
+            value={props.value}
         />
     );
 }
 
 CustomTextField.propTypes = {
-    defaultValue: PropTypes.string,
     id: PropTypes.string,
+    value: PropTypes.string,
     label: PropTypes.string,
     placeholder: PropTypes.string,
     handleInput: PropTypes.func
