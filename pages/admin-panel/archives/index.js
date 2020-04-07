@@ -3,30 +3,12 @@ import React from "react";
 import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
-import WorkUnit from "../../../src/scheme/Unit";
 import Access from "../../../src/scheme/Access";
 
 const mockArchiveResponse = {
     currentPage: 1,
-    totalPage: 10,
-    payload: [
-        {
-            //Mandatory metadata
-            id: 1,
-            name: "Arsip 1",
-            type: "Audio",
-            code: "X1",
-            classificationPattern: {kode: '', nama: ''},
-            location: "-",
-            description: "-",
-            date: new Date().toLocaleDateString(),
-            archiveLocation: "-",
-            mime: "-",
-            // Video and Audio only metadata
-            narrator: "-",
-            reporter: "-",
-        }
-    ],
+    totalPage: 0,
+    payload: [],
     status: 200
 };
 
@@ -37,10 +19,7 @@ export default function AdminUsers() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
-        console.log(newArchiveData);
-        const newArchiveId = Math.floor(Math.random() * Math.floor(1000)) + 10; //Assign random ID
-        const newArchive = {...newArchiveData, id: newArchiveId, submittedOnWebsiteDate: new Date()};
-        mockArchiveResponse.payload.push(newArchive);
+        mockArchiveResponse.payload.push(newArchiveData);
     };
 
     const handleEditArchiveRequest = (editedArchive) => {
@@ -62,7 +41,6 @@ export default function AdminUsers() {
             <ArchiveTable
                 archiveList={mockArchiveResponse}
                 classification={Classification.klasifikasi}
-                workUnitList={WorkUnit}
                 accessList={Access}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}

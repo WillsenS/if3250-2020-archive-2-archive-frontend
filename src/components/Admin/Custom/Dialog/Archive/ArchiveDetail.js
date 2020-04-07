@@ -65,7 +65,7 @@ export default function ArchiveDetail(props) {
                     <DialogTitle id="archive-name" classes={{root: classes.redText}}>Konfirmasi Penghapusan
                         Arsip</DialogTitle>
                 ) : (
-                    <DialogTitle id="archive-name">Detail {archive.name}</DialogTitle>
+                    <DialogTitle id="archive-name">Detail {archive.filename}</DialogTitle>
                 )
             }
             <DialogContent>
@@ -78,11 +78,19 @@ export default function ArchiveDetail(props) {
                     component="div"
                     role="list"
                 >
-                    <ArchiveListItem label="Nama Arsip" data={archive.name}/>
+                    <ArchiveListItem label="Nama Arsip" data={archive.filename}/>
                     <ArchiveListItem label="Tipe Arsip" data={archive.type}/>
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
-                    <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
-                    <ArchiveListItem label="Hak Akses Arsip" data={archive.accessRightsList} />
+                    {
+                        archive.classificationPattern ? (
+                            <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
+                        ) : (<></>)
+                    }
+                    {
+                        archive.accessRightsList ? (
+                            <ArchiveListItem label="Hak Akses Arsip" data={archive.accessRightsList} />
+                        ): (<></>)
+                    }
                     <ArchiveListItem label="Lokasi" data={archive.location}/>
                     <ArchiveListItem label="Deskripsi Arsip" data={archive.description}/>
                     <ArchiveListItem label="Tanggal Pembuatan Arsip" data={archive.date.toString()}/>
