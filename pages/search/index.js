@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { getArchiveList } from "../../resources/archive";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
@@ -11,6 +11,10 @@ import Search from "../../src/components/Search";
 import SearchResult from "../../src/components/SearchResult";
 import FilterSearch from "../../src/components/FilterSearch";
 import theme from "../../src/theme";
+import { defaultPublicURL } from "../../config";
+
+import Layout from "../../layout";
+import { StateUserContext } from "../../reducers/user";
 
 const useStyles = makeStyles(theme => ({
   result: {
@@ -36,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 const SearchPage = props => {
   const classes = useStyles();
   const router = useRouter();
+  // const { token, query } = props;
   const { q, page } = router.query;
 
   const [isSearch, setIsSearch] = useState(true);
@@ -107,73 +112,83 @@ const SearchPage = props => {
     <SearchResult
       key={`searchResult-${idx}`}
       title={archive.judul}
-      code={archive.kode}
+      code={archive.pola}
       description={archive.keterangan}
-      image={archive.file.path}
+      image={
+        archive.keamanan_terbuka
+          ? `${defaultPublicURL}${archive.file.path}`
+          : "/static/img/thumbnail.jpg"
+      }
     />
   ));
 
+  const { token } = props;
+  const userState = useContext(StateUserContext);
+
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Header />
-        <Container className={classes.container}>
-          <Search
-            value={searchQuery}
-            setValue={setSearchQuery}
-            setIsSearch={setIsSearch}
-            setHeader={setHeader}
-            setFilter={setFilter}
-          />
-          <Grid container spacing={3} className={classes.result}>
-            <Grid
-              item
-              lg={3}
-              xs={12}
-              className={searchQuery === "" ? classes.hidden : ""}
-            >
-              <FilterSearch
-                filterCandidate={filterCandidate}
-                filter={filter}
-                setFilter={setFilter}
-                header={header}
-                setHeader={setHeader}
-              />
-            </Grid>
-            <Grid item lg={9} xs={12}>
-              <Typography
-                variant="body1"
+      <Layout token={token}>
+        <ThemeProvider theme={theme}>
+          <Header user={userState.user} />
+          <Container className={classes.container}>
+            <Search
+              value={searchQuery}
+              setValue={setSearchQuery}
+              setIsSearch={setIsSearch}
+              setHeader={setHeader}
+              setFilter={setFilter}
+            />
+            <Grid container spacing={3} className={classes.result}>
+              <Grid
+                item
+                lg={3}
+                xs={12}
                 className={searchQuery === "" ? classes.hidden : ""}
               >
-                Menampilkan{" "}
-                <span className={classes.bold}>{`${totalItems} hasil`}</span>{" "}
-                untuk kata kunci{" "}
-                <span className={classes.bold}>{`'${searchQuery}'`}</span>
-              </Typography>
-              {searchResults}
-              <Pagination
-                count={totalPage}
-                page={parseInt(currentPage, 0)}
-                onChange={handleChange}
-                size={isWidthDown("sm", props.width) ? "small" : "medium"}
-                className={
-                  searchQuery === "" || totalPage === 0
-                    ? classes.hidden
-                    : classes.pagination
-                }
-                color="primary"
-              />
+                <FilterSearch
+                  filterCandidate={filterCandidate}
+                  filter={filter}
+                  setFilter={setFilter}
+                  header={header}
+                  setHeader={setHeader}
+                />
+              </Grid>
+              <Grid item lg={9} xs={12}>
+                <Typography
+                  variant="body1"
+                  className={searchQuery === "" ? classes.hidden : ""}
+                >
+                  Menampilkan{" "}
+                  <span className={classes.bold}>{`${totalItems} hasil`}</span>{" "}
+                  untuk kata kunci{" "}
+                  <span className={classes.bold}>{`'${searchQuery}'`}</span>
+                </Typography>
+                {searchResults}
+                <Pagination
+                  count={totalPage}
+                  page={parseInt(currentPage, 0)}
+                  onChange={handleChange}
+                  size={isWidthDown("sm", props.width) ? "small" : "medium"}
+                  className={
+                    searchQuery === "" || totalPage === 0
+                      ? classes.hidden
+                      : classes.pagination
+                  }
+                  color="primary"
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-        <Footer />
-      </ThemeProvider>
+          </Container>
+          <Footer />
+        </ThemeProvider>
+      </Layout>
     </>
   );
 };
 
-SearchPage.getInitialProps = ({ query }) => {
-  return query;
+SearchPage.getInitialProps = ({ req, query }) => {
+  if (req && req.cookies) return { ...query, token: req.cookies.token };
+  else return query;
 };
 
 export default withWidth()(SearchPage);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable dot-notation */
 const axios = require("axios");
 
@@ -15,8 +16,8 @@ const withCredentials = true;
 exports.checkSSORedirect = () => {
   return async (req, res, next) => {
     const { ticket } = req.query;
-    // const redirectURL = `https://${req.headers.host}${req.path}`;
-    const redirectURL = `https://demoapp.my.id`;
+    const redirectURL = `https://${req.headers.host}${req.path}`;
+    // const redirectURL = `https://demoapp.my.id`;
 
     if (ticket != null) {
       try {
@@ -28,6 +29,8 @@ exports.checkSSORedirect = () => {
           validateStatus,
           withCredentials
         });
+
+        console.log(response);
 
         res.cookie("token", response.token, { httpOnly: true });
 

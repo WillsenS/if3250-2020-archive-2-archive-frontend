@@ -94,7 +94,10 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="https://twitter.com/PPID_ITB">
+                          <a
+                            className={classes.linkGroup}
+                            href="https://twitter.com/PPID_ITB"
+                          >
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -108,7 +111,10 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="https://www.facebook.com/PPID.ITB.Bandung/">
+                          <a
+                            className={classes.linkGroup}
+                            href="https://www.facebook.com/PPID.ITB.Bandung/"
+                          >
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -122,7 +128,10 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="https://api.whatsapp.com/send?phone=+6281290401959">
+                          <a
+                            className={classes.linkGroup}
+                            href="https://api.whatsapp.com/send?phone=+6281290401959"
+                          >
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -140,7 +149,10 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="https://www.instagram.com/ppid.itb/?hl=en">
+                          <a
+                            className={classes.linkGroup}
+                            href="https://www.instagram.com/ppid.itb/?hl=en"
+                          >
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -154,7 +166,10 @@ function Footer() {
                             fontSize="small"
                             className={classes.icon}
                           />
-                          <a className={classes.linkGroup} href="https://www.youtube.com/channel/UCxlYLLsK5YdsrGCtVBU3kYQ">
+                          <a
+                            className={classes.linkGroup}
+                            href="https://www.youtube.com/channel/UCxlYLLsK5YdsrGCtVBU3kYQ"
+                          >
                             <Typography
                               variant="body2"
                               className={classes.link}
@@ -168,13 +183,13 @@ function Footer() {
                   </Grid>
                 </Grid>
                 <Grid item lg={2} sm={2} xs={12} className={classes.grid}>
-                   <Link href="http://seabaditb.id/">
+                  <Link href="http://seabaditb.id/">
                     <img
-                        src="/static/img/100-tahun-itb.png"
-                        alt="100 Tahun ITB"
-                        className={classes.image100Tahun}
-                      />
-                   </Link>
+                      src="/static/img/100-tahun-itb.png"
+                      alt="100 Tahun ITB"
+                      className={classes.image100Tahun}
+                    />
+                  </Link>
                 </Grid>
               </Grid>
             </Toolbar>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -7,6 +7,9 @@ import Header from "../../src/components/Header";
 import Footer from "../../src/components/Footer";
 import theme from "../../src/theme/home";
 import { Typography } from "@material-ui/core";
+
+import Layout from "../../layout";
+import { StateUserContext } from "../../reducers/user";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -58,7 +61,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Detail() {
+const Detail = props => {
   const classes = useStyles();
 
   var rawData = [
@@ -87,45 +90,60 @@ export default function Detail() {
   }
   var metadata = labelingRawData();
 
+  const { token } = props;
+  const userState = useContext(StateUserContext);
+
   return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      <Typography variant="h3" className={classes.title}>
-        ARSIP DOKUMEN
-      </Typography>
-      <img src={sampleDocument} className={classes.archiveImg}></img>
-      <Box className={classes.contentContainer}>
-        {metadata.map((line, idx) => (
-          <Box borderBottom={1} className={classes.oneLineContainer} key={idx}>
-            <Typography variant="h6" className={classes.title2}>
-              {line.title}
-            </Typography>
-            <Typography variant="body2">{line.content}</Typography>
+    <Layout token={token}>
+      <ThemeProvider theme={theme}>
+        <Header user={userState.user} />
+        <Typography variant="h3" className={classes.title}>
+          ARSIP DOKUMEN
+        </Typography>
+        <img src={sampleDocument} className={classes.archiveImg}></img>
+        <Box className={classes.contentContainer}>
+          {metadata.map((line, idx) => (
+            <Box
+              borderBottom={1}
+              className={classes.oneLineContainer}
+              key={idx}
+            >
+              <Typography variant="h6" className={classes.title2}>
+                {line.title}
+              </Typography>
+              <Typography variant="body2">{line.content}</Typography>
+            </Box>
+          ))}
+          <Box className={classes.buttonArea}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.buttonKembali}
+            >
+              Kembali
+            </Button>
+            <Button variant="contained" color="primary" size="small">
+              Unduh
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.buttonEdit}
+            >
+              Edit
+            </Button>
           </Box>
-        ))}
-        <Box className={classes.buttonArea}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.buttonKembali}
-          >
-            Kembali
-          </Button>
-          <Button variant="contained" color="primary" size="small">
-            Unduh
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.buttonEdit}
-          >
-            Edit
-          </Button>
         </Box>
-      </Box>
-      <Footer />
-    </ThemeProvider>
+        <Footer />
+      </ThemeProvider>
+    </Layout>
   );
-}
+};
+
+Detail.getInitialProps = ({ req }) => {
+  return { token: req.cookies.token };
+};
+
+export default Detail;
