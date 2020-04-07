@@ -172,7 +172,7 @@ export default function FormArchive(props) {
                         editMode={true}
                         accessData={props.accessList}
                         handleInput={props.handleInput}
-                        defaultValue={editMode ? archive.accessRightsList : []}
+                        value={archive.accessRightsList || []}
                     />
 
                     <CustomTextField
@@ -210,7 +210,9 @@ export default function FormArchive(props) {
                                                  handleInput={handleInput}
                                                  value={archive.activityDescription}/>
                                 <CustomTextField id="photographer" label="Fotografer" placeholder="-"
-                                                 handleInput={handleInput}/>
+                                                 handleInput={handleInput}
+                                                 value={archive.photographer}
+                                />
                                 <CustomTextField id="photoType" label="Jenis Foto" placeholder="Cetak (c)"
                                                  handleInput={handleInput}
                                                  value={archive.photoType}/>

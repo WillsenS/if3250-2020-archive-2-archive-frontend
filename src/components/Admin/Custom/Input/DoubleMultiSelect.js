@@ -11,10 +11,10 @@ export default function DoubleMultiSelect(props) {
             <InputMultipleSelectChips
                 id="accessRightsList"
                 title={"Akses Keamanan Arsip"}
-                data={props.accessData}
+                defaultData={props.accessData}
                 slug={"hak-akses"}
                 handleInput={props.handleInput}
-                defaultValue={props.defaultValue}
+                value={props.value}
             />
 
         </>
@@ -28,6 +28,6 @@ DoubleMultiSelect.propTypes = {
     accessData: PropTypes.array,
     handleInput: PropTypes.func,
     editMode: PropTypes.bool,
-    defaultValue: PropTypes.array
+    value: PropTypes.array
 
 };
