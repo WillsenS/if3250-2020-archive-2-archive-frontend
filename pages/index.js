@@ -239,7 +239,7 @@ const Home = (props) => {
 };
 
 Home.getInitialProps = ({ req }) => {
-  return req.cookies ? { token: req.cookies.token } : null;
+  return req.cookies ? { token: req.cookies.token } : {};
 };
 
 export default withWidth()(Home);
