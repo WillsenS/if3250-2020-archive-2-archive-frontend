@@ -12,7 +12,7 @@ import StyledTableRow from "../Custom/Table/StyledTableRow";
 import TableRow from "@material-ui/core/TableRow";
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
     },
