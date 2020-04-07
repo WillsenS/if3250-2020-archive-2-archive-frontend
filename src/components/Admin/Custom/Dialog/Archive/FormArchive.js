@@ -63,7 +63,6 @@ export default function FormArchive(props) {
     };
 
     const handleSubmitArchive = () => {
-        console.log(archive);
         if (isAllInputFilled()) {
             props.handleSubmitArchive();
             handleClose();
@@ -75,7 +74,6 @@ export default function FormArchive(props) {
     const isAllInputFilled = () => {
         for (const property in archive) {
             if (!archive[property] || archive[property].length <= 0) {
-                console.log(property);
                 return false;
             }
         }
@@ -262,7 +260,7 @@ export default function FormArchive(props) {
             </Dialog>
             {/*Error snackbar/ toast*/}
             <Snackbar
-                open={errorSnackbar && !editMode}
+                open={errorSnackbar}
                 anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                 key={`bottom center`}
                 autoHideDuration={3000}
