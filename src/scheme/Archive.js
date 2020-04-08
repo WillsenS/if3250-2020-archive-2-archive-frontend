@@ -1,18 +1,18 @@
 const baseArchiveObjectTemplate = {
     // The attribute are the id's of the input elements.
     //Mandatory metadata
-    filename: "",
-    type: "",
-    code: "",
-    classificationPattern: null,
-    accessRightsList: null,
-    location: "",
-    description: "",
-    date: new Date().toLocaleDateString(),
-    archiveLocation: "",
-    file: null,
-    fileUrl: '',
-    mime: "",
+    filename: "", //str
+    type: "", //str
+    code: "", //str
+    classificationPattern: null, //str
+    accessRightsList: null, //array
+    location: "", //str
+    description: "", //str
+    date: new Date().toLocaleDateString(), //str
+    archiveLocation: "", //str
+    file: null, //obj
+    fileUrl: '', //str
+    mime: "", //str
 };
 
 export const audioArchiveObject = {

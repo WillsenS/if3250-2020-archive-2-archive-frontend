@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -18,7 +18,7 @@ export default function CustomAutocomplete(props) {
             id={props.id}
             value={props.value}
             options={props.classificationList}
-            getOptionLabel={(option) => option.kode ? `${option.kode} ${option.nama}` : ''}
+            getOptionLabel={(option) => option.kode ? `${option.kode} ${option.nama}` : option.toString()}
             renderInput={(params) => <TextField {...params} label={props.label}/>}
             onChange={(event, value) => {
                 handleChange(event, value);
@@ -36,6 +36,6 @@ CustomAutocomplete.propTypes = {
     id: PropTypes.string,
     classificationList: PropTypes.array,
     handleAutoComplete: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.string,
     label: PropTypes.string
 };

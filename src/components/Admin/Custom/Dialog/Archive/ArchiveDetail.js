@@ -83,7 +83,7 @@ export default function ArchiveDetail(props) {
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
                     {
                         archive.classificationPattern ? (
-                            <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
+                            <ArchiveListItem label="Pola Klasifikasi" data={archive.classificationPattern}/>
                         ) : (<></>)
                     }
                     {
