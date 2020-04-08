@@ -5,7 +5,7 @@ const baseArchiveObjectTemplate = {
     type: "", //str
     code: "", //str
     classificationPattern: null, //str
-    accessRightsList: null, //array
+    forPublicOption: 0, //bool 0||1
     location: "", //str
     description: "", //str
     date: new Date().toLocaleDateString(), //str
