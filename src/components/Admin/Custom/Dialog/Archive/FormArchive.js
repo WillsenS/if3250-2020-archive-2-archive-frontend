@@ -95,9 +95,9 @@ export default function FormArchive(props) {
                 return 'audio/*';
             case 'Video':
                 return 'video/*';
-            case 'Tekstual':
+            case 'Text':
                 return '*';
-            case 'Foto':
+            case 'Photo':
                 return 'image/*';
             default:
                 return '*';
@@ -129,7 +129,7 @@ export default function FormArchive(props) {
                             {
                                 archiveTypeList.map(type => {
                                     return (
-                                        <MenuItem value={type.name} key={type.id}>{type.name}</MenuItem>
+                                        <MenuItem value={type.name} key={type.id}>{type.label}</MenuItem>
                                     );
                                 })
                             }
@@ -207,7 +207,7 @@ export default function FormArchive(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Foto" ? (
+                        archive.type === "Photo" ? (
                             <>
                                 <CustomTextField id="activityDescription" label="Deskripsi Kegiatan" placeholder="-"
                                                  handleInput={handleInput}
@@ -230,7 +230,7 @@ export default function FormArchive(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Tekstual" ? (
+                        archive.type === "Text" ? (
                             <>
                                 <CustomTextField id="textualArchiveNumber" label="Nomor Arsip Tekstual" placeholder="5"
                                                  handleInput={handleInput}
