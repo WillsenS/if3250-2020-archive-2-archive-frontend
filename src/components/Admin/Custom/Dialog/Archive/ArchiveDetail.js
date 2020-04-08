@@ -18,6 +18,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
  */
 
 const useStyles = makeStyles(() => ({
+    root: {
+        minWidth: '50%'
+    },
     remove: {
         backgroundColor: red[50],
         color: "#cb2431",
@@ -59,13 +62,15 @@ export default function ArchiveDetail(props) {
             onClose={handleClose}
             aria-labelledby="archive-detail"
             aria-describedby="list-archive-detail"
+            className={classes.root}
+            maxWidth={false}
             disableBackdropClick>
             {
                 deleteModal ? (
                     <DialogTitle id="archive-name" classes={{root: classes.redText}}>Konfirmasi Penghapusan
                         Arsip</DialogTitle>
                 ) : (
-                    <DialogTitle id="archive-name">Detail {archive.filename}</DialogTitle>
+                    <DialogTitle id="archive-name">Detail <span style={{fontWeight: 'bold'}}>{archive.filename}</span></DialogTitle>
                 )
             }
             <DialogContent>
@@ -86,11 +91,7 @@ export default function ArchiveDetail(props) {
                             <ArchiveListItem label="Pola Klasifikasi" data={archive.classificationPattern}/>
                         ) : (<></>)
                     }
-                    {
-                        archive.accessRightsList ? (
-                            <ArchiveListItem label="Hak Akses Arsip" data={archive.accessRightsList} />
-                        ): (<></>)
-                    }
+                    <ArchiveListItem label="Terbuka Untuk Umum" data={archive.forPublicOption === 1 ? 'Ya' : 'Tidak'} />
                     <ArchiveListItem label="Lokasi" data={archive.location}/>
                     <ArchiveListItem label="Deskripsi Arsip" data={archive.description}/>
                     <ArchiveListItem label="Tanggal Pembuatan Arsip" data={archive.date.toString()}/>
