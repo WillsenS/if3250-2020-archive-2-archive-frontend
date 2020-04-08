@@ -56,6 +56,22 @@ export default function ArchiveDetail(props) {
         handleClose();
     };
 
+    const getLabel = val => {
+        switch (val) {
+            case 'Audio':
+                return val;
+            case 'Video':
+                return val;
+            case 'Photo':
+                return 'Foto';
+            case 'Text':
+                return 'Tekstual';
+            default:
+                // console.log('Invalid Archive Data Type, No Label Specified');
+                break;
+        }
+    };
+
     return (
         <Dialog
             open={isOpen}
@@ -84,7 +100,7 @@ export default function ArchiveDetail(props) {
                     role="list"
                 >
                     <ArchiveListItem label="Nama Arsip" data={archive.filename}/>
-                    <ArchiveListItem label="Tipe Arsip" data={archive.type}/>
+                    <ArchiveListItem label="Tipe Arsip" data={getLabel(archive.type)}/>
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
                     {
                         archive.classificationPattern ? (
@@ -106,7 +122,7 @@ export default function ArchiveDetail(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Foto" ? (
+                        archive.type === "Photo" ? (
                             <>
                                 <ArchiveListItem label="Deskripsi Kegiatan pada Foto"
                                                  data={archive.activityDescription}/>
@@ -119,7 +135,7 @@ export default function ArchiveDetail(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Tekstual" ? (
+                        archive.type === "Text" ? (
                             <>
                                 <ArchiveListItem label="Nomor Arsip Tekstual" data={archive.textualArchiveNumber}/>
                                 <ArchiveListItem label="Pembuat" data={archive.author}/>

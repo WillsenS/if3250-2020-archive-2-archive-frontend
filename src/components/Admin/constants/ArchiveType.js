@@ -1,19 +1,23 @@
 const archiveTypeList = [
     {
         id: 1,
-        name: "Audio"
+        name: "Audio",
+        label: "Audio"
     },
     {
         id: 2,
-        name: "Video"
+        name: "Video",
+        label: "Video"
     },
     {
         id: 3,
-        name: "Foto"
+        name: "Photo",
+        label: "Foto"
     },
     {
         id: 4,
-        name: "Tekstual"
+        name: "Text",
+        label: "Tekstual"
     }
 ];
 

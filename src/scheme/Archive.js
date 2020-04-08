@@ -32,7 +32,7 @@ export const videoArchiveObject = {
 
 export const photoArchiveObject = {
    ...baseArchiveObjectTemplate,
-    type: 'Foto',
+    type: 'Photo',
     activityDescription: "",
     photographer: "",
     photoType: "",
@@ -42,7 +42,7 @@ export const photoArchiveObject = {
 
 export const textArchiveObject = {
   ...baseArchiveObjectTemplate,
-    type: 'Tekstual',
+    type: 'Text',
     textualArchiveNumber: "",
     author: "",
 };

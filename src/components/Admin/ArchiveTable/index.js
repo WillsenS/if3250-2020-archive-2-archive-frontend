@@ -109,10 +109,10 @@ export default function ArchiveTable(props) {
             case 'Video':
                 setSelectedArchive({...videoArchiveObject});
                 break;
-            case 'Tekstual':
+            case 'Text':
                 setSelectedArchive({...textArchiveObject});
                 break;
-            case 'Foto':
+            case 'Photo':
                 setSelectedArchive({...photoArchiveObject});
                 break;
             default:
@@ -141,6 +141,21 @@ export default function ArchiveTable(props) {
         setSelectedArchive(audioArchiveObject);
     };
 
+    const getLabel = val => {
+        switch (val) {
+            case 'Audio':
+                return val;
+            case 'Video':
+                return val;
+            case 'Photo':
+                return 'Foto';
+            case 'Text':
+                return 'Tekstual';
+            default:
+                // console.log('Invalid Archive Data Type, No Label Specified');
+                break;
+        }
+    };
 
     return (
         <>
@@ -174,7 +189,7 @@ export default function ArchiveTable(props) {
                                 <StyledTableCell>
                                     {archive.classificationPattern.kode}
                                 </StyledTableCell>
-                                <StyledTableCell>{archive.type}</StyledTableCell>
+                                <StyledTableCell>{getLabel(archive.type)}</StyledTableCell>
                                 <StyledTableCell>
                                     <span style={{display: "flex", justifyContent: "center"}}>
                                         <DetailButton handleClick={handleOpenDetailDialog} data={archive}/>
