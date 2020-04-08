@@ -2,7 +2,6 @@ import React from "react";
 import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
-import Access from "../../../src/scheme/Access";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -40,7 +39,6 @@ export default function Archives() {
             <ArchiveTable
                 archiveList={mockArchiveResponse}
                 classification={Classification.klasifikasi}
-                accessList={Access}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}
                 handleEditRequests={handleEditArchiveRequest}

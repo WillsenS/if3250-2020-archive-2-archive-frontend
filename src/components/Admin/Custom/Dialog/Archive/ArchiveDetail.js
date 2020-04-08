@@ -70,7 +70,7 @@ export default function ArchiveDetail(props) {
                     <DialogTitle id="archive-name" classes={{root: classes.redText}}>Konfirmasi Penghapusan
                         Arsip</DialogTitle>
                 ) : (
-                    <DialogTitle id="archive-name">Detail {archive.filename}</DialogTitle>
+                    <DialogTitle id="archive-name">Detail <span style={{fontWeight: 'bold'}}>{archive.filename}</span></DialogTitle>
                 )
             }
             <DialogContent>

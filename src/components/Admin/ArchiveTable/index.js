@@ -48,7 +48,7 @@ export default function ArchiveTable(props) {
     const {currentPage, totalPage, payload} = props.archiveList;
     const {handleAddRequests, handleEditRequests, handleDeleteRequests} = props;
     //Dynamic form data options
-    const {classification, accessList} = props;
+    const {classification} = props;
 
     const handleOpenDetailDialog = (data) => {
         setSelectedArchive({...data});
@@ -123,7 +123,6 @@ export default function ArchiveTable(props) {
     const handleInput = (attr, val) => {
         const newAttrObject = {[attr]: val};
         setSelectedArchive({...selectedArchive, ...newAttrObject});
-        console.log(selectedArchive);
     };
 
     const handleSubmitArchive = () => {
@@ -198,7 +197,6 @@ export default function ArchiveTable(props) {
                 type="add"
                 archive={selectedArchive}
                 classification={classification}
-                accessList={accessList}
                 title="Tambah Arsip Baru"
                 isOpen={openAddDialog}
                 handleClose={handleCloseAddDialog}
@@ -212,7 +210,6 @@ export default function ArchiveTable(props) {
                 type="edit"
                 archive={selectedArchive}
                 classification={classification}
-                accessList={accessList}
                 title="Edit Arsip"
                 isOpen={openEditDialog}
                 handleClose={handleCloseEditDialog}
@@ -244,7 +241,6 @@ export default function ArchiveTable(props) {
 ArchiveTable.propTypes = {
     archiveList: PropTypes.object,
     classification: PropTypes.array,
-    accessList: PropTypes.array,
     handlePageRequests: PropTypes.func,
     handleAddRequests: PropTypes.func,
     handleEditRequests: PropTypes.func,

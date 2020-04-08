@@ -286,7 +286,6 @@ FormArchive.propTypes = {
     type: PropTypes.string,
     archive: PropTypes.object,
     classification: PropTypes.array,
-    accessList: PropTypes.array,
     title: PropTypes.string,
     isOpen: PropTypes.bool,
     isEdit: PropTypes.bool,
