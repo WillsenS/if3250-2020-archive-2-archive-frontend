@@ -126,7 +126,9 @@ export default function Detail() {
             Edit
           </Button>
         </Box>
-        <Viewer fileUrl='./static/img/example.pdf' />
+        <div style={{height: '750px',}}>
+          <Viewer fileUrl='./static/img/example.pdf' />
+        </div>
       </Box>
       <Footer />
     </ThemeProvider>
