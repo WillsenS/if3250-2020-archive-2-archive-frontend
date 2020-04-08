@@ -7,6 +7,7 @@ import Header from "../../src/components/Header";
 import Footer from "../../src/components/Footer";
 import theme from "../../src/theme/home";
 import { Typography } from "@material-ui/core";
+import Viewer from '@phuocng/react-pdf-viewer';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles(theme => ({
     float: "right"
   }
 }));
+
 
 export default function Detail() {
   const classes = useStyles();
@@ -124,6 +126,7 @@ export default function Detail() {
             Edit
           </Button>
         </Box>
+        <Viewer fileUrl='./static/img/example.pdf' />
       </Box>
       <Footer />
     </ThemeProvider>
