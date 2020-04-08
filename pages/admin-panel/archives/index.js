@@ -3,7 +3,6 @@ import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import Access from "../../../src/scheme/Access";
-import {getArchive} from "../../../resources/archive";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -12,10 +11,7 @@ const mockArchiveResponse = {
     status: 200
 };
 
-export default function Archives(props) {
-
-    // console.log(props.data);
-
+export default function Archives() {
     const section = 3;
 
     const handlePageRequests = (val) => {

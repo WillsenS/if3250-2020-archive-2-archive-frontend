@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
 import Chip from "@material-ui/core/Chip";
@@ -74,7 +74,6 @@ export default function InputMultipleSelectChips(props) {
                 ))}
             </Select>
         </FormControl>
-
     );
 }
 

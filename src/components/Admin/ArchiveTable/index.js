@@ -123,6 +123,7 @@ export default function ArchiveTable(props) {
     const handleInput = (attr, val) => {
         const newAttrObject = {[attr]: val};
         setSelectedArchive({...selectedArchive, ...newAttrObject});
+        console.log(selectedArchive);
     };
 
     const handleSubmitArchive = () => {

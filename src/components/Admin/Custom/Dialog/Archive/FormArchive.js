@@ -5,6 +5,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+//PropTypes validation
+import PropTypes from 'prop-types';
 import {
     makeStyles,
     Typography,
@@ -17,14 +19,13 @@ import {
 } from "@material-ui/core";
 import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
-import DoubleMultiSelect from "../../Input/DoubleMultiSelect";
+import CustomRadio from "../../Input/CustomRadio";
 import archiveTypeList from "../../../constants/ArchiveType";
 import {ParseClassificationJsonArray, FlattenClassificationJsonArray} from "../../../../../utils/Fetcher";
 import CustomAutocomplete from "../../Input/CustomAutocomplete";
-//PropTypes validation
-import PropTypes from 'prop-types';
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+
 
 
 const useStyles = makeStyles(() => ({
@@ -45,6 +46,7 @@ export default function FormArchive(props) {
     const [errorSnackbar, setErrorSnackbar] = useState(false);
 
     const {isOpen, handleClose, archive} = props;
+
 
     const editMode = props.type === "edit";
     const handleUpload = (event) => {
@@ -73,8 +75,11 @@ export default function FormArchive(props) {
     };
     const isAllInputFilled = () => {
         for (const property in archive) {
-            if (!archive[property] || archive[property].length <= 0) {
-                return false;
+            if (property !== 'forPublicOption') {
+                if (!archive[property] || archive[property].length <= 0) {
+                    // console.log(property);
+                    return false;
+                }
             }
         }
         return true;
@@ -166,12 +171,12 @@ export default function FormArchive(props) {
                         handleAutoComplete={handleAutoComplete}
                         value={archive.classificationPattern}
                     />
-                    <DoubleMultiSelect
-                        editMode={true}
-                        accessData={props.accessList}
-                        handleInput={props.handleInput}
-                        value={archive.accessRightsList || []}
-                    />
+
+                    <CustomRadio
+                        id="forPublicOption"
+                        label="Terbuka Untuk Umum?"
+                        value={parseInt(archive.forPublicOption)}
+                        handleInput={handleInput} />
 
                     <CustomTextField
                         id="location"
