@@ -21,7 +21,7 @@ import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
 import CustomRadio from "../../Input/CustomRadio";
 import archiveTypeList from "../../../constants/ArchiveType";
-import {ParseClassificationJsonArray, FlattenClassificationJsonArray} from "../../../../../utils/Fetcher";
+import {ParseClassificationJsonArray, FlattenClassificationJsonArray} from "../../../../../utils/Parser";
 import CustomAutocomplete from "../../Input/CustomAutocomplete";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";

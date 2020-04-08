@@ -44,7 +44,7 @@ const getDefaultServerArchiveMeta = (archive) => {
         waktu_kegiatan: archive.date,
         lokasi_simpan_arsip: archive.archiveLocation,
         mime: archive.mime,
-        file: archive.file
+        filetoupload: archive.file
     };
 };
 
@@ -100,7 +100,7 @@ const getDefaultClientArchiveMeta = (archive) => {
         date: archive.waktu_kegiatan,
         archiveLocation: archive.lokasi_simpan_arsip,
         mime: archive.mime,
-        file: archive.file
+        file: archive.filetoupload
     };
 };
 
