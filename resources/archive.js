@@ -22,3 +22,23 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
       reject(e);
     }
   });
+
+
+export const getArchive = async (searchQuery, currentPage, filterArray) => {
+  const url = `${defaultAPIURL}/search?`;
+  const filters = filterArray ? filterArray.join(", ") : "";
+  const q = searchQuery;
+  const page = currentPage;
+  try {
+    const response = await axios({
+      url,
+      method: "GET",
+      params: {q, page, filters},
+      validateStatus
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

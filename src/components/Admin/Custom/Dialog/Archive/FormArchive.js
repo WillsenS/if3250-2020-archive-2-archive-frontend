@@ -19,7 +19,7 @@ import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
 import DoubleMultiSelect from "../../Input/DoubleMultiSelect";
 import archiveTypeList from "../../../constants/ArchiveType";
-import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
+import {ParseClassificationJsonArray, FlattenClassificationJsonArray} from "../../../../../utils/Fetcher";
 import CustomAutocomplete from "../../Input/CustomAutocomplete";
 //PropTypes validation
 import PropTypes from 'prop-types';
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
 
 export default function FormArchive(props) {
     const classes = useStyles();
-    const [classification] = useState(ParseClassificationJsonArray(props.classification));
+    const [classification] = useState(FlattenClassificationJsonArray(ParseClassificationJsonArray(props.classification)));
     const [errorSnackbar, setErrorSnackbar] = useState(false);
 
     const {isOpen, handleClose, archive} = props;
