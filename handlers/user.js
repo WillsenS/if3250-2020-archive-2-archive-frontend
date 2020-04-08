@@ -27,7 +27,7 @@ exports.checkSSORedirect = () => {
           url,
           method: "get",
           validateStatus,
-          withCredentials
+          withCredentials,
         });
 
         console.log(response);

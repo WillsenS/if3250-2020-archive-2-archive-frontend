@@ -2,6 +2,8 @@ import axios from "axios";
 import { defaultAPIURL } from "../config";
 
 const validateStatus = () => true;
+axios.defaults.withCredentials = true;
+const withCredentials = true;
 
 export const getArchiveList = (searchQuery, currentPage, filter) =>
   new Promise(async (resolve, reject) => {
@@ -12,9 +14,9 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
         method: "GET",
         params: {
           page: currentPage,
-          filters: filter.join(",")
+          filters: filter.join(","),
         },
-        validateStatus
+        validateStatus,
       });
 
       resolve(response);
@@ -23,22 +25,38 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
     }
   });
 
+export const getArchiveDetail = (archiveId, token) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/detail/${archiveId}`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+      });
 
-export const getArchive = async (searchQuery, currentPage, filterArray) => {
-  const url = `${defaultAPIURL}/search?`;
-  const filters = filterArray ? filterArray.join(", ") : "";
-  const q = searchQuery;
-  const page = currentPage;
-  try {
-    const response = await axios({
-      url,
-      method: "GET",
-      params: {q, page, filters},
-      validateStatus
-    });
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.error(error);
-  }
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+export const postBorrowArchive = (token, payload) => {
+  new Promise(async (resolve, reject) => {
+    try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/archive/borrow`;
+      const { data: response } = await axios({
+        url,
+        method: "POST",
+        data: payload,
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
 };
