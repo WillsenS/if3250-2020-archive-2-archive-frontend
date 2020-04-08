@@ -14,7 +14,7 @@ export default function CustomRadio(props) {
     return (
         <FormControl component="fieldset" style={{marginTop: '2rem'}}>
             <FormLabel component="legend">{props.label}</FormLabel>
-            <RadioGroup aria-label="terbuka-untuk-umum" name="opsi-terbuka-untuk-umum" value={props.value} onChange={handleChange}>
+            <RadioGroup aria-label="terbuka-untuk-umum" name="opsi-terbuka-untuk-umum" value={props.value} onChange={handleChange} style={{flexDirection: 'row'}}>
                 <FormControlLabel value={1} control={<Radio />} label="Ya" />
                 <FormControlLabel value={0} control={<Radio />} label="Tidak" />
             </RadioGroup>
