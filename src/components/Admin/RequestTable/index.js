@@ -16,7 +16,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 const useStyles = makeStyles(() => ({
     root: {
         minWidth: '50%',
-        maxWidth: '70%'
+        maxWidth: '70%',
     },
     title: {
         marginBottom: '1rem'
@@ -37,7 +37,8 @@ export default function RequestTable(props) {
     };
 
     return (
-        <>
+        <div style={{marginLeft: '3rem'}}>
+
             <Typography variant="h3" component="h2" className={classes.title}>{props.title}</Typography>
             <TableContainer component={Paper} className={classes.root}>
                 <Table className={classes.table} aria-label="tabel permintaan peminjamana arsip" size="small">
@@ -71,7 +72,7 @@ export default function RequestTable(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </div>
 
         );
 }

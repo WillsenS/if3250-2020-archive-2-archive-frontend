@@ -73,7 +73,7 @@ export default function ArchiveRequest() {
                         requestList={request}
                         handleClick={acceptRequest}/>
                 ) : (
-                    <Typography variant="h3" component="h2">
+                    <Typography variant="h3" component="h2"  style={{marginLeft: '3rem'}}>
                         Tidak ada permintaan peminjaman arsip
                     </Typography>
                 )
