@@ -10,3 +10,11 @@ export const ParseClassificationJsonArray = (jsonArray) => {
     filteredArray.push(jsonArray[i]);
     return filteredArray;
 };
+
+export const FlattenClassificationJsonArray = (jsonArray) => {
+    let flattenJsonArray = [];
+    jsonArray.forEach((obj) => {
+       flattenJsonArray.push(`${obj.kode} ${obj.nama}`);
+    });
+    return flattenJsonArray;
+};
