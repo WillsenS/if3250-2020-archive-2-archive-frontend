@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import {useTheme} from "@material-ui/core/styles";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
@@ -94,6 +95,19 @@ function AdminLayout(props) {
                             <FindInPageIcon classes={{root: classes.icon}}/>
                         </ListItemIcon>
                         <ListItemText primary={"Arsip"}/>
+                    </ListItem>
+                </Link>
+                <Link href="/admin-panel/archive-requests">
+                    <ListItem
+                        button
+                        key={"Archives"}
+                        classes={{root: section === 4 ? classes.currentLink : ""}}
+                        className={classes.buttonHover}
+                    >
+                        <ListItemIcon>
+                            <EventAvailableIcon classes={{root: classes.icon}}/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Peminjaman"}/>
                     </ListItem>
                 </Link>
             </List>
