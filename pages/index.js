@@ -239,7 +239,8 @@ const Home = (props) => {
 };
 
 Home.getInitialProps = ({ req }) => {
-  if (req && req.cookie) {
+  console.log(req.cookies);
+  if (req && req.cookies) {
     return { token: req.cookies.token };
   } else {
     return {};

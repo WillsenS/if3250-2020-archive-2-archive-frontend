@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000;
 const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const { checkSSORedirect } = require("./handlers/user");
+const { defaultURL } = require("./config");
 
 nextApp
   .prepare()
@@ -22,10 +23,7 @@ nextApp
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get("/login", (req, res) => {
-      // const redirectURL = `https%3A%2F%2F${req.headers.host}${req.baseUrl}`;
-      const redirectURL = `https%3A%2F%2Fdemoapp.my.id`;
-
-      res.redirect(`https://login.itb.ac.id/cas/login?service=${redirectURL}`);
+      res.redirect(`https://login.itb.ac.id/cas/login?service=${defaultURL}`);
     });
 
     // Blocked pages.

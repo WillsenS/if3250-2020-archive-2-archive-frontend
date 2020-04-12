@@ -4,7 +4,7 @@ import Head from "next/head";
 import { getAuthCheck } from "../resources/auth";
 import { DispatchUserContext } from "../reducers/user";
 
-const Layout = props => {
+const Layout = (props) => {
   const { children, title, token, ...rest } = props;
 
   const userDispatch = useContext(DispatchUserContext);
@@ -16,7 +16,7 @@ const Layout = props => {
         const { data } = response;
         userDispatch({
           type: "set_user",
-          payload: data
+          payload: data,
         });
       }
     } catch (e) {
