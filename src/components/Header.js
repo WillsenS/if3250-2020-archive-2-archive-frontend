@@ -116,23 +116,25 @@ const Header = (props) => {
                   </Link>
                 </Grid>
                 <Grid item xs={6} className={classes.grid}>
-                  <Box className={classes.title}>
-                    <Box>
-                      <Typography
-                        variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
-                        className={classes.yellow}
-                      >
-                        SISTEM ARSIP
-                      </Typography>
+                  <Link href="/">
+                    <Box className={classes.title}>
+                      <Box>
+                        <Typography
+                          variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
+                          className={classes.yellow}
+                        >
+                          SISTEM ARSIP
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
+                        >
+                          INSTITUT TEKNOLOGI BANDUNG
+                        </Typography>
+                      </Box>
                     </Box>
-                    <Box>
-                      <Typography
-                        variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
-                      >
-                        INSTITUT TEKNOLOGI BANDUNG
-                      </Typography>
-                    </Box>
-                  </Box>
+                  </Link>
                 </Grid>
 
                 <Grid item xs={4} className={classes.grid}>

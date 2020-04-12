@@ -34,14 +34,14 @@ const SearchResult = (props) => {
       <Paper elevation={0} className={classes.root}>
         <Grid container spacing={2}>
           <Grid item lg={2} xs={3}>
-            <Link href={`/detail/${id}`}>
+            <Link href={`/arsip/detail/${id}`}>
               <div className={classes.frame}>
                 <img className={classes.image} src={`${image}`} />
               </div>
             </Link>
           </Grid>
           <Grid item lg={10} xs={9}>
-            <Link href={`/detail/${id}`}>
+            <Link href={`/arsip/detail/${id}`}>
               <Typography variant="h4" className={classes.title}>
                 {title}
               </Typography>
