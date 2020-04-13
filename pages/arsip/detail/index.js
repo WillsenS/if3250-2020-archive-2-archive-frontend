@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import Header from "../../../src/components/Header";
 import Footer from "../../../src/components/Footer";
 import theme from "../../../src/theme/home";
-import { getArchiveDetail } from "../../../resources/archive";
+import { getArchiveDetail, downloadArchive } from "../../../resources/archive";
 
 import Layout from "../../../layout";
 import { StateUserContext } from "../../../reducers/user";
@@ -73,6 +73,10 @@ const Detail = (props) => {
   const { archiveId, token } = props;
   const [archive, setArchive] = useState({});
   const [file, setFile] = useState({});
+
+  const handleDownload = async () => {
+    await downloadArchive(archiveId, token, file.filename);
+  };
 
   const fetchArchiveDetail = async (archiveId, token) => {
     try {
@@ -152,7 +156,12 @@ const Detail = (props) => {
                 </Box>
               ))}
               <Box className={classes.buttonArea}>
-                <Button variant="contained" color="primary" size="small">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={handleDownload}
+                >
                   Unduh
                 </Button>
               </Box>
