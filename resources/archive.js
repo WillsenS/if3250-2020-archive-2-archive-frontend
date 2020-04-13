@@ -1,5 +1,8 @@
 import axios from "axios";
 import { defaultAPIURL } from "../config";
+import formBuilder from "../utils/FormBuilder";
+import {convertToClientJson, convertToServerJson} from "../utils/JsonConverter";
+
 
 const validateStatus = () => true;
 axios.defaults.withCredentials = true;
@@ -59,4 +62,19 @@ export const postBorrowArchive = (token, payload) => {
       reject(e);
     }
   });
+};
+
+
+export const postSubmitArchive =  async (submittedArchive) => {
+  try {
+    const serverMetaArchive = convertToServerJson(submittedArchive);
+    const url = `${defaultAPIURL}/upload`;
+    const data = formBuilder(serverMetaArchive);
+    const config = {
+      headers: {'content-type': 'multipart/form-data'}
+    };
+    return await axios.post(url, data, config);
+  } catch (e) {
+    throw('Error Adding Archive');
+  }
 };

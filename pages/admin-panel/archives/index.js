@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
-import {defaultPublicURL} from "../../../config";
-import axios from "axios";
-import {convertToClientJson, convertToServerJson} from "../../../src/utils/JsonConverter";
+import {postSubmitArchive} from "../../../resources/archive";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -14,42 +12,42 @@ const mockArchiveResponse = {
 };
 
 export default function Archives() {
-    const [loading, setLoading] = useState(false);
-    const [archiveList, setArchiveList] = useState([]);
+
     const [submittedArchive, setSubmittedArchive] = useState({});
-    const section = 3;
+    const firstRender = useRef(true);
+    const section = 3; // section archive
+
+    useEffect( () => {
+        const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
+        const successText = 'Arsip berhasil ditambahkan dan disimpan';
+        const submitArchive = async (archive) => {
+            try {
+                const res = await postSubmitArchive(archive);
+                if (res.status === 200) {
+                    // eslint-disable-next-line no-undef
+                    alert(successText);
+                } else {
+                    // eslint-disable-next-line no-undef
+                    alert(errorText);
+                }
+            }
+            catch (e) {
+                // eslint-disable-next-line no-undef
+                alert(errorText);
+            }
+        };
+        if (firstRender.current) {
+            // Don't run useEffect on first component load
+            firstRender.current = false;
+        } else {
+            submitArchive(submittedArchive);
+        }
+    }, [submittedArchive]);
+
 
     const handlePageRequests = (val) => {
     };
 
-    useEffect( () => {
-        async function submitArchive(submittedArchive) {
-            const url = `${defaultPublicURL}/api/v1/upload`;
-            // eslint-disable-next-line no-undef
-            const data = new FormData();
-            const config = {
-                headers: {'content-type': 'multipart/form-data'}
-            };
-            const fileMetaName = 'filetoupload';
-            for (const meta in submittedArchive) {
-                if (Object.prototype.hasOwnProperty.call(submittedArchive, meta)) {
-                    if (meta === fileMetaName) {
-                        data.append(fileMetaName, submittedArchive[meta]);
-                    } else {
-                        data.set(meta, submittedArchive[meta]);
-                    }
-                }
-            }
-            try {
-                const res = await axios.post(url, data, config);
-
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        // eslint-disable-next-line no-unused-vars
-        const promise = submitArchive(convertToServerJson(submittedArchive));
-    }, [submittedArchive]);
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
         mockArchiveResponse.payload.push(newArchiveData);
