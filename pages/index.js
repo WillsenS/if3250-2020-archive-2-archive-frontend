@@ -70,7 +70,7 @@ const Welcome = (props) => {
   const onSubmitForm = (event) => {
     event.preventDefault();
     Router.push({
-      pathname: "/search",
+      pathname: "/arsip/search",
       query: { q: searchQuery },
     });
   };
@@ -152,6 +152,34 @@ const HomepageContent = (props) => {
     </Box>
   ));
 
+  const arrMostSearch = [
+    "Administrasi",
+    "Surat Keputusan",
+    "Publikasi",
+    "Sekolah",
+    "Rektor",
+    "Institut Teknologi Bandung",
+    "STEI",
+  ];
+
+  const arrCategoty = ["Audio", "Photo", "Text", "Video"];
+
+  const mostSearch = arrMostSearch.map((val, idx) => (
+    <Typography variant="body1" key={`search-${idx}`}>
+      <Link href={`/arsip/search?q=${val}`} color="inherit">
+        {val}
+      </Link>
+    </Typography>
+  ));
+
+  const categoryList = arrCategoty.map((val, idx) => (
+    <Typography variant="body1" key={`category-${idx}`}>
+      <Link href={`/arsip/search?f=${val.toLowerCase()}`} color="inherit">
+        {val}
+      </Link>
+    </Typography>
+  ));
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -162,20 +190,11 @@ const HomepageContent = (props) => {
                 <Typography variant="h4" className={classes.title}>
                   PENCARIAN
                 </Typography>
-                <Typography variant="body1">
-                  Administrasi <br />
-                  Sekolah/Fakultas <br />
-                  Surat Keputusan (SK) <br />
-                  Publikasi{" "}
-                </Typography>
+                {mostSearch}
                 <Typography variant="h4" className={classes.title2}>
                   Kategori
                 </Typography>
-                <Typography variant="body1">
-                  Dokumen Cetak <br />
-                  Foto/Gambar <br />
-                  Video{" "}
-                </Typography>
+                {categoryList}
               </Box>
             </Grid>
           </Hidden>
@@ -207,7 +226,6 @@ const Home = (props) => {
   const fetchLatestArchives = async () => {
     try {
       const response = await getLatestArchives();
-      console.log(response.data);
       setLatestArchives(response.data);
     } catch (err) {
       console.error(err);

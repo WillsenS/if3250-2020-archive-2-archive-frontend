@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 const SearchPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  // const { token, query } = props;
   const { q, page } = router.query;
 
   const [isSearch, setIsSearch] = useState(true);
@@ -55,10 +54,10 @@ const SearchPage = (props) => {
 
   const fetchArchiveList = async (searchQuery, currentPage, filter) => {
     try {
-      const f = [];
+      const arrFilter = [];
       Object.keys(filter).map((key) => {
         filter[key].map((val) => {
-          f.push(`${key}==${val}`);
+          arrFilter.push(`${key}==${val}`);
         });
       });
 
@@ -72,7 +71,11 @@ const SearchPage = (props) => {
         }`
       );
 
-      const response = await getArchiveList(searchQuery, currentPage, f);
+      const response = await getArchiveList(
+        searchQuery,
+        currentPage,
+        arrFilter
+      );
 
       setArchiveList(response.data);
       setTotalItems(response.count);
