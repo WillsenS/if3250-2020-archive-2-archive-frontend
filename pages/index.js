@@ -143,6 +143,12 @@ const HomepageContent = (props) => {
         {val.nomor}
       </Typography>
       <Typography variant="body2">{val.keterangan}</Typography>
+      {/* <Typography variant="body2">
+        Bagian dari{" "}
+        <Box component="span" color="primary.light">
+          Kantor Arsip Institut Teknologi Bandung
+        </Box>
+      </Typography> */}
     </Box>
   ));
 
@@ -156,9 +162,19 @@ const HomepageContent = (props) => {
     "STEI",
   ];
 
+  const arrCategoty = ["Audio", "Photo", "Text", "Video"];
+
   const mostSearch = arrMostSearch.map((val, idx) => (
     <Typography variant="body1" key={`search-${idx}`}>
       <Link href={`/arsip/search?q=${val}`} color="inherit">
+        {val}
+      </Link>
+    </Typography>
+  ));
+
+  const categoryList = arrCategoty.map((val, idx) => (
+    <Typography variant="body1" key={`category-${idx}`}>
+      <Link href={`/arsip/search?q=bung&tipe=${val}`} color="inherit">
         {val}
       </Link>
     </Typography>

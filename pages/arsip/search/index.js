@@ -40,11 +40,12 @@ const useStyles = makeStyles((theme) => ({
 const SearchPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const { q, page } = router.query;
+  const { q, page, tipe } = router.query;
 
   const [isSearch, setIsSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(q || "");
   const [currentPage, setCurrentPage] = useState(page || 1);
+  const [type, setType] = useState(tipe || "");
   const [filter, setFilter] = useState({});
   const [header, setHeader] = useState([]);
   const [filterCandidate, setFilterCandidate] = useState({});
@@ -89,7 +90,8 @@ const SearchPage = (props) => {
       if (header.length === 0) {
         const h = [];
         Object.keys(response.filtersCandidate).map((key) => {
-          h.push(false);
+          if (filter["tipe"] && key === "tipe") h.push(true);
+          else h.push(false);
         });
         setHeader(h);
       }
@@ -101,6 +103,13 @@ const SearchPage = (props) => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  useEffect(() => {
+    if (tipe) {
+      let obj = { tipe: [tipe] };
+      setFilter({ ...obj });
+    }
+  }, []);
 
   useEffect(() => {
     setCurrentPage(1);
