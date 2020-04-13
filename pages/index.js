@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Router from "next/router";
 import {
   Box,
@@ -10,6 +8,7 @@ import {
   Hidden,
   Container,
   Grid,
+  Link,
 } from "@material-ui/core";
 import theme from "../src/theme/home";
 import SearchIcon from "@material-ui/icons/Search";
@@ -19,7 +18,9 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 
 import Layout from "../layout";
+
 import { StateUserContext } from "../reducers/user";
+import { getLatestArchives } from "../resources/archive";
 
 const useStyles = makeStyles((theme) => ({
   newDocument: {
@@ -129,6 +130,28 @@ const HomepageContent = (props) => {
   const classes = useStyles();
   const data = props.width;
 
+  const { archives } = props;
+
+  const latestArchives = archives.map((val, idx) => (
+    <Box className={classes.pagination} key={`archive-${idx}`}>
+      <Typography variant="h6" color="primary">
+        <Link href={`/arsip/detail/${val._id}`} color="inherit">
+          {val.judul.toUpperCase()}
+        </Link>
+      </Typography>
+      <Typography variant="body2" className={classes.yellow}>
+        {val.nomor}
+      </Typography>
+      <Typography variant="body2">{val.keterangan}</Typography>
+      {/* <Typography variant="body2">
+        Bagian dari{" "}
+        <Box component="span" color="primary.light">
+          Kantor Arsip Institut Teknologi Bandung
+        </Box>
+      </Typography> */}
+    </Box>
+  ));
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -165,53 +188,9 @@ const HomepageContent = (props) => {
           >
             <Box>
               <Typography variant="h3" className={classes.title}>
-                DOKUMEN TERBARU
+                ARSIP TERBARU
               </Typography>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  11/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  12/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  12/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
+              {latestArchives}
             </Box>
           </Grid>
         </Grid>
@@ -223,6 +202,21 @@ const HomepageContent = (props) => {
 const Home = (props) => {
   const { token } = props;
   const userState = useContext(StateUserContext);
+  const [latestArchives, setLatestArchives] = useState([]);
+
+  const fetchLatestArchives = async () => {
+    try {
+      const response = await getLatestArchives();
+      console.log(response.data);
+      setLatestArchives(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestArchives();
+  }, []);
 
   return (
     <>
@@ -230,7 +224,7 @@ const Home = (props) => {
         <ThemeProvider theme={theme}>
           <Header user={userState.user} />
           <Welcome width={props.width} />
-          <HomepageContent width={props.width} />
+          <HomepageContent width={props.width} archives={latestArchives} />
           <Footer />
         </ThemeProvider>
       </Layout>

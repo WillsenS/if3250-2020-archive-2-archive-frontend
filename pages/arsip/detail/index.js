@@ -77,8 +77,6 @@ const Detail = (props) => {
   const fetchArchiveDetail = async (archiveId, token) => {
     try {
       const response = await getArchiveDetail(archiveId, token);
-
-      console.log(response.data);
       setFile(response.data.file);
 
       const notIncludedKey = [
