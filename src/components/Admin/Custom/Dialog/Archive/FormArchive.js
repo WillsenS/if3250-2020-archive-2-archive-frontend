@@ -175,7 +175,7 @@ export default function FormArchive(props) {
                     <CustomRadio
                         id="forPublicOption"
                         label="Terbuka Untuk Umum?"
-                        value={parseInt(archive.forPublicOption)}
+                        value={archive.forPublicOption ? 1 : 0}
                         handleInput={handleInput} />
 
                     <CustomTextField

@@ -6,18 +6,12 @@ import {postSubmitArchive, patchEditArchive, deleteArchive, getArchiveList} from
 import {convertToClientJson} from "../../../utils/JsonConverter";
 import axios from 'axios';
 
-const mockArchiveResponse = {
-    currentPage: 1,
-    totalPage: 0,
-    payload: [],
-    status: 200
-};
 
 export default function Archives() {
     const [submittedArchive, setSubmittedArchive] = useState({});
     const [editedArchive, setEditedArchive] = useState({});
     const [deletedArchiveId, setDeletedArchiveId] = useState('');
-    const [searchQuery, setSearchQuery] = useState('13517021'); // TODO: Jadiin empty string, sekarang apinya belum bisa query kosong
+    const [searchQuery, setSearchQuery] = useState('');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [archiveList, setArchiveList] = useState([]);
@@ -28,18 +22,29 @@ export default function Archives() {
         const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
         const successText = 'Arsip berhasil ditambahkan dan disimpan';
         let source = axios.CancelToken.source(); //cancel request if user leave the page
+        let mounted = true;
         const submitArchive = async (archive) => {
             try {
                 const res = await postSubmitArchive(archive, source);
                 if (res.status === 200) {
                     // eslint-disable-next-line no-undef
                     alert(successText);
+                    const getRes = await getArchiveList(searchQuery, page, '', source);
+                    if (getRes.message === 'OK') {
+                        const updatedArchiveList = getRes.data.map(archive => convertToClientJson(archive));
+                        if (mounted) {
+                            setArchiveList([...updatedArchiveList]);
+                            setPage(res.currentPage);
+                            setTotalPages(res.totalPages);
+                        }
+                    }
                 } else {
                     // eslint-disable-next-line no-undef
                     alert(errorText);
                 }
             }
             catch (e) {
+                mounted = false;
                 // eslint-disable-next-line no-undef
                 alert(errorText);
             }
@@ -56,6 +61,7 @@ export default function Archives() {
     useEffect( () => {
         const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
         const successText = 'Arsip berhasil dirubah';
+        let mounted = true;
         let source = axios.CancelToken.source(); //cancel request if user leave the page
         const editArchive = async (archive, source) => {
             try {
@@ -63,6 +69,15 @@ export default function Archives() {
                 if (res.status === 200) {
                     // eslint-disable-next-line no-undef
                     alert(successText);
+                    const getRes = await getArchiveList(searchQuery, page, '', source);
+                    if (getRes.message === 'OK') {
+                        const updatedArchiveList = getRes.data.map(archive => convertToClientJson(archive));
+                        if (mounted) {
+                            setArchiveList([...updatedArchiveList]);
+                            setPage(res.currentPage);
+                            setTotalPages(res.totalPages);
+                        }
+                    }
                 } else {
                     // eslint-disable-next-line no-undef
                     alert(errorText);
@@ -75,9 +90,10 @@ export default function Archives() {
         };
         if (!isEmptyObj(editedArchive)) {
             // Don't run useEffect on first component load
-            editArchive(editedArchive).catch(e => {});
+            editArchive(editedArchive, source).catch(e => {});
         }
         return  () => {
+            mounted = false;
             source.cancel('Canceled because user left the page');
         };
     }, [editedArchive]);
@@ -96,7 +112,6 @@ export default function Archives() {
                     const getRes = await getArchiveList(searchQuery, page, '', source);
                     if (getRes.message === 'OK') {
                         const updatedArchiveList = getRes.data.map(archive => convertToClientJson(archive));
-                        console.log(updatedArchiveList);
                         if (mounted) {
                             setArchiveList([...updatedArchiveList]);
                             setPage(res.currentPage);
@@ -124,14 +139,13 @@ export default function Archives() {
     }, [deletedArchiveId]);
     // Search handler
     useEffect(() => {
+        if (searchQuery.length <= 0) return;
         let mounted = true; //handle mem. leak if user leave the page before task is finished
         let source = axios.CancelToken.source(); //cancel request if user leave the page
         const handleGetArchiveList = async (searchQuery, page, filter, source) => {
-            if (searchQuery.length <= 0) return;
             const res = await getArchiveList(searchQuery, page, filter, source);
             if (res.message === 'OK') {
                 const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
-                console.log(updatedArchiveList);
                 if (mounted) {
                     setArchiveList([...updatedArchiveList]);
                     setPage(res.currentPage);
@@ -164,23 +178,14 @@ export default function Archives() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
-        mockArchiveResponse.payload.push(newArchiveData);
         setSubmittedArchive({...newArchiveData});
     };
 
     const handleEditArchiveRequest = (editedArchive) => {
-        const filteredArchives = mockArchiveResponse.payload.filter(archive => (
-            archive._id !== editedArchive._id
-        ));
-        filteredArchives.push(editedArchive);
-        mockArchiveResponse.payload = [...filteredArchives];
         setEditedArchive({...editedArchive});
     };
 
     const handleDeleteArchiveRequest = (selectedArchive) => {
-        mockArchiveResponse.payload = mockArchiveResponse.payload.filter(archive => (
-            archive._id !== selectedArchive._id
-        ));
         setDeletedArchiveId(selectedArchive._id);
     };
 

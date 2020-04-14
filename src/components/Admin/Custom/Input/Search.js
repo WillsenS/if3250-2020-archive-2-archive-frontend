@@ -9,7 +9,6 @@ export default function Search(props) {
   const [val, setVal] = useState('');
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setVal(e.target.value);
   };
 
@@ -20,7 +19,7 @@ export default function Search(props) {
   const InputCustomProps = {
     endAdornment: (
         <InputAdornment position="end">
-          <SearchIcon style={{cursor: "pointer"}} onClick={handleSearch(val)}/>
+          <SearchIcon style={{cursor: "pointer"}} onClick={() => {handleSearch(val)}}/>
         </InputAdornment>
     )
   };
