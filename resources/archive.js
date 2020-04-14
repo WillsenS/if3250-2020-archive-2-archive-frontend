@@ -112,7 +112,7 @@ export const postSubmitArchive =  async (submittedArchive, source) => {
     };
     return await axios.post(url, data, config);
   } catch (e) {
-    throw('Error Adding Archive');
+    throw('Error adding Archive');
   }
 };
 
