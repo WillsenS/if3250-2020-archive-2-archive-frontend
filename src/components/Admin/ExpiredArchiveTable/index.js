@@ -5,8 +5,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import Paper from "@material-ui/core/Paper";
 import TableRow from "@material-ui/core/TableRow";
-import { InputAdornment } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import AdminPagination from "../Custom/Pagination/AdminPagination";
 
 //Custom components and styles and data
@@ -16,8 +14,6 @@ import StyledTableRow from "../Custom/Table/StyledTableRow";
 import EditButton from "../Custom/Button/EditButton";
 import DetailButton from "../Custom/Button/DetailButton";
 import RemoveButton from "../Custom/Button/RemoveButton";
-import Search from "../Custom/Input/Search";
-import AddButton from "../Custom/Button/AddButton";
 import FormArchive from "../Custom/Dialog/Archive/FormArchive";
 import {
   audioArchiveObject,
@@ -26,6 +22,7 @@ import {
   textArchiveObject,
 } from "../../../scheme/Archive";
 import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
+import moment from "moment";
 //PropTypes validation
 import PropTypes from "prop-types";
 
@@ -35,7 +32,6 @@ export default function ArchiveTable(props) {
   //Form Modal hooks
   const [openDelDialog, setOpenDelDialog] = React.useState(false);
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-  const [openAddDialog, setOpenAddDialog] = React.useState(false);
   const [openDetailDialog, setOpenDetailDialog] = React.useState(false);
 
   //Selected archive hooks
@@ -46,12 +42,7 @@ export default function ArchiveTable(props) {
   const currentPage = props.page;
   const totalPage = props.totalPages;
   const payload = props.archives;
-  const {
-    handleAddRequests,
-    handleEditRequests,
-    handleDeleteRequests,
-    handleSearch,
-  } = props;
+  const { handleEditRequests, handleDeleteRequests, handleSearch } = props;
   //Dynamic form data options
   const { classification } = props;
 
@@ -70,10 +61,6 @@ export default function ArchiveTable(props) {
     setOpenEditDialog(true);
   };
 
-  const handleOpenAddDialog = () => {
-    setOpenAddDialog(true);
-  };
-
   const handleCloseDetailDialog = () => {
     setOpenDetailDialog(false);
   };
@@ -85,10 +72,6 @@ export default function ArchiveTable(props) {
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
     setSelectedArchive(audioArchiveObject);
-  };
-
-  const handleCloseAddDialog = () => {
-    setOpenAddDialog(false);
   };
 
   const handleDataChange = (pageNum) => {
@@ -126,12 +109,6 @@ export default function ArchiveTable(props) {
     setSelectedArchive({ ...selectedArchive, ...newAttrObject });
   };
 
-  const handleSubmitArchive = () => {
-    handleAddRequests({ ...selectedArchive });
-    //Reset form
-    setSelectedArchive(audioArchiveObject);
-  };
-
   const handleChangeArchive = () => {
     handleEditRequests({ ...selectedArchive });
     setSelectedArchive(audioArchiveObject);
@@ -158,17 +135,10 @@ export default function ArchiveTable(props) {
     }
   };
 
+  moment.locale("id");
+
   return (
     <>
-      <div className={classes.input}>
-        <Search
-          label={"Cari Arsip"}
-          placeholder={"Masukkan Nama Arsip"}
-          type={"search"}
-          handleSearch={handleSearch}
-        />
-        <AddButton handleClick={handleOpenAddDialog}>Tambah Arsip</AddButton>
-      </div>
       <TableContainer component={Paper} className={classes.wrapper}>
         <Table className={classes.table} aria-label="archive list table">
           <TableHead>
@@ -176,6 +146,7 @@ export default function ArchiveTable(props) {
               <StyledTableCell>No</StyledTableCell>
               <StyledTableCell>Nama Arsip</StyledTableCell>
               <StyledTableCell>Skema Klasifikasi</StyledTableCell>
+              <StyledTableCell>Waktu Hapus</StyledTableCell>
               <StyledTableCell>Tipe Arsip</StyledTableCell>
               <StyledTableCell />
             </TableRow>
@@ -188,6 +159,9 @@ export default function ArchiveTable(props) {
                   <StyledTableCell>{archive.filename}</StyledTableCell>
                   <StyledTableCell>
                     {archive.classificationPattern}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {moment(archive.removeDate).format("LL")}
                   </StyledTableCell>
                   <StyledTableCell>{getLabel(archive.type)}</StyledTableCell>
                   <StyledTableCell>
@@ -219,19 +193,6 @@ export default function ArchiveTable(props) {
         handleDataChange={handleDataChange}
         currentPage={currentPage}
         totalPage={totalPage}
-      />
-      {/*Add New Archive Modal Component*/}
-      <FormArchive
-        type="add"
-        archive={selectedArchive}
-        classification={classification}
-        title="Tambah Arsip Baru"
-        isOpen={openAddDialog}
-        handleClose={handleCloseAddDialog}
-        handleUpload={handleUpload}
-        handleArchiveTypeChange={handleArchiveTypeChange}
-        handleInput={handleInput}
-        handleSubmitArchive={handleSubmitArchive}
       />
       {/*   Edit Archive Modal Component*/}
       <FormArchive

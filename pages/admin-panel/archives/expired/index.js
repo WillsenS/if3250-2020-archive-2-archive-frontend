@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import AdminLayout from "../../../src/components/Admin/Layout";
-import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
-import Classification from "../../../src/scheme/Classification";
+import AdminLayout from "../../../../src/components/Admin/Layout";
+import ExpiedArchiveTable from "../../../../src/components/Admin/ExpiredArchiveTable";
+import Classification from "../../../../src/scheme/Classification";
 import {
-  postSubmitArchive,
   patchEditArchive,
   deleteArchive,
-  getArchiveList,
-} from "../../../resources/archive";
-import { convertToClientJson } from "../../../utils/JsonConverter";
+  getArchiveExpired,
+} from "../../../../resources/archive";
+import { convertToClientJson } from "../../../../utils/JsonConverter";
 import axios from "axios";
 
 export default function Archives() {
-  const [submittedArchive, setSubmittedArchive] = useState({});
   const [editedArchive, setEditedArchive] = useState({});
   const [deletedArchiveId, setDeletedArchiveId] = useState("");
   const [searchQuery, setSearchQuery] = useState("*");
@@ -21,48 +19,6 @@ export default function Archives() {
   const [archiveList, setArchiveList] = useState([]);
   const section = 3; // section: archive
 
-  // Add archive handler
-  useEffect(() => {
-    const errorText = "Terjadi kesalahan. Silahkan coba beberapa saat lagi";
-    const successText = "Arsip berhasil ditambahkan dan disimpan";
-    let source = axios.CancelToken.source(); //cancel request if user leave the page
-    let mounted = true;
-    const submitArchive = async (archive) => {
-      try {
-        const res = await postSubmitArchive(archive, source);
-        if (res.status === 200) {
-          // eslint-disable-next-line no-undef
-          alert(successText);
-          const getRes = await getArchiveList(searchQuery, page, "", source);
-
-          if (!getRes.error) {
-            const updatedArchiveList = getRes.data.map((archive) =>
-              convertToClientJson(archive)
-            );
-            if (mounted) {
-              setArchiveList([...updatedArchiveList]);
-              setPage(res.currentPage);
-              setTotalPages(res.totalPages);
-            }
-          }
-        } else {
-          // eslint-disable-next-line no-undef
-          alert(errorText);
-        }
-      } catch (e) {
-        mounted = false;
-        // eslint-disable-next-line no-undef
-        alert(errorText);
-      }
-    };
-    if (!isEmptyObj(submittedArchive)) {
-      // Don't run useEffect on first component load
-      submitArchive(submittedArchive, source).catch((e) => {});
-    }
-    return () => {
-      source.cancel("Canceled because user left the page");
-    };
-  }, [submittedArchive]);
   // Edit archive handler
   useEffect(() => {
     const errorText = "Terjadi kesalahan. Silahkan coba beberapa saat lagi";
@@ -75,8 +31,8 @@ export default function Archives() {
         if (res.status === 200) {
           // eslint-disable-next-line no-undef
           alert(successText);
-          const getRes = await getArchiveList(searchQuery, page, "", source);
-          if (!getRes.error) {
+          const getRes = await getArchiveExpired(page, source);
+          if (getRes.message === "OK") {
             const updatedArchiveList = getRes.data.map((archive) =>
               convertToClientJson(archive)
             );
@@ -116,8 +72,8 @@ export default function Archives() {
         if (res.status === 200) {
           // eslint-disable-next-line no-undef
           alert(successText);
-          const getRes = await getArchiveList(searchQuery, page, "", source);
-          if (!getRes.error) {
+          const getRes = await getArchiveExpired(page, source);
+          if (getRes.message === "OK") {
             const updatedArchiveList = getRes.data.map((archive) =>
               convertToClientJson(archive)
             );
@@ -152,10 +108,14 @@ export default function Archives() {
     console.log("search = ", searchQuery);
     let mounted = true; //handle mem. leak if user leave the page before task is finished
     let source = axios.CancelToken.source(); //cancel request if user leave the page
-    const handleGetArchiveList = async (searchQuery, page, filter, source) => {
-      const res = await getArchiveList(searchQuery, page, filter, source);
-
-      if (!res.error) {
+    const handleGetArchiveExpired = async (
+      searchQuery,
+      page,
+      filter,
+      source
+    ) => {
+      const res = await getArchiveExpired(searchQuery, page, filter, source);
+      if (res.message === "OK") {
         const updatedArchiveList = res.data.map((archive) =>
           convertToClientJson(archive)
         );
@@ -166,7 +126,7 @@ export default function Archives() {
         }
       }
     };
-    handleGetArchiveList(searchQuery, page, "", source).catch((e) => {});
+    handleGetArchiveExpired(page, source).catch((e) => {});
     return () => {
       mounted = false;
       source.cancel("Canceled because user left the page");
@@ -189,10 +149,6 @@ export default function Archives() {
     }
   };
 
-  const handleAddNewArchiveRequest = (newArchiveData) => {
-    setSubmittedArchive({ ...newArchiveData });
-  };
-
   const handleEditArchiveRequest = (editedArchive) => {
     setEditedArchive({ ...editedArchive });
   };
@@ -203,7 +159,7 @@ export default function Archives() {
 
   return (
     <AdminLayout section={section} title="Pengaturan Data Arsip">
-      <ArchiveTable
+      <ExpiedArchiveTable
         searchQuery={searchQuery}
         currentPage={page}
         totalPages={totalPages}
@@ -211,7 +167,6 @@ export default function Archives() {
         classification={Classification.klasifikasi}
         handleSearch={handleSearch}
         handlePageRequests={handlePageRequests}
-        handleAddRequests={handleAddNewArchiveRequest}
         handleEditRequests={handleEditArchiveRequest}
         handleDeleteRequests={handleDeleteArchiveRequest}
       />

@@ -42,6 +42,7 @@ const getDefaultServerArchiveMeta = (archive) => {
     lokasi_kegiatan: archive.location,
     keterangan: archive.description,
     waktu_kegiatan: archive.date,
+    waktu_hapus: archive.removeDate,
     lokasi_simpan_arsip: archive.archiveLocation,
     mime: archive.mime,
     filetoupload: archive.file,
@@ -71,6 +72,7 @@ const convertToServerPhotoArchive = (archive) => {
   const typeSpecificMeta = {
     activity_description: archive.activityDescription,
     photo_type: archive.photoType,
+    photographer: archive.photographer,
     photo_size: archive.photoSize,
     photo_condition: archive.photoCondition,
   };
@@ -97,6 +99,7 @@ const getDefaultClientArchiveMeta = (archive) => {
     location: archive.lokasi_kegiatan,
     description: archive.keterangan,
     date: archive.waktu_kegiatan,
+    removeDate: archive.waktu_hapus,
     archiveLocation: archive.lokasi_simpan_arsip,
     mime: archive.mime,
     file: archive.file,
@@ -129,6 +132,7 @@ const convertToClientPhotoArchive = (archive) => {
   const typeSpecificMeta = {
     activityDescription: archive[type].activity_description,
     photoType: archive[type].photo_type,
+    photographer: archive[type].photographer,
     photoSize: archive[type].photo_size,
     photoCondition: archive[type].photo_condition,
   };
