@@ -25,7 +25,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: "Montserrat",
+    fontFamily: "Segoe UI",
     body1: {
       fontSize: "14px"
     },
