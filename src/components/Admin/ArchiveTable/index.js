@@ -24,13 +24,7 @@ import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
 //PropTypes validation
 import PropTypes from 'prop-types';
 
-const InputCustomProps = {
-    endAdornment: (
-        <InputAdornment position="end">
-            <SearchIcon style={{cursor: "pointer"}}/>
-        </InputAdornment>
-    )
-};
+
 
 export default function ArchiveTable(props) {
     const classes = useStyles();
@@ -47,7 +41,7 @@ export default function ArchiveTable(props) {
     const currentPage = props.page;
     const totalPage = props.totalPages;
     const payload = props.archives;
-    const {handleAddRequests, handleEditRequests, handleDeleteRequests} = props;
+    const {handleAddRequests, handleEditRequests, handleDeleteRequests, handleSearch} = props;
     //Dynamic form data options
     const {classification} = props;
 
@@ -165,7 +159,7 @@ export default function ArchiveTable(props) {
                     label={"Cari Arsip"}
                     placeholder={"Masukkan Nama Arsip"}
                     type={"search"}
-                    InputProps={InputCustomProps}
+                    handleSearch={handleSearch}
                 />
                 <AddButton handleClick={handleOpenAddDialog}>Tambah Arsip</AddButton>
             </div>
@@ -260,6 +254,7 @@ ArchiveTable.propTypes = {
     totalPages: PropTypes.number,
     searchQuery: PropTypes.string,
     classification: PropTypes.array,
+    handleSearch: PropTypes.func,
     handlePageRequests: PropTypes.func,
     handleAddRequests: PropTypes.func,
     handleEditRequests: PropTypes.func,

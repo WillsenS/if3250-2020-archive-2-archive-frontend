@@ -151,7 +151,16 @@ export default function Archives() {
         return Object.keys(obj).length === 0;
     };
     const handlePageRequests = (val) => {
-        console.log(val);
+        console.log(typeof val, val);
+        if (val !== page) {
+            setPage(val);
+        }
+    };
+
+    const handleSearch = (val) => {
+        if (val.trim().length > 0) {
+            setSearchQuery(val);
+        }
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
@@ -183,6 +192,7 @@ export default function Archives() {
                 totalPages={totalPages}
                 archives={archiveList}
                 classification={Classification.klasifikasi}
+                handleSearch={handleSearch}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}
                 handleEditRequests={handleEditArchiveRequest}
