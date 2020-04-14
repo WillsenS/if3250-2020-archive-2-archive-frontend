@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -22,23 +22,27 @@ import {
   textArchiveObject,
 } from "../../../scheme/Archive";
 import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
-
+import moment from "moment";
+//PropTypes validation
 import PropTypes from "prop-types";
 
-export default function ExpiredArchiveTable(props) {
+export default function ArchiveTable(props) {
   const classes = useStyles();
 
   //Form Modal hooks
-  const [openDelDialog, setOpenDelDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openDetailDialog, setOpenDetailDialog] = useState(false);
+  const [openDelDialog, setOpenDelDialog] = React.useState(false);
+  const [openEditDialog, setOpenEditDialog] = React.useState(false);
+  const [openDetailDialog, setOpenDetailDialog] = React.useState(false);
 
   //Selected archive hooks
-  const [selectedArchive, setSelectedArchive] = useState(audioArchiveObject);
-
+  const [selectedArchive, setSelectedArchive] = React.useState(
+    audioArchiveObject
+  );
   //Read props from parent component
-  const { currentPage, totalPage, data } = props.archiveList;
-  const { handleEditRequests, handleDeleteRequests } = props;
+  const currentPage = props.page;
+  const totalPage = props.totalPages;
+  const payload = props.archives;
+  const { handleEditRequests, handleDeleteRequests, handleSearch } = props;
   //Dynamic form data options
   const { classification } = props;
 
@@ -131,33 +135,35 @@ export default function ExpiredArchiveTable(props) {
     }
   };
 
-  console.log(data);
+  moment.locale("id");
 
   return (
     <>
       <TableContainer component={Paper} className={classes.wrapper}>
-        <Table
-          className={classes.table}
-          aria-label="archive list table"
-          size="small"
-        >
+        <Table className={classes.table} aria-label="archive list table">
           <TableHead>
             <TableRow>
               <StyledTableCell>No</StyledTableCell>
               <StyledTableCell>Nama Arsip</StyledTableCell>
               <StyledTableCell>Skema Klasifikasi</StyledTableCell>
+              <StyledTableCell>Waktu Hapus</StyledTableCell>
               <StyledTableCell>Tipe Arsip</StyledTableCell>
               <StyledTableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {data ? (
-              data.map((archive, idx) => (
+            {payload ? (
+              payload.map((archive, idx) => (
                 <StyledTableRow key={idx} hover>
                   <StyledTableCell>{idx + 1}</StyledTableCell>
-                  <StyledTableCell>{archive.judul}</StyledTableCell>
-                  <StyledTableCell>{archive.pola}</StyledTableCell>
-                  <StyledTableCell>{getLabel(archive.tipe)}</StyledTableCell>
+                  <StyledTableCell>{archive.filename}</StyledTableCell>
+                  <StyledTableCell>
+                    {archive.classificationPattern}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {moment(archive.removeDate).format("LL")}
+                  </StyledTableCell>
+                  <StyledTableCell>{getLabel(archive.type)}</StyledTableCell>
                   <StyledTableCell>
                     <span style={{ display: "flex", justifyContent: "center" }}>
                       <DetailButton
@@ -220,10 +226,15 @@ export default function ExpiredArchiveTable(props) {
   );
 }
 
-ExpiredArchiveTable.propTypes = {
-  archiveList: PropTypes.array,
+ArchiveTable.propTypes = {
+  archives: PropTypes.array,
+  page: PropTypes.number,
+  totalPages: PropTypes.number,
+  searchQuery: PropTypes.string,
   classification: PropTypes.array,
+  handleSearch: PropTypes.func,
   handlePageRequests: PropTypes.func,
+  handleAddRequests: PropTypes.func,
   handleEditRequests: PropTypes.func,
   handleDeleteRequests: PropTypes.func,
 };
