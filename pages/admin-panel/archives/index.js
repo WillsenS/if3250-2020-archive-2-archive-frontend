@@ -24,12 +24,12 @@ export default function Archives() {
 
     // Add archive handler
     useEffect( () => {
-
         const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
         const successText = 'Arsip berhasil ditambahkan dan disimpan';
+        let source = axios.CancelToken.source(); //cancel request if user leave the page
         const submitArchive = async (archive) => {
             try {
-                const res = await postSubmitArchive(archive);
+                const res = await postSubmitArchive(archive, source);
                 if (res.status === 200) {
                     // eslint-disable-next-line no-undef
                     alert(successText);
@@ -45,16 +45,20 @@ export default function Archives() {
         };
         if (!isEmptyObj(submittedArchive)) {
             // Don't run useEffect on first component load
-            submitArchive(submittedArchive);
+            submitArchive(submittedArchive, source).catch(e => {});
         }
+        return  () => {
+            source.cancel('Canceled because user left the page');
+        };
     }, [submittedArchive]);
     // Edit archive handler
     useEffect( () => {
         const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
         const successText = 'Arsip berhasil dirubah';
-        const editArchive = async (archive) => {
+        let source = axios.CancelToken.source(); //cancel request if user leave the page
+        const editArchive = async (archive, source) => {
             try {
-                const res = await patchEditArchive(archive);
+                const res = await patchEditArchive(archive, source);
                 if (res.status === 200) {
                     // eslint-disable-next-line no-undef
                     alert(successText);
@@ -70,19 +74,32 @@ export default function Archives() {
         };
         if (!isEmptyObj(editedArchive)) {
             // Don't run useEffect on first component load
-            editArchive(editedArchive);
+            editArchive(editedArchive).catch(e => {});
         }
+        return  () => {
+            source.cancel('Canceled because user left the page');
+        };
     }, [editedArchive]);
     // Delete archive handler
     useEffect( () => {
         const errorText = 'Terjadi kesalahan. Silahkan coba beberapa saat lagi';
         const successText = 'Arsip berhasil dihapus';
-        const handleDeleteArchive = async (id) => {
+        let mounted = true; //handle mem. leak if user leave the page before task is finished
+        let source = axios.CancelToken.source(); //cancel request if user leave the page
+        const handleDeleteArchive = async (id, source) => {
             try {
-                const res = await deleteArchive(id);
+                const res = await deleteArchive(id, source);
                 if (res.status === 200) {
                     // eslint-disable-next-line no-undef
                     alert(successText);
+                    const getRes = await getArchiveList(searchQuery, page, '', source);
+                    if (getRes.message === 'OK') {
+                        const updatedArchiveList = getRes.data.map(archive => convertToClientJson(archive));
+                        console.log(updatedArchiveList);
+                        if (mounted) {
+                            setArchiveList([...updatedArchiveList]);
+                        }
+                    }
                 } else {
                     // eslint-disable-next-line no-undef
                     alert(errorText);
@@ -95,8 +112,12 @@ export default function Archives() {
         };
         if (deletedArchiveId) {
             // Don't run useEffect on first component load
-            handleDeleteArchive(deletedArchiveId);
+            handleDeleteArchive(deletedArchiveId, source).catch(e => {});
         }
+        return  () => {
+            mounted = false;
+            source.cancel('Canceled because user left the page');
+        };
     }, [deletedArchiveId]);
     // Search handler
     useEffect(() => {
@@ -105,10 +126,12 @@ export default function Archives() {
         const handleGetArchiveList = async (searchQuery, page, filter, source) => {
             if (searchQuery.length <= 0) return;
             const res = await getArchiveList(searchQuery, page, filter, source);
-            const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
-            console.log(updatedArchiveList);
-            if (mounted) {
-                setArchiveList([...updatedArchiveList]);
+            if (res.message === 'OK') {
+                const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
+                console.log(updatedArchiveList);
+                if (mounted) {
+                    setArchiveList([...updatedArchiveList]);
+                }
             }
         };
         handleGetArchiveList(searchQuery, page, '', source).catch(e => {});
@@ -117,7 +140,6 @@ export default function Archives() {
             source.cancel('Canceled because user left the page');
         };
     }, [searchQuery, page]);
-
 
 
     const isEmptyObj = obj => {

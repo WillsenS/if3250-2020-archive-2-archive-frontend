@@ -33,7 +33,6 @@ export const convertToClientJson = (archive) => {
 
 const getDefaultServerArchiveMeta = (archive) => {
   return {
-    _id: archive._id,
     judul: archive.filename,
     tipe: archive.type,
     nomor: archive.code,

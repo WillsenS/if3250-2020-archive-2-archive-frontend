@@ -101,13 +101,14 @@ export const postBorrowArchive = (token, payload) =>
   });
 
 
-export const postSubmitArchive =  async (submittedArchive) => {
+export const postSubmitArchive =  async (submittedArchive, source) => {
   try {
     const serverMetaArchive = convertToServerJson(submittedArchive);
     const url = `${defaultAPIURL}/upload`;
     const data = formBuilder(serverMetaArchive);
     const config = {
-      headers: {'content-type': 'multipart/form-data'}
+      cancelToken: source.token,
+      headers: {'content-type': 'multipart/form-data'},
     };
     return await axios.post(url, data, config);
   } catch (e) {
@@ -115,13 +116,14 @@ export const postSubmitArchive =  async (submittedArchive) => {
   }
 };
 
-export const patchEditArchive = async (editedArchive) => {
+export const patchEditArchive = async (editedArchive, source) => {
   try {
     const serverMetaArchive = convertToServerJson(editedArchive);
     const url = `${defaultAPIURL}/edit/${serverMetaArchive._id}`;
     const data = formBuilder(serverMetaArchive);
     const config = {
-      headers: {'content-type': 'multipart/form-data'}
+      headers: {'content-type': 'multipart/form-data'},
+      cancelToken: source.token
     };
     return await axios.patch(url, data, config);
   } catch (e) {
@@ -129,10 +131,10 @@ export const patchEditArchive = async (editedArchive) => {
   }
 };
 
-export const deleteArchive = async (archive) => {
+export const deleteArchive = async (archive, source) => {
   try {
     const url = `${defaultAPIURL}/delete/${archive._id}`;
-    return await axios.delete(url);
+    return await axios.delete(url, {cancelToken: source.token});
   } catch (e) {
     throw('Error deleting archive');
   }
