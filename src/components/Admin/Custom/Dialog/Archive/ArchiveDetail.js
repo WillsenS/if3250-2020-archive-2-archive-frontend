@@ -18,6 +18,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
  */
 
 const useStyles = makeStyles(() => ({
+    root: {
+        minWidth: '50%'
+    },
     remove: {
         backgroundColor: red[50],
         color: "#cb2431",
@@ -53,19 +56,37 @@ export default function ArchiveDetail(props) {
         handleClose();
     };
 
+    const getLabel = val => {
+        switch (val) {
+            case 'Audio':
+                return val;
+            case 'Video':
+                return val;
+            case 'Photo':
+                return 'Foto';
+            case 'Text':
+                return 'Tekstual';
+            default:
+                // console.log('Invalid Archive Data Type, No Label Specified');
+                break;
+        }
+    };
+
     return (
         <Dialog
             open={isOpen}
             onClose={handleClose}
             aria-labelledby="archive-detail"
             aria-describedby="list-archive-detail"
+            className={classes.root}
+            maxWidth={false}
             disableBackdropClick>
             {
                 deleteModal ? (
                     <DialogTitle id="archive-name" classes={{root: classes.redText}}>Konfirmasi Penghapusan
                         Arsip</DialogTitle>
                 ) : (
-                    <DialogTitle id="archive-name">Detail {archive.name}</DialogTitle>
+                    <DialogTitle id="archive-name">Detail <span style={{fontWeight: 'bold'}}>{archive.filename}</span></DialogTitle>
                 )
             }
             <DialogContent>
@@ -78,11 +99,15 @@ export default function ArchiveDetail(props) {
                     component="div"
                     role="list"
                 >
-                    <ArchiveListItem label="Nama Arsip" data={archive.name}/>
-                    <ArchiveListItem label="Tipe Arsip" data={archive.type}/>
+                    <ArchiveListItem label="Nama Arsip" data={archive.filename}/>
+                    <ArchiveListItem label="Tipe Arsip" data={getLabel(archive.type)}/>
                     <ArchiveListItem label="Kode Arsip" data={archive.code}/>
-                    <ArchiveListItem label="Pola Klasifikasi" data={`${archive.classificationPattern.kode} ${archive.classificationPattern.nama}`}/>
-                    <ArchiveListItem label="Hak Akses Arsip" data={archive.accessRightsList} />
+                    {
+                        archive.classificationPattern ? (
+                            <ArchiveListItem label="Pola Klasifikasi" data={archive.classificationPattern}/>
+                        ) : (<></>)
+                    }
+                    <ArchiveListItem label="Terbuka Untuk Umum" data={archive.forPublicOption === 1 ? 'Ya' : 'Tidak'} />
                     <ArchiveListItem label="Lokasi" data={archive.location}/>
                     <ArchiveListItem label="Deskripsi Arsip" data={archive.description}/>
                     <ArchiveListItem label="Tanggal Pembuatan Arsip" data={archive.date.toString()}/>
@@ -97,7 +122,7 @@ export default function ArchiveDetail(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Foto" ? (
+                        archive.type === "Photo" ? (
                             <>
                                 <ArchiveListItem label="Deskripsi Kegiatan pada Foto"
                                                  data={archive.activityDescription}/>
@@ -110,7 +135,7 @@ export default function ArchiveDetail(props) {
                         ) : (<></>)
                     }
                     {
-                        archive.type === "Tekstual" ? (
+                        archive.type === "Text" ? (
                             <>
                                 <ArchiveListItem label="Nomor Arsip Tekstual" data={archive.textualArchiveNumber}/>
                                 <ArchiveListItem label="Pembuat" data={archive.author}/>

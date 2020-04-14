@@ -1,26 +1,27 @@
 module.exports = {
   env: {
     es6: true,
-    node: true
+    node: true,
   },
   extends: ["eslint:recommended", "plugin:react/recommended"],
   globals: {
     Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    SharedArrayBuffer: "readonly",
   },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: "module"
+    sourceType: "module",
   },
   plugins: ["react"],
   rules: {
-    "no-unused-vars": [
-      1,
-      { vars: "all", args: "after-used", ignoreRestSiblings: false }
-    ],
-    "no-console": 2,
-  }
+    "no-console": "off",
+    "react/prop-types": 0,
+    "no-useless-escape": "off",
+    "no-async-promise-executor": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+  },
 };

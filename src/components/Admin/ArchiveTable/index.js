@@ -19,8 +19,7 @@ import RemoveButton from "../Custom/Button/RemoveButton";
 import Search from "../Custom/Input/Search";
 import AddButton from "../Custom/Button/AddButton";
 import FormArchive from "../Custom/Dialog/Archive/FormArchive";
-import {baseArchiveObjectTemplate} from "../../../scheme/Archive";
-import cleanObject from "../../../utils/CleanInput";
+import {audioArchiveObject, videoArchiveObject, photoArchiveObject, textArchiveObject} from "../../../scheme/Archive";
 import ArchiveDetail from "../Custom/Dialog/Archive/ArchiveDetail";
 //PropTypes validation
 import PropTypes from 'prop-types';
@@ -43,13 +42,13 @@ export default function ArchiveTable(props) {
     const [openDetailDialog, setOpenDetailDialog] = React.useState(false);
 
     //Selected archive hooks
-    const [selectedArchive, setSelectedArchive] = React.useState(baseArchiveObjectTemplate);
+    const [selectedArchive, setSelectedArchive] = React.useState(audioArchiveObject);
 
     //Read props from parent component
     const {currentPage, totalPage, payload} = props.archiveList;
     const {handleAddRequests, handleEditRequests, handleDeleteRequests} = props;
     //Dynamic form data options
-    const {classification, workUnitList, accessList} = props;
+    const {classification} = props;
 
     const handleOpenDetailDialog = (data) => {
         setSelectedArchive({...data});
@@ -82,7 +81,7 @@ export default function ArchiveTable(props) {
 
     const handleCloseEditDialog = () => {
         setOpenEditDialog(false);
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
 
@@ -95,16 +94,30 @@ export default function ArchiveTable(props) {
     };
 
 
-    const handleUpload = () => {
-        // eslint-disable-next-line no-undef
-        let fakePath = document.getElementById("archive-upload").value;
-        // eslint-disable-next-line no-useless-escape
-        fakePath = fakePath.replace(/.*[\/\\]/, "");
-        setSelectedArchive({...selectedArchive, name: fakePath});
+    const handleUpload = (file) => {
+        const fileUrl = URL.createObjectURL(file);
+        const filename = file.name;
+        const mime = file.type;
+        setSelectedArchive({...selectedArchive, file, filename, fileUrl, mime});
     };
 
     const handleArchiveTypeChange = event => {
-        setSelectedArchive({...selectedArchive, type: event.target.value});
+        switch (event.target.value) {
+            case 'Audio':
+                setSelectedArchive({...audioArchiveObject});
+                break;
+            case 'Video':
+                setSelectedArchive({...videoArchiveObject});
+                break;
+            case 'Text':
+                setSelectedArchive({...textArchiveObject});
+                break;
+            case 'Photo':
+                setSelectedArchive({...photoArchiveObject});
+                break;
+            default:
+                break;
+        }
     };
 
     const handleInput = (attr, val) => {
@@ -113,21 +126,36 @@ export default function ArchiveTable(props) {
     };
 
     const handleSubmitArchive = () => {
-        handleAddRequests(cleanObject({...selectedArchive}));
+        handleAddRequests({...selectedArchive});
         //Reset form
-        setSelectedArchive(baseArchiveObjectTemplate);
+        setSelectedArchive(audioArchiveObject);
     };
 
     const handleChangeArchive = () => {
-        handleEditRequests(cleanObject({...selectedArchive}));
-        setSelectedArchive(baseArchiveObjectTemplate);
+        handleEditRequests({...selectedArchive});
+        setSelectedArchive(audioArchiveObject);
     };
 
     const handleDeleteArchive = () => {
-        handleDeleteRequests(cleanObject({...selectedArchive}));
-        setSelectedArchive(baseArchiveObjectTemplate);
+        handleDeleteRequests({...selectedArchive});
+        setSelectedArchive(audioArchiveObject);
     };
 
+    const getLabel = val => {
+        switch (val) {
+            case 'Audio':
+                return val;
+            case 'Video':
+                return val;
+            case 'Photo':
+                return 'Foto';
+            case 'Text':
+                return 'Tekstual';
+            default:
+                // console.log('Invalid Archive Data Type, No Label Specified');
+                break;
+        }
+    };
 
     return (
         <>
@@ -154,14 +182,14 @@ export default function ArchiveTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {payload.map((archive, idx) => (
-                            <StyledTableRow key={archive.id} hover>
+                        {payload? payload.map((archive, idx) => (
+                            <StyledTableRow key={idx} hover>
                                 <StyledTableCell>{idx + 1}</StyledTableCell>
-                                <StyledTableCell>{archive.name}</StyledTableCell>
+                                <StyledTableCell>{archive.filename}</StyledTableCell>
                                 <StyledTableCell>
-                                    {archive.classificationScheme}
+                                    {archive.classificationPattern.kode}
                                 </StyledTableCell>
-                                <StyledTableCell>{archive.type}</StyledTableCell>
+                                <StyledTableCell>{getLabel(archive.type)}</StyledTableCell>
                                 <StyledTableCell>
                                     <span style={{display: "flex", justifyContent: "center"}}>
                                         <DetailButton handleClick={handleOpenDetailDialog} data={archive}/>
@@ -170,7 +198,7 @@ export default function ArchiveTable(props) {
                                     </span>
                                 </StyledTableCell>
                             </StyledTableRow>
-                        ))}
+                        )): <></>}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -184,8 +212,6 @@ export default function ArchiveTable(props) {
                 type="add"
                 archive={selectedArchive}
                 classification={classification}
-                workUnitList={workUnitList}
-                accessList={accessList}
                 title="Tambah Arsip Baru"
                 isOpen={openAddDialog}
                 handleClose={handleCloseAddDialog}
@@ -199,8 +225,6 @@ export default function ArchiveTable(props) {
                 type="edit"
                 archive={selectedArchive}
                 classification={classification}
-                workUnitList={workUnitList}
-                accessList={accessList}
                 title="Edit Arsip"
                 isOpen={openEditDialog}
                 handleClose={handleCloseEditDialog}
@@ -232,8 +256,6 @@ export default function ArchiveTable(props) {
 ArchiveTable.propTypes = {
     archiveList: PropTypes.object,
     classification: PropTypes.array,
-    workUnitList: PropTypes.array,
-    accessList: PropTypes.array,
     handlePageRequests: PropTypes.func,
     handleAddRequests: PropTypes.func,
     handleEditRequests: PropTypes.func,

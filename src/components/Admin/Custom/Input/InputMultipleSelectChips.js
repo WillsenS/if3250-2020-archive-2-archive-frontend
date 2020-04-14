@@ -42,15 +42,12 @@ function getStyles(name, data, theme) {
 export default function InputMultipleSelectChips(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [data, setData] = React.useState(props.defaultValue);
 
     const handleChange = (event) => {
-        setData(event.target.value);
         props.handleInput(props.id, event.target.value);
     };
 
     return (
-
 
         <FormControl className={classes.formControl}>
             <InputLabel id={`${props.slug}-arsip`}>{props.title}</InputLabel>
@@ -58,26 +55,25 @@ export default function InputMultipleSelectChips(props) {
                 labelId={`select-${props.slug}`}
                 id={`select-${props.slug}`}
                 multiple
-                value={data}
+                value={props.value}
                 onChange={handleChange}
                 input={<Input id={`${props.slug}`}/>}
                 renderValue={(selected) => (
                     <div className={classes.chips}>
                         {selected.map((value) => (
-                            <Chip key={value} label={props.data[value - 1].nama} className={classes.chip}/>
+                            <Chip key={value} label={props.defaultData[value - 1].nama} className={classes.chip}/>
                         ))}
                     </div>
                 )}
             >
                 {/*ID dan Nama adalah object properti dari data */}
-                {props.data.map((item) => (
-                    <MenuItem key={item.id} value={item.id} style={getStyles(item.nama, data, theme)}>
+                {props.defaultData.map((item) => (
+                    <MenuItem key={item.id} value={item.id} style={getStyles(item.nama, props.value, theme)}>
                         {item.nama}
                     </MenuItem>
                 ))}
             </Select>
         </FormControl>
-
     );
 }
 
@@ -85,8 +81,8 @@ export default function InputMultipleSelectChips(props) {
 InputMultipleSelectChips.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
-    data: PropTypes.array,
+    defaultData: PropTypes.array,
     slug: PropTypes.string,
     handleInput: PropTypes.func,
-    defaultValue: PropTypes.array,
+    value: PropTypes.array,
 };

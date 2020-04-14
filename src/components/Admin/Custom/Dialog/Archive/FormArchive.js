@@ -5,6 +5,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+//PropTypes validation
+import PropTypes from 'prop-types';
 import {
     makeStyles,
     Typography,
@@ -17,14 +19,14 @@ import {
 } from "@material-ui/core";
 import DatePicker from "../../DatePicker";
 import CustomTextField from "../../Input/CustomTextField";
-import DoubleMultiSelect from "../../Input/DoubleMultiSelect";
+import CustomRadio from "../../Input/CustomRadio";
 import archiveTypeList from "../../../constants/ArchiveType";
-import {ParseClassificationJsonArray} from "../../../../../utils/Fetcher";
+import {ParseClassificationJsonArray, FlattenClassificationJsonArray} from "../../../../../utils/Parser";
+import CustomAutocomplete from "../../Input/CustomAutocomplete";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
-//PropTypes validation
-import PropTypes from 'prop-types';
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
+
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -40,12 +42,18 @@ const useStyles = makeStyles(() => ({
 
 export default function FormArchive(props) {
     const classes = useStyles();
-    const [classification] = useState(ParseClassificationJsonArray(props.classification));
+    const [classification] = useState(FlattenClassificationJsonArray(ParseClassificationJsonArray(props.classification)));
+    const [errorSnackbar, setErrorSnackbar] = useState(false);
+
     const {isOpen, handleClose, archive} = props;
 
+
     const editMode = props.type === "edit";
-    const handleUpload = () => {
-        props.handleUpload();
+    const handleUpload = (event) => {
+        const file = event.target.files[0];
+        if (file != null) {
+            props.handleUpload(file);
+        }
     };
 
     const handleArchiveTypeChange = event => {
@@ -57,16 +65,44 @@ export default function FormArchive(props) {
     };
 
     const handleSubmitArchive = () => {
-        props.handleSubmitArchive();
-        handleClose();
+        if (isAllInputFilled()) {
+            props.handleSubmitArchive();
+            handleClose();
+        } else {
+            setErrorSnackbar(true);
+        }
+
+    };
+    const isAllInputFilled = () => {
+        for (const property in archive) {
+            if (property !== 'forPublicOption') {
+                if (!archive[property] || archive[property].length <= 0) {
+                    // console.log(property);
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    };
+    const handleAutoComplete = (id, val) => {
+         handleInput(id, val);
     };
 
-    const handleAutoComplete = (id, val) => {
-        if (val !== null) {
-            handleInput(id, val);
+    const getArchiveUploaderFilter = (type) => {
+        switch (type) {
+            case 'Audio':
+                return 'audio/*';
+            case 'Video':
+                return 'video/*';
+            case 'Text':
+                return '*';
+            case 'Photo':
+                return 'image/*';
+            default:
+                return '*';
         }
     };
-
     return (
         <div>
             <Dialog
@@ -80,26 +116,7 @@ export default function FormArchive(props) {
                     <DialogContentText>
                         Input data file yang akan ditambahkan
                     </DialogContentText>
-                    <Box>
-                        <input
-                            hidden
-                            accept="*"
-                            className={classes.input}
-                            id="archive-upload"
-                            type="file"
-                            onChange={handleUpload}
-                        />
-                        <label htmlFor="archive-upload">
-                            <Button variant="contained" color="primary" component="span">
-                                Upload Arsip
-                            </Button>
-                        </label>
-                        <Typography component="span">
-                            <Box fontWeight="fontWeightLight" m={1} component="span">
-                                {archive.name}
-                            </Box>
-                        </Typography>
-                    </Box>
+                    {/*Tipe Arsip*/}
                     <FormControl required className={classes.formControl}>
                         <InputLabel id="user-label">Tipe</InputLabel>
                         <Select
@@ -112,51 +129,118 @@ export default function FormArchive(props) {
                             {
                                 archiveTypeList.map(type => {
                                     return (
-                                        <MenuItem value={type.name} key={type.id}>{type.name}</MenuItem>
+                                        <MenuItem value={type.name} key={type.id}>{type.label}</MenuItem>
                                     );
                                 })
                             }
                         </Select>
                         <FormHelperText>Tipe Klasifikasi Dari Arsip </FormHelperText>
                     </FormControl>
-
+                    {/*Uploader File*/}
+                    <Box>
+                        <input
+                            hidden
+                            accept={getArchiveUploaderFilter(archive.type)}
+                            className={classes.input}
+                            id="archive-upload"
+                            type="file"
+                            onChange={(e) => handleUpload(e)}
+                        />
+                        <label htmlFor="archive-upload">
+                            <Button variant="contained" color="primary" component="span">
+                                Upload Arsip
+                            </Button>
+                        </label>
+                        <Typography component="span">
+                            <Box fontWeight="fontWeightLight" m={1} component="span">
+                                {archive.filename}
+                            </Box>
+                        </Typography>
+                    </Box>
                     {/* Metadata fields that exist on every archive type*/}
                     <CustomTextField
                         id="code"
                         label="Nomor Arsip"
-                        placeholder="AK/OA.AE.04/58 TODO: Ini yang mana ?"
+                        placeholder=""
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.code : ""}/>
-                    <Autocomplete
-                        //Get the selected classification pattern, for example DD.00.00.01
+                        value={archive.code}/>
+                    <CustomAutocomplete
                         id="classificationPattern"
-                        options={classification}
-                        getOptionLabel={(option) => option.kode + " " + option.nama}
-                        renderInput={(params) => <TextField {...params} label="Pola Klasifikasi"/>}
-                        onChange={(event, value) => {
-                            handleAutoComplete("classificationPattern", value)
-                        }}
-                        defaultValue={editMode ? archive.classificationPattern  : null}
+                        label="Pola Klasifikasi"
+                        classificationList={classification}
+                        handleAutoComplete={handleAutoComplete}
+                        value={archive.classificationPattern}
                     />
-                    <DoubleMultiSelect
-                        editMode={true}
-                        accessData={props.accessList}
-                        handleInput={props.handleInput}
-                        defaultValue={editMode? archive.accessRightsList: []}
-                    />
+
+                    <CustomRadio
+                        id="forPublicOption"
+                        label="Terbuka Untuk Umum?"
+                        value={parseInt(archive.forPublicOption)}
+                        handleInput={handleInput} />
 
                     <CustomTextField
                         id="location"
                         label="Tempat Kegiatan/Pembuatan"
                         placeholder="Senat Akademik ITB"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.location : ""}/>
+                        value={archive.location}/>
                     <CustomTextField
                         id="description"
                         label="Keterangan"
                         placeholder="-"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.description : ""}/>
+                        value={archive.description}
+                    />
+
+                    {/*Show extra fields depending on the selected archive type*/}
+                    {
+                        archive.type === "Audio" || archive.type === "Video" ? (
+                            <>
+                                <CustomTextField id="narrator" label="Narator" placeholder="-"
+                                                 handleInput={handleInput}
+                                                 value={archive.narrator}/>
+                                <CustomTextField id="reporter" label="Reporter" placeholder="-"
+                                                 handleInput={handleInput}
+                                                 value={archive.reporter}/>
+                            </>
+
+                        ) : (<></>)
+                    }
+                    {
+                        archive.type === "Photo" ? (
+                            <>
+                                <CustomTextField id="activityDescription" label="Deskripsi Kegiatan" placeholder="-"
+                                                 handleInput={handleInput}
+                                                 value={archive.activityDescription}/>
+                                <CustomTextField id="photographer" label="Fotografer" placeholder="-"
+                                                 handleInput={handleInput}
+                                                 value={archive.photographer}
+                                />
+                                <CustomTextField id="photoType" label="Jenis Foto" placeholder="Cetak (c)"
+                                                 handleInput={handleInput}
+                                                 value={archive.photoType}/>
+                                <CustomTextField id="photoSize" label="Ukuran Foto" placeholder="3R"
+                                                 handleInput={handleInput}
+                                                 value={archive.photoSize}/>
+                                <CustomTextField id="photoCondition" label="Kondisi Foto" placeholder="Baik"
+                                                 handleInput={handleInput}
+                                                 value={archive.photoCondition}/>
+                            </>
+
+                        ) : (<></>)
+                    }
+                    {
+                        archive.type === "Text" ? (
+                            <>
+                                <CustomTextField id="textualArchiveNumber" label="Nomor Arsip Tekstual" placeholder="5"
+                                                 handleInput={handleInput}
+                                                 value={archive.textualArchiveNumber}/>
+                                <CustomTextField id="author" label="Pembuat" placeholder="-" handleInput={handleInput}
+                                                 value={archive.author}/>
+                            </>
+
+                        ) : (<></>)
+                    }
                     <DatePicker
                         id="date"
                         handleInput={handleInput}
@@ -167,61 +251,7 @@ export default function FormArchive(props) {
                         label="Lokasi Simpan Arsip"
                         placeholder="AK1.L29"
                         handleInput={handleInput}
-                        defaultValue={editMode ? archive.archiveLocation : ""}/>
-                    <CustomTextField
-                        id="mime"
-                        label="Format File (Mime)"
-                        placeholder="Mp3, Audio,WAV"
-                        handleInput={handleInput}
-                        defaultValue={editMode ? archive.mime : ""}/>
-
-                    {/*Show extra fields depending on the selected archive type*/}
-                    {
-                        archive.type === "Audio" || archive.type === "Video" ? (
-                            <>
-                                <CustomTextField id="narrator" label="Narator" placeholder="-"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.narrator : ""}/>
-                                <CustomTextField id="reporter" label="Reporter" placeholder="-"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.reporter : ""}/>
-                            </>
-
-                        ) : (<></>)
-                    }
-                    {
-                        archive.type === "Foto" ? (
-                            <>
-                                <CustomTextField id="activityDescription" label="Deskripsi Kegiatan" placeholder="-"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.activityDescription : ""}/>
-                                <CustomTextField id="photographer" label="Fotografer" placeholder="-"
-                                                 handleInput={handleInput}/>
-                                <CustomTextField id="photoType" label="Jenis Foto" placeholder="Cetak (c)"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoType : ""}/>
-                                <CustomTextField id="photoSize" label="Ukuran Foto" placeholder="3R"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoSize : ""}/>
-                                <CustomTextField id="photoCondition" label="Kondisi Foto" placeholder="Baik"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.photoCondition : ""}/>
-                            </>
-
-                        ) : (<></>)
-                    }
-                    {
-                        archive.type === "Tekstual" ? (
-                            <>
-                                <CustomTextField id="textualArchiveNumber" label="Nomor Arsip Tekstual" placeholder="5"
-                                                 handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.textualArchiveNumber : ""}/>
-                                <CustomTextField id="author" label="Pembuat" placeholder="-" handleInput={handleInput}
-                                                 defaultValue={editMode ? archive.author : ""}/>
-                            </>
-
-                        ) : (<></>)
-                    }
+                        value={archive.archiveLocation}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
@@ -233,6 +263,21 @@ export default function FormArchive(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            {/*Error snackbar/ toast*/}
+            <Snackbar
+                open={errorSnackbar}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                key={`bottom center`}
+                autoHideDuration={3000}
+                onClose={() => {
+                    setErrorSnackbar(false)
+                }}>
+                <Alert onClose={() => {
+                    setErrorSnackbar(false)
+                }} severity="error">
+                    Isi Seluruh Input pada Form
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
@@ -241,8 +286,6 @@ FormArchive.propTypes = {
     type: PropTypes.string,
     archive: PropTypes.object,
     classification: PropTypes.array,
-    workUnitList: PropTypes.array,
-    accessList: PropTypes.array,
     title: PropTypes.string,
     isOpen: PropTypes.bool,
     isEdit: PropTypes.bool,

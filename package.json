@@ -18,6 +18,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "next": "latest",
     "next-images": "^1.3.1",
     "pdf-viewer-reactjs": "^2.0.5",
@@ -34,7 +36,7 @@
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "test": "echo \"test script is not configured\"",
-    "lint": "echo \"lint script is not configured\""
+    "lint": "./node_modules/.bin/eslint ."
   },
   "devDependencies": {
     "eslint": "^6.8.0",
