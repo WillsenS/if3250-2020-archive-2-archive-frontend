@@ -33,6 +33,7 @@ export const convertToClientJson = (archive) => {
 
 const getDefaultServerArchiveMeta = (archive) => {
   return {
+    _id: archive._id,
     judul: archive.filename,
     tipe: archive.type,
     nomor: archive.code,
@@ -87,6 +88,7 @@ const convertToServerTextArchive = (archive) => {
 
 const getDefaultClientArchiveMeta = (archive) => {
   return {
+    _id: archive._id,
     filename: archive.judul,
     type: archive.tipe,
     code: archive.nomor,
@@ -97,44 +99,48 @@ const getDefaultClientArchiveMeta = (archive) => {
     date: archive.waktu_kegiatan,
     archiveLocation: archive.lokasi_simpan_arsip,
     mime: archive.mime,
-    file: archive.filetoupload,
+    file: archive.file,
   };
 };
 
 const convertToClientAudioArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
+  const type = archive.tipe.toLowerCase();
   const typeSpecificMeta = {
-    narrator: archive.narrator,
-    reporter: archive.reporter,
+    narrator: archive[type].narrator,
+    reporter: archive[type].reporter,
   };
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
 const convertToClientVideoArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
+  const type = archive.tipe.toLowerCase();
   const typeSpecificMeta = {
-    narrator: archive.narrator,
-    reporter: archive.reporter,
+    narrator: archive[type].narrator,
+    reporter: archive[type].reporter,
   };
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
 const convertToClientPhotoArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
+  const type = archive.tipe.toLowerCase();
   const typeSpecificMeta = {
-    activityDescription: archive.activity_description,
-    photoType: archive.photo_type,
-    photoSize: archive.photo_size,
-    photoCondition: archive.photo_condition,
+    activityDescription: archive[type].activity_description,
+    photoType: archive[type].photo_type,
+    photoSize: archive[type].photo_size,
+    photoCondition: archive[type].photo_condition,
   };
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
 const convertToClientTextArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
+  const type = archive.tipe.toLowerCase();
   const typeSpecificMeta = {
-    textualArchiveNumber: archive.textual_archive_number,
-    author: archive.author,
+    textualArchiveNumber: archive[type].textual_archive_number,
+    author: archive[type].author,
   };
   return { ...defaultMeta, ...typeSpecificMeta };
 };
