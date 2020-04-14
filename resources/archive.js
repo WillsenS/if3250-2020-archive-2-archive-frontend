@@ -110,3 +110,31 @@ export const postSubmitArchive =  async (submittedArchive) => {
     throw('Error Adding Archive');
   }
 };
+
+export const patchEditArchive = async (editedArchive) => {
+  try {
+    const serverMetaArchive = convertToServerJson(editedArchive);
+    const url = `${defaultAPIURL}/edit/${serverMetaArchive._id}`;
+    const data = formBuilder(serverMetaArchive);
+    const config = {
+      headers: {'content-type': 'multipart/form-data'}
+    };
+    return await axios.patch(url, data, config);
+  } catch (e) {
+    throw('Error editing archive');
+  }
+};
+
+export const deleteArchive = async (archive) => {
+  try {
+    const url = `${defaultAPIURL}/delete/${archive._id}`;
+    const config = {
+      headers: {'content-type': 'multipart/form-data'}
+    };
+    return await axios.delete(url, config);
+  } catch (e) {
+    throw('Error deleting archive');
+  }
+};
+
+

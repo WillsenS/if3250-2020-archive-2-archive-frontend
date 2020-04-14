@@ -33,6 +33,7 @@ export const convertToClientJson = (archive) => {
 
 const getDefaultServerArchiveMeta = (archive) => {
   return {
+    _id: archive._id,
     judul: archive.filename,
     tipe: archive.type,
     nomor: archive.code,
@@ -87,6 +88,7 @@ const convertToServerTextArchive = (archive) => {
 
 const getDefaultClientArchiveMeta = (archive) => {
   return {
+    _id: archive._id,
     filename: archive.judul,
     type: archive.tipe,
     code: archive.nomor,

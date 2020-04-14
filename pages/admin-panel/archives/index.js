@@ -56,7 +56,7 @@ export default function Archives() {
 
     const handleEditArchiveRequest = (editedArchive) => {
         const filteredArchives = mockArchiveResponse.payload.filter(archive => (
-            archive.id !== editedArchive.id
+            archive._id !== editedArchive._id
         ));
         filteredArchives.push(editedArchive);
         mockArchiveResponse.payload = [...filteredArchives];
@@ -64,7 +64,7 @@ export default function Archives() {
 
     const handleDeleteArchiveRequest = (selectedArchive) => {
         mockArchiveResponse.payload = mockArchiveResponse.payload.filter(archive => (
-            archive.id !== selectedArchive.id
+            archive._id !== selectedArchive._id
         ));
     };
 
