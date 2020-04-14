@@ -12,6 +12,7 @@ import Layout from "../../../layout";
 import { StateUserContext } from "../../../reducers/user";
 import { defaultPublicURL } from "../../../config";
 
+import Viewer from "@phuocng/react-pdf-viewer";
 import _ from "lodash";
 import moment from "moment";
 
@@ -126,18 +127,36 @@ const Detail = (props) => {
 
   const userState = useContext(StateUserContext);
 
+  const showPicture = (
+    <div className={classes.frame}>
+      <img src={`${defaultPublicURL}${file.path}`} className={classes.image} />
+    </div>
+  );
+
+  const showDocument = (
+    <div
+      style={{
+        height: "400px",
+        width: "70%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      <Viewer fileUrl={`${defaultPublicURL}${file.path}`} defaultScale={100} />
+    </div>
+  );
+
   return (
     <>
       <Layout token={token}>
         <ThemeProvider theme={theme}>
           <Header user={userState.user} />
           <div className={classes.content}>
-            <div className={classes.frame}>
-              <img
-                src={`${defaultPublicURL}${file.path}`}
-                className={classes.image}
-              />
-            </div>
+            {archive.tipe === "Photo"
+              ? showPicture
+              : archive.tipe === "Text"
+              ? showDocument
+              : null}
             <Box className={classes.contentContainer}>
               {Object.keys(archive).map((key, idx) => (
                 <Box
