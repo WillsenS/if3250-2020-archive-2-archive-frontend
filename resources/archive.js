@@ -95,7 +95,6 @@ export const postBorrowArchive = (token, payload) =>
       reject(e);
     }
   });
-};
 
 
 export const postSubmitArchive =  async (submittedArchive) => {
