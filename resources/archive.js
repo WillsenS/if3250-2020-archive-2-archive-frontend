@@ -82,6 +82,33 @@ export const getLatestArchives = () =>
     }
   });
 
+export const downloadArchive = (archiveId, token, filename) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/archive/download/${archiveId}`;
+
+      const response = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+        responseType: "blob",
+      }).then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
 export const postBorrowArchive = (token, payload) =>
   new Promise(async (resolve, reject) => {
     try {
