@@ -141,3 +141,12 @@ export const deleteArchive = async (id, source) => {
 };
 
 
+export const getStatistic = async () => {
+  try {
+    const url = `${defaultAPIURL}/statistic`;
+    return await axios.get(url);
+  } catch (e) {
+    throw ("Error getting website statistic");
+  }
+};
+
