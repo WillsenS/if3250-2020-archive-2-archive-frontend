@@ -1,20 +1,23 @@
 import axios from "axios";
 import { defaultAPIURL } from "../config";
 import formBuilder from "../utils/FormBuilder";
-import {convertToClientJson, convertToServerJson} from "../utils/JsonConverter";
+import {convertToServerJson} from "../utils/JsonConverter";
 
 
 const validateStatus = () => true;
 axios.defaults.withCredentials = true;
 const withCredentials = true;
 
-export const getArchiveList = (searchQuery, currentPage, filter) =>
+export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
+    //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
     try {
       const url = `${defaultAPIURL}/search?q=${searchQuery}`;
       const filters = filter ? filter.join(","): null;
+      const cancelToken = sourceToken ? sourceToken.token: null;
       const { data: response } = await axios({
         url,
+        cancelToken,
         method: "GET",
         params: {
           page: currentPage,

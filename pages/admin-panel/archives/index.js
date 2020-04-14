@@ -4,6 +4,7 @@ import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import {postSubmitArchive, patchEditArchive, deleteArchive, getArchiveList} from "../../../resources/archive";
 import {convertToClientJson} from "../../../utils/JsonConverter";
+import axios from 'axios';
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -99,14 +100,22 @@ export default function Archives() {
     }, [deletedArchiveId]);
     // Search handler
     useEffect(() => {
-        const handleGetArchiveList = async (searchQuery, page) => {
+        let mounted = true; //handle mem. leak if user leave the page before task is finished
+        let source = axios.CancelToken.source(); //cancel request if user leave the page
+        const handleGetArchiveList = async (searchQuery, page, filter, source) => {
             if (searchQuery.length <= 0) return;
-            const res = await getArchiveList(searchQuery, page);
+            const res = await getArchiveList(searchQuery, page, filter, source);
             const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
             console.log(updatedArchiveList);
-            setArchiveList([...updatedArchiveList]);
+            if (mounted) {
+                setArchiveList([...updatedArchiveList]);
+            }
         };
-        handleGetArchiveList(searchQuery, page);
+        handleGetArchiveList(searchQuery, page, '', source).catch(e => {});
+        return  () => {
+            mounted = false;
+            source.cancel('Canceled because user left the page');
+        };
     }, [searchQuery, page]);
 
 
