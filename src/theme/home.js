@@ -7,56 +7,56 @@ const theme = createMuiTheme({
       black: "rgba(0, 0, 0, 0.87)",
       white: "#FFF",
       darkGray: "#292D35",
-      yellow: "#FFCE1F"
+      yellow: "#FFCE1F",
     },
     primary: {
       main: "#175389",
       light: "#4B9DD3",
-      bg: "#C4C4C4"
+      bg: "#C4C4C4",
     },
     warning: {
-      main: "#FFCE1F"
+      main: "#FFCE1F",
     },
     secondary: {
-      main: "#292D35"
+      main: "#292D35",
     },
     background: {
-      default: "#fafafa"
-    }
+      default: "#fafafa",
+    },
   },
   typography: {
-    fontFamily: "Segoe UI",
+    fontFamily: "'Montserrat', sans-serif",
     body1: {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     body2: {
       fontSize: "12px",
-      fontWeight: "600"
+      fontWeight: "600",
     },
     h1: {
       fontSize: "48px",
-      fontWeight: "fontWeightBold"
+      fontWeight: "fontWeightBold",
     },
     h2: {
-      fontSize: "32px"
+      fontSize: "32px",
     },
     h3: {
       fontSize: "24px",
-      fontWeight: "600"
+      fontWeight: "600",
     },
     h4: {
       fontSize: "18px",
-      fontWeight: "fontWeightBold"
+      fontWeight: "fontWeightBold",
     },
     h5: {
       fontSize: "14px",
-      fontWeight: "600"
+      fontWeight: "600",
     },
     h6: {
       fontSize: "14px",
-      fontWeight: "fontWeightBold"
-    }
-  }
+      fontWeight: "fontWeightBold",
+    },
+  },
 });
 
 export default theme;

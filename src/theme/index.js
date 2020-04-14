@@ -8,43 +8,43 @@ const theme = createMuiTheme({
       white: "#FFF",
       darkGray: "#292D35",
       lightGray: "#3D4148",
-      yellow: "#FFCE1F"
+      yellow: "#FFCE1F",
     },
     primary: {
       main: "#175389",
       light: "#4B9DD3",
-      bg: "#C4C4C4"
+      bg: "#C4C4C4",
     },
     warning: {
-      main: "#FFCE1F"
+      main: "#FFCE1F",
     },
     secondary: {
-      main: "#292D35"
+      main: "#292D35",
     },
     background: {
-      default: "#fafafa"
-    }
+      default: "#fafafa",
+    },
   },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
     body1: {
-      fontSize: "14px"
+      fontSize: "14px",
     },
     body2: {
-      fontSize: "12px"
+      fontSize: "12px",
     },
     h3: {
       fontSize: "18px",
-      fontWeight: "600"
+      fontWeight: "600",
     },
     h4: {
       fontSize: "14px",
-      fontWeight: "600"
+      fontWeight: "600",
     },
     h5: {
-      fontSize: "12px"
-    }
-  }
+      fontSize: "12px",
+    },
+  },
 });
 
 export default theme;
