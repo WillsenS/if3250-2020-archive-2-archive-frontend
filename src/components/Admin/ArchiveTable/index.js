@@ -43,9 +43,10 @@ export default function ArchiveTable(props) {
 
     //Selected archive hooks
     const [selectedArchive, setSelectedArchive] = React.useState(audioArchiveObject);
-
     //Read props from parent component
-    const {currentPage, totalPage, payload} = props.archiveList;
+    const currentPage = props.page;
+    const totalPage = props.totalPages;
+    const payload = props.archives;
     const {handleAddRequests, handleEditRequests, handleDeleteRequests} = props;
     //Dynamic form data options
     const {classification} = props;
@@ -169,7 +170,7 @@ export default function ArchiveTable(props) {
                 <AddButton handleClick={handleOpenAddDialog}>Tambah Arsip</AddButton>
             </div>
             <TableContainer component={Paper} className={classes.wrapper}>
-                <Table className={classes.table} aria-label="archive list table" size="small">
+                <Table className={classes.table} aria-label="archive list table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>No</StyledTableCell>
@@ -187,7 +188,7 @@ export default function ArchiveTable(props) {
                                 <StyledTableCell>{idx + 1}</StyledTableCell>
                                 <StyledTableCell>{archive.filename}</StyledTableCell>
                                 <StyledTableCell>
-                                    {archive.classificationPattern.kode}
+                                    {archive.classificationPattern}
                                 </StyledTableCell>
                                 <StyledTableCell>{getLabel(archive.type)}</StyledTableCell>
                                 <StyledTableCell>
@@ -254,7 +255,10 @@ export default function ArchiveTable(props) {
 
 
 ArchiveTable.propTypes = {
-    archiveList: PropTypes.object,
+    archives: PropTypes.array,
+    page: PropTypes.number,
+    totalPages: PropTypes.number,
+    searchQuery: PropTypes.string,
     classification: PropTypes.array,
     handlePageRequests: PropTypes.func,
     handleAddRequests: PropTypes.func,

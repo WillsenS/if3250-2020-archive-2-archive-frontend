@@ -19,6 +19,7 @@ export default function Archives() {
     const [deletedArchiveId, setDeletedArchiveId] = useState('');
     const [searchQuery, setSearchQuery] = useState('13517021'); // TODO: Jadiin empty string, sekarang apinya belum bisa query kosong
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const [archiveList, setArchiveList] = useState([]);
     const section = 3; // section: archive
 
@@ -98,6 +99,8 @@ export default function Archives() {
                         console.log(updatedArchiveList);
                         if (mounted) {
                             setArchiveList([...updatedArchiveList]);
+                            setPage(res.currentPage);
+                            setTotalPages(res.totalPages);
                         }
                     }
                 } else {
@@ -131,6 +134,8 @@ export default function Archives() {
                 console.log(updatedArchiveList);
                 if (mounted) {
                     setArchiveList([...updatedArchiveList]);
+                    setPage(res.currentPage);
+                    setTotalPages(res.totalPages);
                 }
             }
         };
@@ -146,8 +151,8 @@ export default function Archives() {
         return Object.keys(obj).length === 0;
     };
     const handlePageRequests = (val) => {
+        console.log(val);
     };
-
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
         mockArchiveResponse.payload.push(newArchiveData);
@@ -173,7 +178,10 @@ export default function Archives() {
     return (
         <AdminLayout section={section} title="Pengaturan Data Arsip">
             <ArchiveTable
-                archiveList={mockArchiveResponse}
+                searchQuery={searchQuery}
+                currentPage={page}
+                totalPages={totalPages}
+                archives={archiveList}
                 classification={Classification.klasifikasi}
                 handlePageRequests={handlePageRequests}
                 handleAddRequests={handleAddNewArchiveRequest}
