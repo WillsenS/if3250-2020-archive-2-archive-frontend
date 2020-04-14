@@ -51,8 +51,19 @@ const useStyles = makeStyles((theme) => ({
   yellow: {
     color: theme.palette.warning.main,
   },
+  titleyellow: {
+    color: theme.palette.warning.main,
+  },
   pagination: {
     padding: "16px 0",
+  },
+  image: {
+    maxWidth: "20%",
+    maxHeight: "20%",
+    display: "block",
+    objectFit: "contain",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 }));
 
@@ -87,16 +98,17 @@ const Welcome = (props) => {
         }}
       >
         <Box textAlign="center" margin="0 0 24px 0">
-          <Typography variant={isWidthDown("xs", data) ? "h4" : "h2"}>
-            SELAMAT DATANG DI
-          </Typography>
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+          <img
+            src="./static/img/logo-itb.png"
+            className={classes.image}
+          />
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
             ARCHIVE DIGITAL
           </Typography>
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
             INFORMATION CENTER
           </Typography>
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"}>
+          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
             INSTITUT TEKNOLOGI BANDUNG
           </Typography>
         </Box>
