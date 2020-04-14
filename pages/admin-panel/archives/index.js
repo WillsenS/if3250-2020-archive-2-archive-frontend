@@ -11,7 +11,7 @@ export default function Archives() {
     const [submittedArchive, setSubmittedArchive] = useState({});
     const [editedArchive, setEditedArchive] = useState({});
     const [deletedArchiveId, setDeletedArchiveId] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState('*');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [archiveList, setArchiveList] = useState([]);
@@ -140,6 +140,7 @@ export default function Archives() {
     // Search handler
     useEffect(() => {
         if (searchQuery.length <= 0) return;
+        console.log('search = ', searchQuery);
         let mounted = true; //handle mem. leak if user leave the page before task is finished
         let source = axios.CancelToken.source(); //cancel request if user leave the page
         const handleGetArchiveList = async (searchQuery, page, filter, source) => {
