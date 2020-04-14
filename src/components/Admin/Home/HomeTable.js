@@ -34,19 +34,25 @@ export default function HomeTable(props) {
                     <Table className={classes.table} aria-label="tabel statistik user">
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell className={classes.cell}>Total</StyledTableCell>
                                 {
-                                    props.dataList.map((data, index) => (
-                                        <StyledTableCell key={index} className={classes.cell}>{ data.nama }</StyledTableCell>
-                                    ))
+                                    props.dataList.items ? props.dataList.items.map((item, index) => (
+                                        <StyledTableCell key={index} className={classes.cell}>{ item.label }</StyledTableCell>
+                                    )) : (<></>)
                                 }
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <StyledTableRow>
                                 {
-                                    props.dataList.map((data, index) => (
-                                        <StyledTableCell key={index} className={classes.cell}>{ data.jumlah }</StyledTableCell>
-                                    ))
+                                  props.dataList.total ? (
+                                      <StyledTableCell  className={classes.cell}>{ props.dataList.total }</StyledTableCell>
+                                  ) : (<></>)
+                                }
+                                {
+                                    props.dataList.items ? props.dataList.items.map((item, index) => (
+                                        <StyledTableCell key={index} className={classes.cell}>{ item.number }</StyledTableCell>
+                                    )) : (<></>)
                                 }
                             </StyledTableRow>
                         </TableBody>
@@ -58,6 +64,6 @@ export default function HomeTable(props) {
 }
 
 HomeTable.propTypes = {
-    dataList: PropTypes.array,
+    dataList: PropTypes.object,
     title: PropTypes.string
 };
