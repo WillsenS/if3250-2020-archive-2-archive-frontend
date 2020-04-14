@@ -6,12 +6,6 @@ import {postSubmitArchive, patchEditArchive, deleteArchive, getArchiveList} from
 import {convertToClientJson} from "../../../utils/JsonConverter";
 import axios from 'axios';
 
-const mockArchiveResponse = {
-    currentPage: 1,
-    totalPage: 0,
-    payload: [],
-    status: 200
-};
 
 export default function Archives() {
     const [submittedArchive, setSubmittedArchive] = useState({});
@@ -164,23 +158,14 @@ export default function Archives() {
     };
 
     const handleAddNewArchiveRequest = (newArchiveData) => {
-        mockArchiveResponse.payload.push(newArchiveData);
         setSubmittedArchive({...newArchiveData});
     };
 
     const handleEditArchiveRequest = (editedArchive) => {
-        const filteredArchives = mockArchiveResponse.payload.filter(archive => (
-            archive._id !== editedArchive._id
-        ));
-        filteredArchives.push(editedArchive);
-        mockArchiveResponse.payload = [...filteredArchives];
         setEditedArchive({...editedArchive});
     };
 
     const handleDeleteArchiveRequest = (selectedArchive) => {
-        mockArchiveResponse.payload = mockArchiveResponse.payload.filter(archive => (
-            archive._id !== selectedArchive._id
-        ));
         setDeletedArchiveId(selectedArchive._id);
     };
 
