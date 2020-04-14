@@ -12,12 +12,13 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
   new Promise(async (resolve, reject) => {
     try {
       const url = `${defaultAPIURL}/search?q=${searchQuery}`;
+      const filters = filter ? filter.join(","): null;
       const { data: response } = await axios({
         url,
         method: "GET",
         params: {
           page: currentPage,
-          filters: filter ? filter.join(","): null,
+          filters
         },
         validateStatus,
       });
