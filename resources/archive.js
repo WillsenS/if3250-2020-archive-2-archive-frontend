@@ -17,7 +17,7 @@ export const getArchiveList = (searchQuery, currentPage, filter) =>
         method: "GET",
         params: {
           page: currentPage,
-          filters: filter.join(","),
+          filters: filter ? filter.join(","): null,
         },
         validateStatus,
       });
@@ -128,10 +128,7 @@ export const patchEditArchive = async (editedArchive) => {
 export const deleteArchive = async (archive) => {
   try {
     const url = `${defaultAPIURL}/delete/${archive._id}`;
-    const config = {
-      headers: {'content-type': 'multipart/form-data'}
-    };
-    return await axios.delete(url, config);
+    return await axios.delete(url);
   } catch (e) {
     throw('Error deleting archive');
   }
