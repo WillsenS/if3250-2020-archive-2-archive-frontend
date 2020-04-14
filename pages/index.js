@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Router from "next/router";
 import {
   Box,
@@ -10,6 +8,7 @@ import {
   Hidden,
   Container,
   Grid,
+  Link,
 } from "@material-ui/core";
 import theme from "../src/theme/home";
 import SearchIcon from "@material-ui/icons/Search";
@@ -19,7 +18,9 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 
 import Layout from "../layout";
+
 import { StateUserContext } from "../reducers/user";
+import { getLatestArchives } from "../resources/archive";
 
 const useStyles = makeStyles((theme) => ({
   newDocument: {
@@ -69,7 +70,7 @@ const Welcome = (props) => {
   const onSubmitForm = (event) => {
     event.preventDefault();
     Router.push({
-      pathname: "/search",
+      pathname: "/arsip/search",
       query: { q: searchQuery },
     });
   };
@@ -129,6 +130,56 @@ const HomepageContent = (props) => {
   const classes = useStyles();
   const data = props.width;
 
+  const { archives } = props;
+
+  const latestArchives = archives.map((val, idx) => (
+    <Box className={classes.pagination} key={`archive-${idx}`}>
+      <Typography variant="h6" color="primary">
+        <Link href={`/arsip/detail/${val._id}`} color="inherit">
+          {val.judul.toUpperCase()}
+        </Link>
+      </Typography>
+      <Typography variant="body2" className={classes.yellow}>
+        {val.nomor}
+      </Typography>
+      <Typography variant="body2">{val.keterangan}</Typography>
+      {/* <Typography variant="body2">
+        Bagian dari{" "}
+        <Box component="span" color="primary.light">
+          Kantor Arsip Institut Teknologi Bandung
+        </Box>
+      </Typography> */}
+    </Box>
+  ));
+
+  const arrMostSearch = [
+    "Administrasi",
+    "Surat Keputusan",
+    "Publikasi",
+    "Sekolah",
+    "Rektor",
+    "Institut Teknologi Bandung",
+    "STEI",
+  ];
+
+  const arrCategoty = ["Audio", "Photo", "Text", "Video"];
+
+  const mostSearch = arrMostSearch.map((val, idx) => (
+    <Typography variant="body1" key={`search-${idx}`}>
+      <Link href={`/arsip/search?q=${val}`} color="inherit">
+        {val}
+      </Link>
+    </Typography>
+  ));
+
+  const categoryList = arrCategoty.map((val, idx) => (
+    <Typography variant="body1" key={`category-${idx}`}>
+      <Link href={`/arsip/search?q=bung&tipe=${val}`} color="inherit">
+        {val}
+      </Link>
+    </Typography>
+  ));
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -139,20 +190,11 @@ const HomepageContent = (props) => {
                 <Typography variant="h4" className={classes.title}>
                   PENCARIAN
                 </Typography>
-                <Typography variant="body1">
-                  Administrasi <br />
-                  Sekolah/Fakultas <br />
-                  Surat Keputusan (SK) <br />
-                  Publikasi{" "}
-                </Typography>
+                {mostSearch}
                 <Typography variant="h4" className={classes.title2}>
                   Kategori
                 </Typography>
-                <Typography variant="body1">
-                  Dokumen Cetak <br />
-                  Foto/Gambar <br />
-                  Video{" "}
-                </Typography>
+                {categoryList}
               </Box>
             </Grid>
           </Hidden>
@@ -165,53 +207,9 @@ const HomepageContent = (props) => {
           >
             <Box>
               <Typography variant="h3" className={classes.title}>
-                DOKUMEN TERBARU
+                ARSIP TERBARU
               </Typography>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  11/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  12/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
-              <Box className={classes.pagination}>
-                <Typography variant="h6" color="primary">
-                  KEPUTUSAN MENTERI SYARAT MAHASISWA ASING UNTUK MENJADI
-                  MAHASISWA PERGURUAN TINGGI DI INDONESIA
-                </Typography>
-                <Typography variant="body2" className={classes.yellow}>
-                  12/K TAHUN 1998
-                </Typography>
-                <Typography variant="body2">
-                  Bagian dari{" "}
-                  <Box component="span" color="primary.light">
-                    Kantor Arsip Institut Teknologi Bandung
-                  </Box>
-                </Typography>
-              </Box>
+              {latestArchives}
             </Box>
           </Grid>
         </Grid>
@@ -223,6 +221,20 @@ const HomepageContent = (props) => {
 const Home = (props) => {
   const { token } = props;
   const userState = useContext(StateUserContext);
+  const [latestArchives, setLatestArchives] = useState([]);
+
+  const fetchLatestArchives = async () => {
+    try {
+      const response = await getLatestArchives();
+      setLatestArchives(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestArchives();
+  }, []);
 
   return (
     <>
@@ -230,7 +242,7 @@ const Home = (props) => {
         <ThemeProvider theme={theme}>
           <Header user={userState.user} />
           <Welcome width={props.width} />
-          <HomepageContent width={props.width} />
+          <HomepageContent width={props.width} archives={latestArchives} />
           <Footer />
         </ThemeProvider>
       </Layout>
@@ -239,7 +251,6 @@ const Home = (props) => {
 };
 
 Home.getInitialProps = ({ req }) => {
-  console.log(req.cookies);
   if (req && req.cookies) {
     return { token: req.cookies.token };
   } else {

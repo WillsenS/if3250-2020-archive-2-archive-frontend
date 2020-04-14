@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import { getArchiveList } from "../../resources/archive";
+import { getArchiveList } from "../../../resources/archive";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
-import Header from "../../src/components/Header";
-import Footer from "../../src/components/Footer";
-import Search from "../../src/components/Search";
-import SearchResult from "../../src/components/SearchResult";
-import FilterSearch from "../../src/components/FilterSearch";
-import theme from "../../src/theme";
-import { defaultPublicURL } from "../../config";
+import Header from "../../../src/components/Header";
+import Footer from "../../../src/components/Footer";
+import Search from "../../../src/components/Search";
+import SearchResult from "../../../src/components/SearchResult";
+import FilterSearch from "../../../src/components/FilterSearch";
+import theme from "../../../src/theme";
+import { defaultPublicURL } from "../../../config";
 
-import Layout from "../../layout";
-import { StateUserContext } from "../../reducers/user";
+import Layout from "../../../layout";
+import { StateUserContext } from "../../../reducers/user";
 
 const useStyles = makeStyles((theme) => ({
   result: {
@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
 const SearchPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  // const { token, query } = props;
-  const { q, page } = router.query;
+  const { q, page, tipe } = router.query;
 
   const [isSearch, setIsSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(q || "");
   const [currentPage, setCurrentPage] = useState(page || 1);
+  const [type, setType] = useState(tipe || "");
   const [filter, setFilter] = useState({});
   const [header, setHeader] = useState([]);
   const [filterCandidate, setFilterCandidate] = useState({});
@@ -55,24 +55,28 @@ const SearchPage = (props) => {
 
   const fetchArchiveList = async (searchQuery, currentPage, filter) => {
     try {
-      const f = [];
+      const arrFilter = [];
       Object.keys(filter).map((key) => {
         filter[key].map((val) => {
-          f.push(`${key}==${val}`);
+          arrFilter.push(`${key}==${val}`);
         });
       });
 
       router.replace(
         {
-          pathname: "/search",
+          pathname: "/arsip/search",
           query: { name: searchQuery, page: currentPage },
         },
-        `/search?${searchQuery ? `q=${searchQuery}` : ""}${
+        `/arsip/search?${searchQuery ? `q=${searchQuery}` : ""}${
           searchQuery && currentPage ? `&page=${currentPage}` : ""
         }`
       );
 
-      const response = await getArchiveList(searchQuery, currentPage, f);
+      const response = await getArchiveList(
+        searchQuery,
+        currentPage,
+        arrFilter
+      );
 
       setArchiveList(response.data);
       setTotalItems(response.count);
@@ -86,7 +90,8 @@ const SearchPage = (props) => {
       if (header.length === 0) {
         const h = [];
         Object.keys(response.filtersCandidate).map((key) => {
-          h.push(false);
+          if (filter["tipe"] && key === "tipe") h.push(true);
+          else h.push(false);
         });
         setHeader(h);
       }
@@ -98,6 +103,17 @@ const SearchPage = (props) => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  useEffect(() => {
+    if (tipe) {
+      let obj = { tipe: [tipe] };
+      setFilter({ ...obj });
+    }
+  }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
 
   useEffect(() => {
     fetchArchiveList(searchQuery, currentPage, filter);
@@ -114,7 +130,7 @@ const SearchPage = (props) => {
       id={archive._id}
       title={archive.judul}
       code={archive.nomor}
-      description={archive.keterangan}
+      description={archive.keamanan_terbuka ? archive.keterangan : null}
       image={
         archive.keamanan_terbuka
           ? `${defaultPublicURL}${archive.file.path}`

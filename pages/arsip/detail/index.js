@@ -3,14 +3,14 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Header from "../../src/components/Header";
-import Footer from "../../src/components/Footer";
-import theme from "../../src/theme/home";
-import { getArchiveDetail } from "../../resources/archive";
+import Header from "../../../src/components/Header";
+import Footer from "../../../src/components/Footer";
+import theme from "../../../src/theme/home";
+import { getArchiveDetail } from "../../../resources/archive";
 
-import Layout from "../../layout";
-import { StateUserContext } from "../../reducers/user";
-import { defaultPublicURL } from "../../config";
+import Layout from "../../../layout";
+import { StateUserContext } from "../../../reducers/user";
+import { defaultPublicURL } from "../../../config";
 
 import _ from "lodash";
 import moment from "moment";
@@ -77,7 +77,6 @@ const Detail = (props) => {
   const fetchArchiveDetail = async (archiveId, token) => {
     try {
       const response = await getArchiveDetail(archiveId, token);
-
       setFile(response.data.file);
 
       const notIncludedKey = [

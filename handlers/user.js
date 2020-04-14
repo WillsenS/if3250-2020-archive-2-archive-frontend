@@ -3,6 +3,7 @@
 const axios = require("axios");
 
 const { defaultAPIURL } = require("../config");
+const { defaultURL } = require("../config");
 
 const validateStatus = () => true;
 axios.defaults.withCredentials = true;
@@ -16,8 +17,6 @@ const withCredentials = true;
 exports.checkSSORedirect = () => {
   return async (req, res, next) => {
     const { ticket } = req.query;
-    const redirectURL = `https://${req.headers.host}${req.path}`;
-    // const redirectURL = `https://demoapp.my.id`;
 
     if (ticket != null) {
       try {
@@ -30,15 +29,13 @@ exports.checkSSORedirect = () => {
           withCredentials,
         });
 
-        console.log(response);
-
         res.cookie("token", response.token, { httpOnly: true });
 
-        return res.redirect(redirectURL);
+        return res.redirect(defaultURL);
       } catch (err) {
         console.error(err);
 
-        return res.redirect(redirectURL);
+        return res.redirect(defaultURL);
       }
     }
 

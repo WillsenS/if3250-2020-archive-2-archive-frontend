@@ -2,7 +2,7 @@ import React from "react";
 import {
   makeStyles,
   ThemeProvider,
-  withStyles
+  withStyles,
 } from "@material-ui/core/styles";
 import {
   FormControl,
@@ -10,58 +10,59 @@ import {
   FormGroup,
   Checkbox,
   Paper,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import theme from "../theme/index";
+import _ from "lodash";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   formLabel: {
-    color: theme.palette.common.darkGray
+    color: theme.palette.common.darkGray,
   },
   paper: {
-    minWidth: "100%"
+    minWidth: "100%",
   },
   formControl: {
     margin: "10px",
-    display: "block"
+    display: "block",
   },
   formControlLabel: {
-    marginTop: "-10px"
+    marginTop: "-10px",
   },
   header: {
     display: "inline-flex",
     marginBottom: "10px",
-    width: "100%"
+    width: "100%",
   },
   headerTitle: {
     display: "inline-block",
-    margin: "auto 0"
+    margin: "auto 0",
   },
   icon: {
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
   hidden: {
-    display: "none"
-  }
+    display: "none",
+  },
 }));
 
 const CustomCheckbox = withStyles({
   root: {
     color: theme.palette.common.yellow,
     "&$checked": {
-      color: theme.palette.common.yellow
-    }
+      color: theme.palette.common.yellow,
+    },
   },
-  checked: {}
-})(props => <Checkbox size="medium" color="default" {...props} />);
+  checked: {},
+})((props) => <Checkbox size="medium" color="default" {...props} />);
 
-const FilterSeach = props => {
+const FilterSeach = (props) => {
   const classes = useStyles();
   const { filterCandidate, filter, setFilter, header, setHeader } = props;
 
-  const handleChange = (key, val) => event => {
+  const handleChange = (key, val) => (event) => {
     if (event.target.checked) {
       filter[key] ? filter[key].push(val) : (filter[key] = [val]);
       setFilter({ ...filter });
@@ -77,19 +78,17 @@ const FilterSeach = props => {
     }
   };
 
-  const handleHeaderClick = idx => {
+  const handleHeaderClick = (idx) => {
     header[idx] = !header[idx];
     setHeader([...header]);
   };
-
-  console.log(header);
 
   const filters = Object.keys(filterCandidate).map((key, idx) => (
     <Paper square key={`paper-${idx}`} className={classes.paper}>
       <FormControl component="fieldset" className={classes.formControl}>
         <div className={classes.header} onClick={() => handleHeaderClick(idx)}>
           <Typography variant="h4" className={classes.headerTitle}>
-            {key}
+            {_.startCase(key)}
           </Typography>
           {header[idx] ? (
             <KeyboardArrowUpIcon className={classes.icon} />

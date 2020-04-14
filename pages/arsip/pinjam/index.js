@@ -1,27 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import Header from "../../src/components/Header";
-import Footer from "../../src/components/Footer";
-import theme from "../../src/theme/home";
+import Header from "../../../src/components/Header";
+import Footer from "../../../src/components/Footer";
+import theme from "../../../src/theme/home";
 import {
   Container,
+  IconButton,
   Button,
   Typography,
   Card,
   CardContent,
   TextField,
+  Collapse,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import CloseIcon from "@material-ui/icons/Close";
 
-import Layout from "../../layout";
-import { StateUserContext } from "../../reducers/user";
+import Layout from "../../../layout";
+import { StateUserContext } from "../../../reducers/user";
 
 import {
   isIndonesianNumber,
   validateEmail,
   normalizeIndonesiaPhoneNumber,
-} from "../../src/helper/validator";
+} from "../../../src/helper/validator";
 
-import { postBorrowArchive } from "../../resources/archive";
+import { postBorrowArchive } from "../../../resources/archive";
+import { getArchiveTitle } from "../../../resources/archive";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: "center",
+    marginBottom: "16px",
   },
   card: {
     width: "60%",
@@ -47,25 +53,40 @@ const useStyles = makeStyles((theme) => ({
 const Borrow = (props) => {
   const classes = useStyles();
 
-  const { token } = props;
+  const { archiveId, token } = props;
 
   const [phone, setPhone] = useState("");
+  const [title, setTitle] = useState("");
   const [errorPhone, setErrorPhone] = useState(false);
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState(false);
   const [reason, setReason] = useState("");
   const [errorReason, setErrorReason] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState("success");
+  const [alertText, setAlertText] = useState("");
 
-  const postNewBorrow = async () => {
+  const postNewBorrow = async (idArchive) => {
     try {
       const response = await postBorrowArchive(token, {
-        idArchive: "5e85ea7891ade8771757b56d",
+        idArchive: idArchive,
         phone,
         email,
         reason,
       });
 
-      console.log(response);
+      if (response.error) {
+        setSeverity("error");
+        setAlertText("Maaf, terjadi error saat mencatat permohonan Anda!");
+        setOpen(true);
+      } else {
+        setSeverity("success");
+        setAlertText("Permohonan Anda sudah tercatat!");
+        setOpen(true);
+        setPhone("");
+        setReason("");
+        setEmail("");
+      }
     } catch (err) {
       console.error(err);
     }
@@ -110,10 +131,23 @@ const Borrow = (props) => {
       valid = false;
     }
 
-    if (valid) postNewBorrow();
+    if (valid) postNewBorrow(archiveId);
   };
 
   const userState = useContext(StateUserContext);
+
+  const fetchArchiveTitle = async (archiveId) => {
+    try {
+      const response = await getArchiveTitle(archiveId);
+      setTitle(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchArchiveTitle(archiveId);
+  }, []);
 
   return (
     <Layout token={token}>
@@ -127,12 +161,34 @@ const Borrow = (props) => {
             Silahkan hubungi kami dengan melengkapi formulir di bawah.
           </Typography>
           <Card className={classes.card}>
+            <div>
+              <Collapse in={open}>
+                <Alert
+                  variant="outlined"
+                  severity={severity}
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                >
+                  {alertText}
+                </Alert>
+              </Collapse>
+            </div>
             <CardContent>
               <Typography className={classes.title}>
                 Formulir Permohonan Arsip Digital
               </Typography>
               <Typography variant="h5" component="h2">
-                Arsip Digital :
+                {`Arsip Digital : ${title}`}
               </Typography>
               <TextField
                 error={errorPhone}
@@ -181,8 +237,9 @@ const Borrow = (props) => {
   );
 };
 
-Borrow.getInitialProps = ({ req }) => {
-  return req.cookies ? { token: req.cookies.token } : {};
+Borrow.getInitialProps = ({ req, query }) => {
+  if (req && req.cookies) return { ...query, token: req.cookies.token };
+  else return query;
 };
 
 export default Borrow;

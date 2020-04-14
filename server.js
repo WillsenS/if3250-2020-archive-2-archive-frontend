@@ -11,6 +11,7 @@ const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const { checkSSORedirect } = require("./handlers/user");
 const { defaultURL } = require("./config");
+const { getAuthArchive } = require("./resources/auth");
 
 nextApp
   .prepare()
@@ -31,13 +32,27 @@ nextApp
       return res.redirect("/not-found");
     });
 
-    app.get("/detail/:archiveId", (req, res) => {
+    app.get("/arsip/detail/:archiveId", async (req, res) => {
       const query = {
         ...req.params,
         ...req.query,
       };
 
-      return nextApp.render(req, res, "/detail", query);
+      const token = req && req.cookies ? req.cookies.token : null;
+      const { archiveId } = req.params;
+
+      const response = await getAuthArchive(archiveId, token);
+
+      if (response.error) {
+        switch (response.error.code) {
+          case 401:
+            return nextApp.render(req, res, "/arsip/pinjam", query);
+          default:
+            break;
+        }
+      } else {
+        return nextApp.render(req, res, "/arsip/detail", query);
+      }
     });
 
     app.use((req, res, next) => {
