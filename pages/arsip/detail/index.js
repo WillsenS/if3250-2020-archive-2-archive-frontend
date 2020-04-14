@@ -142,7 +142,7 @@ const Detail = (props) => {
         marginRight: "auto",
       }}
     >
-      <Viewer fileUrl={`${defaultPublicURL}${file.path}`} defaultScale={100} />
+      <Viewer fileUrl={`${defaultPublicURL}${file.path}`} defaultScale={1} />
     </div>
   );
 

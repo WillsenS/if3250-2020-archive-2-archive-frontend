@@ -99,17 +99,23 @@ const Welcome = (props) => {
         }}
       >
         <Box textAlign="center" margin="0 0 24px 0">
-          <img
-            src="./static/img/logo-itb.png"
-            className={classes.image}
-          />
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
+          <img src="./static/img/logo-itb.png" className={classes.image} />
+          <Typography
+            variant={isWidthDown("xs", data) ? "h3" : "h1"}
+            className={classes.yellow}
+          >
             ARCHIVE DIGITAL
           </Typography>
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
+          <Typography
+            variant={isWidthDown("xs", data) ? "h3" : "h1"}
+            className={classes.yellow}
+          >
             INFORMATION CENTER
           </Typography>
-          <Typography variant={isWidthDown("xs", data) ? "h3" : "h1"} className={classes.yellow}>
+          <Typography
+            variant={isWidthDown("xs", data) ? "h3" : "h1"}
+            className={classes.yellow}
+          >
             INSTITUT TEKNOLOGI BANDUNG
           </Typography>
         </Box>
