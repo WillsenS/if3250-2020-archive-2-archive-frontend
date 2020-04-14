@@ -6,12 +6,13 @@ import Button from "@material-ui/core/Button";
 import Header from "../../../src/components/Header";
 import Footer from "../../../src/components/Footer";
 import theme from "../../../src/theme/home";
-import { getArchiveDetail } from "../../../resources/archive";
+import { getArchiveDetail, downloadArchive } from "../../../resources/archive";
 
 import Layout from "../../../layout";
 import { StateUserContext } from "../../../reducers/user";
 import { defaultPublicURL } from "../../../config";
 
+import Viewer from "@phuocng/react-pdf-viewer";
 import _ from "lodash";
 import moment from "moment";
 
@@ -74,6 +75,10 @@ const Detail = (props) => {
   const [archive, setArchive] = useState({});
   const [file, setFile] = useState({});
 
+  const handleDownload = async () => {
+    await downloadArchive(archiveId, token, file.filename);
+  };
+
   const fetchArchiveDetail = async (archiveId, token) => {
     try {
       const response = await getArchiveDetail(archiveId, token);
@@ -126,18 +131,36 @@ const Detail = (props) => {
 
   const userState = useContext(StateUserContext);
 
+  const showPicture = (
+    <div className={classes.frame}>
+      <img src={`${defaultPublicURL}${file.path}`} className={classes.image} />
+    </div>
+  );
+
+  const showDocument = (
+    <div
+      style={{
+        height: "400px",
+        width: "70%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      <Viewer fileUrl={`${defaultPublicURL}${file.path}`} defaultScale={1} />
+    </div>
+  );
+
   return (
     <>
       <Layout token={token}>
         <ThemeProvider theme={theme}>
           <Header user={userState.user} />
           <div className={classes.content}>
-            <div className={classes.frame}>
-              <img
-                src={`${defaultPublicURL}${file.path}`}
-                className={classes.image}
-              />
-            </div>
+            {archive.tipe === "Photo"
+              ? showPicture
+              : archive.tipe === "Text"
+              ? showDocument
+              : null}
             <Box className={classes.contentContainer}>
               {Object.keys(archive).map((key, idx) => (
                 <Box
@@ -152,7 +175,12 @@ const Detail = (props) => {
                 </Box>
               ))}
               <Box className={classes.buttonArea}>
-                <Button variant="contained" color="primary" size="small">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={handleDownload}
+                >
                   Unduh
                 </Button>
               </Box>
