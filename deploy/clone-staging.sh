@@ -2,7 +2,6 @@
 
 set -e
 
-# Delete the old repository folder
 sudo su
 
 chmod 755 /home/ubuntu/archive-frontend/
@@ -14,6 +13,7 @@ pm2 delete frontend
 
 cd /home/ubuntu/
 
+# Delete the old repository folder
 rm -rf /home/ubuntu/archive-frontend/
 
 # Clone the github repository staging branch (usually develop)
