@@ -3,6 +3,7 @@ import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import {postSubmitArchive, patchEditArchive, deleteArchive, getArchiveList} from "../../../resources/archive";
+import {convertToClientJson} from "../../../utils/JsonConverter";
 
 const mockArchiveResponse = {
     currentPage: 1,
@@ -17,6 +18,7 @@ export default function Archives() {
     const [deletedArchiveId, setDeletedArchiveId] = useState('');
     const [searchQuery, setSearchQuery] = useState('13517021'); // TODO: Jadiin empty string, sekarang apinya belum bisa query kosong
     const [page, setPage] = useState(1);
+    const [archiveList, setArchiveList] = useState([]);
     const section = 3; // section: archive
 
     // Add archive handler
@@ -100,8 +102,9 @@ export default function Archives() {
         const handleGetArchiveList = async (searchQuery, page) => {
             if (searchQuery.length <= 0) return;
             const res = await getArchiveList(searchQuery, page);
-            console.log('getArchiveList response: ');
-            console.log(res);
+            const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
+            console.log(updatedArchiveList);
+            setArchiveList([...updatedArchiveList]);
         };
         handleGetArchiveList(searchQuery, page);
     }, [searchQuery, page]);
