@@ -1,121 +1,155 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import AdminLayout from "../../../src/components/Admin/Layout";
 import AdminTable from "../../../src/components/Admin/AdminTable";
+import {getAdmins, getNonAdmins, patchEditUserRole, patchResetRoleToDefault} from "../../../resources/user";
+import axios from "axios";
 
 
-const ADMIN = 2;
-const SUPERADMIN = 3;
-const mockAdminListResponse = { //response data perhalaman
-    currentPage: 1,
-    totalPage: 3,
-    payload: [
-        {
-            id: 1,
-            name: "Adama Ardianto A.",
-            faculty: "FTMD",
-            access: ADMIN
-        },
-        {
-            id: 2,
-            name: "Bagas Bumiputra B.",
-            faculty: "STEI",
-            access: SUPERADMIN
-        },
-        {
-            id: 3,
-            name: "Candra C.",
-            faculty: "FMIPA",
-            access: ADMIN
-        },
-        {
-            id: 4,
-            name: "Datuk Dimas D.",
-            faculty: "SBM",
-            access: ADMIN
-        },
-        {
-            id: 5,
-            name: "Elang Emir E.",
-            faculty: "FTTM",
-            access: ADMIN
+
+function AdminUsers(props) {
+    const [admins, setAdmins] = useState(props.admins ? props.admins.data: []);
+    const [users, setUsers] = useState(props.users ? props.users.data: []);
+    const [actionSet, setActionSet] = useState({
+       userId: "",
+       roleId: 0,
+       action: 0
+    });
+    const [page, setPage] = useState(props.admins? props.admins.currentPage : 1);
+    const [totalPages, setTotalPages] = useState(props.admins? props.admins.totalPages : 0);
+    const section = 2; //Section: Admin
+    const IDLE = 0;
+    const CHANGE_ADMIN = 1;
+    const DELETE_ADMIN = 2;
+
+    //Update tables after CRD operation
+    const updateTables = async (role_id, pages) => {
+        const [res1, res2] = await Promise.all([
+            getAdmins(role_id, pages), getNonAdmins()
+        ]);
+        if (res1.status === 200 && res2.status === 200) {
+            setAdmins(res1.data.data);
+            setUsers(res2.data.data);
+            setPage(res1.data.currentPage);
+            setTotalPages(res1.data.totalPages);
+            setActionSet({userId: "", roleId: 0, action: IDLE});
         }
-    ],
-    status: 200
-};
-const mockUserListResponse = {
-    payload: [
-        {
-            id: 6,
-            name: "Abda Shaffan D"
-        },
-        {
-            id: 7,
-            name: "Harry Rahmadi M."
-        },
-        {
-            id: 8,
-            name: "Willsen Sentosa"
-        },
-        {
-            id: 9,
-            name: "M. Hendry P."
-        },
-        {
-            id: 10,
-            name: "Juniardi Akbar"
-        },
-    ],
-    status: 200
-};
+    };
 
-export default function AdminUsers() {
-    const section = 2;
+    //Change access handler
+    useEffect(() => {
+        let mounted = true;
+        let source = axios.CancelToken.source();
+        const changeAdminAccess = async (user_id, role_id, action, source) => {
+          try {
+              let res;
+              if (action === CHANGE_ADMIN) {
+                  res = await patchEditUserRole(user_id, role_id, source);
+              } else if (action === DELETE_ADMIN) {
+                  res = await patchResetRoleToDefault(user_id, source);
+              } else {
+                  return;
+              }
+              if (res.status === 200) {
+                  alert('Berhasil mengubah role user');
+                  setActionSet({...actionSet, action: IDLE});
+                  await updateTables();
+              } else {
+                  alert('Gagal mengubah role user');
+              }
+          }  catch (e) {
+              alert('Gagal mengubah role user');
+          }
+        };
+
+        if (actionSet.action !== IDLE) changeAdminAccess(
+            actionSet.userId,
+            actionSet.roleId,
+            actionSet.action,
+            source
+        ).catch(e => {});
+
+        return () => {
+            mounted = false;
+            source.cancel('Req. cancelled because user left the page');
+        }
+    },[actionSet]);
+
+    //pagination handler
+    useEffect( () => {
+        const handlePagination = async () => {
+            await updateTables(null, page);
+        };
+        handlePagination();
+    },[page]);
 
     const handlePageRequest = (val) => {
-        mockAdminListResponse.currentPage = val;
+        console.log(val);
+        setPage(parseInt(val));
     };
 
-    const handleAddNewAdminRequest = (newAdminData) => {
-        //TODO: Ganti pake request ke backend
-        mockAdminListResponse.payload.push(newAdminData);
-        const temp = mockUserListResponse.payload.filter((user) => {
-            return user.name.trim() !== newAdminData.name.trim();
-        });
-        mockUserListResponse.payload = [...temp];
+    const handleSearch = (val) => {
+        console.log(val);
+        // TODO: Tembak Backend (route?)
     };
 
-    const handleDeleteAdminRequest = (deletedAdminData) => {
-        const temp = mockAdminListResponse.payload.filter((user) => {
-            return user.name.trim() !== deletedAdminData.name.trim();
-        });
-        mockAdminListResponse.payload = [...temp];
-
-        //Push deleted admin back to ordinary user list
-        mockUserListResponse.payload.push({
-            id: deletedAdminData.id,
-            name: deletedAdminData.name,
-        })
+    const handleAddNewAdminRequest = (userId, roleId) => {
+        setActionSet({userId, roleId, action: CHANGE_ADMIN});
     };
 
-    const handleEditAdminRequest = (editedAdminData) => {
-        const filteredTemp = mockAdminListResponse.payload.filter((user) => {
-            return user.name.trim() !== editedAdminData.name.trim();
-        });
-        filteredTemp.push(editedAdminData);
-        mockAdminListResponse.payload = [...filteredTemp];
+    const handleDeleteAdminRequest = (userId) => {
+        setActionSet({userId, roleId: 0, action: DELETE_ADMIN});
+    };
+
+    const handleEditAdminRequest = (userId, roleId) => {
+        setActionSet({userId, roleId, action: CHANGE_ADMIN});
     };
 
     return (
         <AdminLayout section={section} title="Pengaturan Data Admin">
-            <AdminTable
-                dataAdmin={mockAdminListResponse}
-                dataUser={mockUserListResponse}
-                handlePageRequest={handlePageRequest}
-                handleAddNewDataRequest={handleAddNewAdminRequest}
-                handleDeleteDataRequest={handleDeleteAdminRequest}
-                handleEditDataRequest={handleEditAdminRequest}
-            />
+            {
+                props.admins && props.users ? (
+                    <AdminTable
+                        dataAdmin={admins}
+                        dataUser={users}
+                        page={page}
+                        totalPages={totalPages}
+                        handlePageRequest={handlePageRequest}
+                        handleAddNewDataRequest={handleAddNewAdminRequest}
+                        handleDeleteDataRequest={handleDeleteAdminRequest}
+                        handleEditDataRequest={handleEditAdminRequest}
+                        handleSearch={handleSearch}
+                    />
+                ) : (
+                    <span>{ props.error }</span>
+                )
+            }
+
         </AdminLayout>
     );
 }
+
+AdminUsers.getInitialProps = async () => {
+    try {
+        const [res1, res2] = await Promise.all([
+            getAdmins(), getNonAdmins()
+        ]);
+        if (res1.status === 200 && res2.status === 200) {
+            return {
+                admins: res1.data,
+                users: res2.data
+            }
+        }
+        else {
+            return {
+                error: "Gagal memuat data admin"
+            }
+        }
+    } catch (e) {
+        return {
+            error: "Gagal memuat data admin"
+        }
+    }
+};
+
+export default AdminUsers;

@@ -14,7 +14,8 @@ import {
     FormHelperText,
     Box
 } from "@material-ui/core";
-import FacultyList from "../../../constants/Faculty";
+import Role from '../../../../../scheme/Unit';
+
 
 //PropTypes validation
 import PropTypes from 'prop-types';
@@ -56,30 +57,29 @@ const useStyles = makeStyles(theme => ({
 export default function EditAdminDialog(props) {
     const {open, handleClose, handleEdit} = props;
     const classes = useStyles();
-    const [name, setName] = React.useState("");
-    const [faculty, setFaculty] = React.useState("");
+    const [userId, setUserId] = React.useState(props.data._id ? props.data._id : "");
+    const [roleId, setRoleId] = React.useState(props.data.role ? props.data.role : "");
 
-    const handleNameChange = event => {
-        setName(event.target.value);
+
+    const handleUserSelected = event => {
+        setUserId(event.target.value);
     };
 
-    const handleFacultyChange = event => {
-        setFaculty(event.target.value);
+    const handleUnitSelected = event => {
+        setRoleId(event.target.value);
     };
 
-    const handleEditClick = editedAdmin => {
-        handleEdit({
-            name: editedAdmin.name,
-            faculty,
-            access: editedAdmin.access
-        });
-        handleClose();
-        setName("");
-        setFaculty("");
+    const handleEditClick = () => {
+        if (roleId) {
+            handleEdit(props.data._id, roleId);
+            handleClose();
+        } else {
+            alert('Pilih role untuk user');
+        }
+
     };
 
     const handleCloseClick = () => {
-        setFaculty("");
         handleClose();
     };
 
@@ -104,27 +104,27 @@ export default function EditAdminDialog(props) {
                             <Select
                                 labelId="pilih-user"
                                 id="pilih-user"
-                                value={name}
-                                onChange={handleNameChange}
+                                value=''
+                                onChange={handleUserSelected}
                                 displayEmpty
                             >
-                                <MenuItem value="">{props.data.name}</MenuItem>
+                                <MenuItem value="">{props.data.fullname}</MenuItem>
                             </Select>
                         </FormControl>
                         <FormControl required className={classes.formControl}>
-                            <InputLabel shrink id="pilih-fakultas">
-                                Fakultas
+                            <InputLabel shrink id="pilih-unit-kerja">
+                                Unit Kerja
                             </InputLabel>
                             <Select
-                                labelId="pilih-fakultas"
-                                id="pilih-fakultas"
-                                value={faculty}
-                                onChange={handleFacultyChange}
+                                labelId="pilih-unit-kerja"
+                                id="pilih-unit-kerja"
+                                value={roleId}
+                                onChange={handleUnitSelected}
                                 displayEmpty
                             >
                                 {
-                                    FacultyList.map(faculty => (
-                                        <MenuItem value={faculty.name} key={faculty.code}>{faculty.name}</MenuItem>
+                                    Role.map(r => (
+                                        <MenuItem value={r._id} key={r._id}>{r.label}</MenuItem>
                                     ))
                                 }
                             </Select>

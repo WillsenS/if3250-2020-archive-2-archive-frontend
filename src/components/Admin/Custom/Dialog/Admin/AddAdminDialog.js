@@ -13,10 +13,10 @@ import {
     MenuItem,
     FormHelperText
 } from "@material-ui/core";
+import Role from '../../../../../scheme/Unit';
 
 //PropTypes validation
 import PropTypes from 'prop-types';
-import Faculty from "../../../constants/Faculty";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,25 +48,23 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AddAdminDialog(props) {
-    const {open, handleClose, userList, handleAddNewDataRequest} = props;
+    const [userId, setUserId] = React.useState("");
+    const [roleId, setRoleId] = React.useState("");
     const classes = useStyles();
-    const [name, setName] = React.useState("");
-    const [faculty, setFaculty] = React.useState("");
+    const {open, handleClose, userList, handleAddNewDataRequest} = props;
 
     const handleNameChange = event => {
-        setName(event.target.value.trim());
+        setUserId(event.target.value);
     };
 
-    const handleFacultyChange = event => {
-        setFaculty(event.target.value.trim());
+    const handleUnitChange = event => {
+        setRoleId(event.target.value);
     };
 
     const handleAddData = () => {
-        handleAddNewDataRequest({
-            name, faculty, access: 2 //ADMIN
-        });
-        setName("");
-        setFaculty("");
+        handleAddNewDataRequest(userId,roleId);
+        setUserId("");
+        setRoleId("");
         handleClose();
     };
     return (
@@ -89,13 +87,13 @@ export default function AddAdminDialog(props) {
                         <Select
                             labelId="pilih-user"
                             id="pilih-user-admin-baru"
-                            value={name}
+                            value={userId}
                             onChange={handleNameChange}
                         >
                             {
                                 //List all users
                                 userList.map((user) =>
-                                    <MenuItem value={user.name} key={user.id}>{user.name}</MenuItem>
+                                    <MenuItem value={user._id} key={user._id}>{user.fullname}</MenuItem>
                                 )
                             };
                         </Select>
@@ -104,16 +102,16 @@ export default function AddAdminDialog(props) {
                         </FormHelperText>
                     </FormControl>
                     <FormControl required className={classes.formControl}>
-                        <InputLabel id="pilih-fakultas">Fakultas/Sekolah</InputLabel>
+                        <InputLabel id="pilih-unit-kerja">Unit Kerja</InputLabel>
                         <Select
-                            labelId="pilih-fakultas"
-                            id="pilih-fakultas"
-                            value={faculty}
-                            onChange={handleFacultyChange}
+                            labelId="pilih-unit-kerja"
+                            id="pilih-unit-kerja"
+                            value={roleId}
+                            onChange={handleUnitChange}
                         >
                             {
-                                Faculty.map(faculty => (
-                                    <MenuItem value={faculty.name} key={faculty.code}>{faculty.name}</MenuItem>
+                                Role.map(r => (
+                                    <MenuItem value={r._id} key={r._id}>{r.label}</MenuItem>
                                 ))
                             }
                         </Select>
