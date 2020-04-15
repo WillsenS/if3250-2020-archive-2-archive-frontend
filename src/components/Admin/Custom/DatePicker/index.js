@@ -30,7 +30,7 @@ export default function DatePicker(props) {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
         margin="normal"
-        id="time"
+        id={props.id}
         label={label}
         format="MM/dd/yyyy"
         value={selectedDate}

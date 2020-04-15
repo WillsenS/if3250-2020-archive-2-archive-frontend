@@ -5,8 +5,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import Paper from "@material-ui/core/Paper";
 import TableRow from "@material-ui/core/TableRow";
-import {InputAdornment} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 
 //Custom components and styles and data
 import useStyles from "./style";
@@ -25,14 +23,6 @@ import AdminPagination from "../Custom/Pagination/AdminPagination"
 import PropTypes from 'prop-types';
 
 
-const InputCustomProps = {
-    endAdornment: (
-        <InputAdornment position="end">
-            <SearchIcon style={{cursor: "pointer"}}/>
-        </InputAdornment>
-    )
-};
-
 export default function AdminTable(props) {
     const classes = useStyles();
     const [openDeleteAdminDialog, setOpenDeleteAdminDialog] = React.useState(
@@ -42,9 +32,17 @@ export default function AdminTable(props) {
     const [openAddAdminDialog, setOpenAddAdminDialog] = React.useState(false);
     const [openEditAdminDialog, setOpenEditAdminDialog] = React.useState(false);
 
-    const {dataAdmin, dataUser, handlePageRequest, handleAddNewDataRequest, handleDeleteDataRequest, handleEditDataRequest} = props;
-    const {currentPage, totalPage, payload} = dataAdmin;
-    const userPayload = dataUser.payload;
+    const {
+        dataAdmin,
+        currentPage,
+        totalPages,
+        dataUser,
+        handlePageRequest,
+        handleAddNewDataRequest,
+        handleDeleteDataRequest,
+        handleEditDataRequest,
+        handleSearch
+    } = props;
 
     const handleDeleteAdminOpen = (admin) => {
         setSelectedAdmin(admin);
@@ -76,17 +74,6 @@ export default function AdminTable(props) {
         handlePageRequest(page);
     };
 
-    function access(code) {
-        switch (code) {
-            case 2:
-                return "Admin";
-            case 3:
-                return "Super Admin";
-            default:
-                return "-";
-        }
-    }
-
     return (
         <>
             <div className={classes.input}>
@@ -94,7 +81,7 @@ export default function AdminTable(props) {
                     label={"Cari Admin"}
                     placeholder={"Masukkan Nama Admin"}
                     type={"search"}
-                    InputProps={InputCustomProps}
+                    handleSearch={handleSearch}
                 />
                 <AddButton handleClick={handleAddAdminOpen}>Tambah Admin</AddButton>
             </div>
@@ -103,20 +90,16 @@ export default function AdminTable(props) {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>NAMA</StyledTableCell>
-                            <StyledTableCell>FAKULTAS</StyledTableCell>
-                            <StyledTableCell>AKSES</StyledTableCell>
+                            <StyledTableCell>UNIT KERJA</StyledTableCell>
                             <StyledTableCell/>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {payload.map(admin => (
-                            <StyledTableRow key={admin.name} hover>
-                                <StyledTableCell>{admin.name}</StyledTableCell>
+                        {dataAdmin.map((admin, index) => (
+                            <StyledTableRow key={index} hover>
+                                <StyledTableCell>{admin.fullname}</StyledTableCell>
                                 <StyledTableCell>
-                                    {admin.faculty}
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    {access(admin.access)}
+                                    {admin.role}
                                 </StyledTableCell>
                                 <StyledTableCell>
                                     <span style={{display: "flex", justifyContent: "center"}}>
@@ -130,12 +113,12 @@ export default function AdminTable(props) {
                 </Table>
             </TableContainer>
             {/*Pagination*/}
-            <AdminPagination handleDataChange={handleDataChange} totalPage={totalPage} currentPage={currentPage}/>
+            <AdminPagination handleDataChange={handleDataChange} totalPage={totalPages} currentPage={currentPage}/>
             {/* Popup dialog */}
             <AddAdminDialog
                 open={openAddAdminDialog}
                 handleClose={handleAddAdminClose}
-                userList={userPayload}
+                userList={dataUser}
                 handleAddNewDataRequest={handleAddNewDataRequest}
             />
             <EditAdminDialog
@@ -155,10 +138,11 @@ export default function AdminTable(props) {
 }
 
 AdminTable.propTypes = {
-    dataAdmin: PropTypes.object,
-    dataUser: PropTypes.object,
+    dataAdmin: PropTypes.array,
+    dataUser: PropTypes.array,
     handlePageRequest: PropTypes.func,
     handleAddNewDataRequest: PropTypes.func,
     handleDeleteDataRequest: PropTypes.func,
-    handleEditDataRequest: PropTypes.func
+    handleEditDataRequest: PropTypes.func,
+    handleSearch: PropTypes.func
 };

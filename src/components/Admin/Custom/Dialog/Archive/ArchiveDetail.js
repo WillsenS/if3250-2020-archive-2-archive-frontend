@@ -118,7 +118,8 @@ export default function ArchiveDetail(props) {
           <ArchiveListItem label="Deskripsi Arsip" data={archive.description} />
           <ArchiveListItem
             label="Tanggal Pembuatan Arsip"
-            data={moment(archive.date).format("LL")}
+            // data={moment(archive.date).format("LL")} <-- To be deprecated, got warning on web console
+              data={archive.date}
           />
           <ArchiveListItem label="Format File" data={archive.mime} />
           {archive.type === "Video" || archive.type === "Audio" ? (
