@@ -179,9 +179,9 @@ export const patchEditArchive = async (editedArchive, source) => {
   }
 };
 
-export const deleteArchive = async (id, source) => {
+export const deleteArchive = async (archive, source) => {
   try {
-    const url = `${defaultAPIURL}/delete/${id}`;
+    const url = `${defaultAPIURL}/delete/${archive._id}`;
     return await axios.delete(url, { cancelToken: source.token });
   } catch (e) {
     throw "Error deleting archive";
