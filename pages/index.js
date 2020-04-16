@@ -47,20 +47,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sideMenu: {
-    borderRight: `solid 2px ${theme.palette.common.darkGray}`,
+    paddingRight: "10px",
+    borderRight: `solid 1.3px ${theme.palette.common.darkGray}`,
   },
   yellow: {
-    color: theme.palette.warning.main,
-  },
-  titleyellow: {
     color: theme.palette.warning.main,
   },
   pagination: {
     padding: "16px 0",
   },
   image: {
-    maxWidth: "20%",
-    maxHeight: "20%",
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "15%",
+      maxHeight: "15%",
+    },
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "20%",
+      maxHeight: "20%",
+    },
     display: "block",
     objectFit: "contain",
     marginLeft: "auto",
@@ -89,7 +93,7 @@ const Welcome = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box
-        padding="84px 0 84px 0"
+        padding="64px 0 64px 0"
         lineHeight="normal"
         margin="0 0 32px 0"
         style={{
@@ -192,7 +196,7 @@ const HomepageContent = (props) => {
 
   const categoryList = arrCategoty.map((val, idx) => (
     <Typography variant="body1" key={`category-${idx}`}>
-      <Link href={`/arsip/search?q=bung&tipe=${val}`} color="inherit">
+      <Link href={`/arsip/search?q=*&tipe=${val}`} color="inherit">
         {val}
       </Link>
     </Typography>

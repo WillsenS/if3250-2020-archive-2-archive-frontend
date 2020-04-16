@@ -91,6 +91,7 @@ const Detail = (props) => {
         "updatedAt",
         "__v",
         "keamanan_terbuka",
+        "waktu_hapus",
       ];
 
       notIncludedKey.map((key) => {

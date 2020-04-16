@@ -24,11 +24,15 @@ const useStyles = makeStyles((theme) => ({
   yellow: {
     color: theme.palette.warning.main,
   },
-  imageLg: {
-    maxWidth: "75%",
-  },
-  imageXs: {
-    maxWidth: "90%",
+  image: {
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "90%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "60%",
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
   },
   grid: {
     display: "inline-flex",
@@ -106,35 +110,33 @@ const Header = (props) => {
                     <img
                       src="/static/img/logo-itb.png"
                       alt="logo ITB"
-                      className={
-                        isWidthDown("sm", props.width)
-                          ? classes.imageXs
-                          : classes.imageLg
-                      }
+                      className={classes.image}
                       style={{ cursor: "pointer" }}
                     />
                   </Link>
                 </Grid>
                 <Grid item xs={6} className={classes.grid}>
-                  <Link href="/">
-                    <Box className={classes.title}>
-                      <Box>
+                  <Box className={classes.title}>
+                    <Box>
+                      <Link href="/">
                         <Typography
                           variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                           className={classes.yellow}
                         >
                           SISTEM ARSIP
                         </Typography>
-                      </Box>
-                      <Box>
+                      </Link>
+                    </Box>
+                    <Box>
+                      <Link href="/">
                         <Typography
                           variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                         >
                           INSTITUT TEKNOLOGI BANDUNG
                         </Typography>
-                      </Box>
+                      </Link>
                     </Box>
-                  </Link>
+                  </Box>
                 </Grid>
 
                 <Grid item xs={4} className={classes.grid}>

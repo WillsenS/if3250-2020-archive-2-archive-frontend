@@ -45,7 +45,6 @@ const SearchPage = (props) => {
   const [isSearch, setIsSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(q || "");
   const [currentPage, setCurrentPage] = useState(page || 1);
-  const [type, setType] = useState(tipe || "");
   const [filter, setFilter] = useState({});
   const [header, setHeader] = useState([]);
   const [filterCandidate, setFilterCandidate] = useState({});
@@ -67,9 +66,9 @@ const SearchPage = (props) => {
           pathname: "/arsip/search",
           query: { name: searchQuery, page: currentPage },
         },
-        `/arsip/search?${searchQuery ? `q=${searchQuery}` : ""}${
-          searchQuery && currentPage ? `&page=${currentPage}` : ""
-        }`
+        `/arsip/search?${
+          searchQuery && searchQuery !== "*" ? `q=${searchQuery}` : ""
+        }${searchQuery && currentPage ? `&page=${currentPage}` : ""}`
       );
 
       const response = await getArchiveList(
@@ -173,7 +172,11 @@ const SearchPage = (props) => {
               <Grid item lg={9} xs={12}>
                 <Typography
                   variant="body1"
-                  className={searchQuery === "" ? classes.hidden : ""}
+                  className={
+                    searchQuery === "" || searchQuery === "*"
+                      ? classes.hidden
+                      : ""
+                  }
                 >
                   Menampilkan{" "}
                   <span className={classes.bold}>{`${totalItems} hasil`}</span>{" "}
