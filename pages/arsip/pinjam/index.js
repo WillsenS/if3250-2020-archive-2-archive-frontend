@@ -16,7 +16,7 @@ import {
 import Alert from "@material-ui/lab/Alert";
 import CloseIcon from "@material-ui/icons/Close";
 
-import Layout from "../../../layout";
+import Authenticated from "../../../layout/Authenticated";
 import { StateUserContext } from "../../../reducers/user";
 
 import {
@@ -150,7 +150,7 @@ const Borrow = (props) => {
   }, []);
 
   return (
-    <Layout token={token}>
+    <Authenticated token={token}>
       <ThemeProvider theme={theme}>
         <Header user={userState.user} />
         <Container className={classes.container}>
@@ -233,7 +233,7 @@ const Borrow = (props) => {
         </Container>
         <Footer />
       </ThemeProvider>
-    </Layout>
+    </Authenticated>
   );
 };
 
