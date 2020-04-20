@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const { checkSSORedirect } = require("./handlers/user");
-const { defaultURL } = require("./config");
+const { defaultURL, defaultAPIURL } = require("./config");
 const { getAuthArchive } = require("./resources/auth");
 
 nextApp
@@ -25,6 +25,10 @@ nextApp
 
     app.get("/login", (req, res) => {
       res.redirect(`https://login.itb.ac.id/cas/login?service=${defaultURL}`);
+    });
+
+    app.get("/logout", (req, res) => {
+      res.redirect(defaultAPIURL.concat('/auth/signout'))
     });
 
     // Blocked pages.

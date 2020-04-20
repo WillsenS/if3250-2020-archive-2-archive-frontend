@@ -90,7 +90,7 @@ const Header = (props) => {
         <Grid item lg={4} className={classes.grid}>
           <div className={classes.login}>
             <Typography variant="h4">
-              <NavLink href="/admin-panel">LOGOUT</NavLink>
+              <NavLink href="/logout">LOGOUT</NavLink>
             </Typography>
           </div>
         </Grid>
