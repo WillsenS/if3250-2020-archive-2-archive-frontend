@@ -9,7 +9,6 @@ import {
 import PropTypes from "prop-types";
 
 export default function DatePicker(props) {
-  // eslint-disable-next-line react/prop-types
   const [selectedDate, setSelectedDate] = React.useState(
     props.defaultDateObj || new Date()
   );

@@ -12,9 +12,7 @@ export default function Archives() {
   const state = useUpdateArchive();
   const section = 3; // section: archive
 
-
   const handlePageRequests = (val) => {
-    console.log(typeof val, val);
     if (val !== state.page) {
       state.setPage(val);
     }

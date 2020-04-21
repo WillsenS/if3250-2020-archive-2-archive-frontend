@@ -36,7 +36,6 @@ const Authenticated = (props) => {
   };
 
   useEffect(() => {
-    console.log("Auth");
     doAuth();
   }, []);
 

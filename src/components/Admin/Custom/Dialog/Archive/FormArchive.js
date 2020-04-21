@@ -79,7 +79,6 @@ export default function FormArchive(props) {
     for (const property in archive) {
       if (property !== "forPublicOption") {
         if (!archive[property] || archive[property].length <= 0) {
-          // console.log(property);
           return false;
         }
       }
