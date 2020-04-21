@@ -14,6 +14,29 @@ const withCredentials = true;
  * @param {string} fiter The search filter (using google standard)
  * @param {string} sourceToken Aythentication token
  */
+export const getMostSearchKeyword = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const url = `${defaultAPIURL}/keyword/most`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+/**
+ * Get Array of archive based on query, pagem and filter
+ * @param {string} searchQuery Searchh queay
+ * @param {string} currentPage Page number
+ * @param {string} fiter The search filter (using google standard)
+ * @param {string} sourceToken Aythentication token
+ */
 export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
   //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {

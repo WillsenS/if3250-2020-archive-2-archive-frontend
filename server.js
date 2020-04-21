@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const { checkSSORedirect } = require("./handlers/user");
-const { defaultURL, defaultAPIURL } = require("./config");
+const { defaultURL } = require("./config");
 const { getAuthArchive } = require("./resources/auth");
 
 nextApp

@@ -154,6 +154,8 @@ const HomepageContent = (props) => {
 
   const { archives } = props;
 
+  const [arrMostSearch, setArrMostSearch] = useState([]);
+
   const latestArchives = archives.map((val, idx) => (
     <Box className={classes.pagination} key={`archive-${idx}`}>
       <Typography variant="h6" color="primary">
@@ -174,16 +176,6 @@ const HomepageContent = (props) => {
     </Box>
   ));
 
-  const arrMostSearch = [
-    "Administrasi",
-    "Surat Keputusan",
-    "Publikasi",
-    "Sekolah",
-    "Rektor",
-    "Institut Teknologi Bandung",
-    "STEI",
-  ];
-
   const arrCategoty = ["Audio", "Photo", "Text", "Video"];
 
   const mostSearch = arrMostSearch.map((val, idx) => (
@@ -201,6 +193,19 @@ const HomepageContent = (props) => {
       </Link>
     </Typography>
   ));
+
+  useEffect(() => {
+    const dataKeyword = [];
+    const dataMostSearch = require("../config/mostSearch.json");
+
+    dataMostSearch.map((data) => {
+      dataKeyword.push(data.keyword);
+      console.log(data);
+      console.log(data.keyword);
+    });
+
+    setArrMostSearch([...dataKeyword]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

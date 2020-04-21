@@ -1,5 +1,5 @@
 const config = {
-  defaultURL: "https://dc806495.ngrok.io",
+  defaultURL: "https://6a1a6e92.ngrok.io",
   defaultPublicURL: "http://localhost:3001",
   defaultAPIURL: "http://localhost:3001/api/v1",
   // defaultURL: "https://demoapp.my.id",
