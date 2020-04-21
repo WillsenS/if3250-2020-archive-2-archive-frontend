@@ -188,8 +188,9 @@ export const deleteArchive = async (archive, source) => {
   }
 };
 
-export const getStatistic = async () => {
+export const getStatistic = async (token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/statistic`;
     return await axios.get(url);
   } catch (e) {
