@@ -30,7 +30,7 @@ exports.getAuthArchive = (idArchive, token) =>
     try {
       axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
 
-      const url = `${defaultAPIURL}/detail/${idArchive}`;
+      const url = `${defaultAPIURL}/archive/detail/${idArchive}`;
       const { data: response } = await axios({
         url,
         method: "get",

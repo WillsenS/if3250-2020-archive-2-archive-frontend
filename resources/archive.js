@@ -18,7 +18,7 @@ export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
   //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
     try {
-      const url = `${defaultAPIURL}/search?q=${searchQuery}`;
+      const url = `${defaultAPIURL}/archive/search?q=${searchQuery}`;
       const filters = filter ? filter.join(",") : null;
       const cancelToken = sourceToken ? sourceToken.token : null;
       const { data: response } = await axios({
@@ -69,7 +69,7 @@ export const getArchiveDetail = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
     try {
       axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
-      const url = `${defaultAPIURL}/detail/${archiveId}`;
+      const url = `${defaultAPIURL}/archive/detail/${archiveId}`;
       const { data: response } = await axios({
         url,
         method: "GET",
@@ -160,7 +160,7 @@ export const postBorrowArchive = (token, payload) =>
 export const postSubmitArchive = async (submittedArchive, source) => {
   try {
     const serverMetaArchive = convertToServerJson(submittedArchive);
-    const url = `${defaultAPIURL}/upload`;
+    const url = `${defaultAPIURL}/archive/upload`;
     const data = formBuilder(serverMetaArchive);
     const config = {
       cancelToken: source.token,
@@ -175,7 +175,7 @@ export const postSubmitArchive = async (submittedArchive, source) => {
 export const patchEditArchive = async (editedArchive, source) => {
   try {
     const serverMetaArchive = convertToServerJson(editedArchive);
-    const url = `${defaultAPIURL}/edit/${serverMetaArchive._id}`;
+    const url = `${defaultAPIURL}/archive/edit/${serverMetaArchive._id}`;
     const data = formBuilder(serverMetaArchive);
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -189,7 +189,7 @@ export const patchEditArchive = async (editedArchive, source) => {
 
 export const deleteArchive = async (archive, source) => {
   try {
-    const url = `${defaultAPIURL}/delete/${archive._id}`;
+    const url = `${defaultAPIURL}/archive/delete/${archive._id}`;
     return await axios.delete(url, { cancelToken: source.token });
   } catch (e) {
     throw "Error deleting archive";
