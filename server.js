@@ -28,7 +28,8 @@ nextApp
     });
 
     app.get("/logout", (req, res) => {
-      res.redirect(defaultAPIURL.concat('/auth/signout'))
+      localStorage.clear(token)
+      res.redirect(defaultURL)
     });
 
     // Blocked pages.
