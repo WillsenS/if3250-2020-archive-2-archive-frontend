@@ -9,7 +9,6 @@ const baseArchiveObjectTemplate = {
   location: "", //str
   description: "", //str
   date: new Date().toLocaleDateString(), //str
-  removeDate: new Date().toLocaleDateString(), //str
   archiveLocation: "", //str
   file: null, //obj
   mime: "", //str
