@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const compression = require("compression");
 const next = require("next");
 const app = require("express")();
@@ -28,8 +27,8 @@ nextApp
     });
 
     app.get("/logout", (req, res) => {
-      localStorage.clear(token)
-      res.redirect(defaultURL)
+      localStorage.clear(token);
+      res.redirect(defaultURL);
     });
 
     // Blocked pages.

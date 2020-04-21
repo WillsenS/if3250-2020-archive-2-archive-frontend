@@ -7,6 +7,13 @@ const validateStatus = () => true;
 axios.defaults.withCredentials = true;
 const withCredentials = true;
 
+/**
+ * Get Array of archive based on query, pagem and filter
+ * @param {string} searchQuery Searchh queay
+ * @param {string} currentPage Page number
+ * @param {string} fiter The search filter (using google standard)
+ * @param {string} sourceToken Aythentication token
+ */
 export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
   //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
@@ -31,29 +38,11 @@ export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
     }
   });
 
-export const getArchiveExpired = (currentPage, sourceToken) =>
-  //sourceToken: add token source to cancel request if user left the page before the request is finished
-  new Promise(async (resolve, reject) => {
-    try {
-      const url = `${defaultAPIURL}/archive/expired`;
-      const cancelToken = sourceToken ? sourceToken.token : null;
-
-      const { data: response } = await axios({
-        url,
-        cancelToken,
-        method: "GET",
-        params: {
-          page: currentPage,
-        },
-        validateStatus,
-      });
-
-      resolve(response);
-    } catch (e) {
-      reject(e);
-    }
-  });
-
+/**
+ * Get the title of archive based its id
+ * @param {string} archiveId id of archive
+ * @param {string} sourceToken Aythentication token
+ */
 export const getArchiveTitle = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -71,6 +60,11 @@ export const getArchiveTitle = (archiveId, token) =>
     }
   });
 
+/**
+ * Get the detail information of archive based its id
+ * @param {string} archiveId id of archive
+ * @param {string} sourceToken Aythentication token
+ */
 export const getArchiveDetail = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -88,6 +82,9 @@ export const getArchiveDetail = (archiveId, token) =>
     }
   });
 
+/**
+ * Get Array (5 element) of latest and public archive
+ */
 export const getLatestArchives = () =>
   new Promise(async (resolve, reject) => {
     try {
@@ -104,6 +101,12 @@ export const getLatestArchives = () =>
     }
   });
 
+/**
+ * Get the file that want to download from archive based its id
+ * @param {string} archiveId id of archive
+ * @param {string} sourceToken Aythentication token
+ * @param {string} filename Filename of archive
+ */
 export const downloadArchive = (archiveId, token, filename) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -131,6 +134,11 @@ export const downloadArchive = (archiveId, token, filename) =>
     }
   });
 
+/**
+ * Post new borrow archive request
+ * @param {object} payload Information needed for apply request
+ * @param {string} token Aythentication token
+ */
 export const postBorrowArchive = (token, payload) =>
   new Promise(async (resolve, reject) => {
     try {
