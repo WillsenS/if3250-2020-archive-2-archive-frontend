@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable dot-notation */
 const axios = require("axios");
 
 const { defaultAPIURL } = require("../config");
