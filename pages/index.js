@@ -200,8 +200,6 @@ const HomepageContent = (props) => {
 
     dataMostSearch.map((data) => {
       dataKeyword.push(data.keyword);
-      console.log(data);
-      console.log(data.keyword);
     });
 
     setArrMostSearch([...dataKeyword]);
