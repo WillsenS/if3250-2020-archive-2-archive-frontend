@@ -7,10 +7,11 @@ const validateStatus = () => true;
 axios.defaults.withCredentials = true;
 const withCredentials = true;
 
-export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
+export const getArchiveList = (searchQuery, currentPage, filter, sourceToken, token) =>
   //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
     try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
       const url = `${defaultAPIURL}/search?q=${searchQuery}`;
       const filters = filter ? filter.join(",") : null;
       const cancelToken = sourceToken ? sourceToken.token : null;
@@ -149,8 +150,9 @@ export const postBorrowArchive = (token, payload) =>
     }
   });
 
-export const postSubmitArchive = async (submittedArchive, source) => {
+export const postSubmitArchive = async (submittedArchive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(submittedArchive);
     const url = `${defaultAPIURL}/upload`;
     const data = formBuilder(serverMetaArchive);
@@ -164,8 +166,9 @@ export const postSubmitArchive = async (submittedArchive, source) => {
   }
 };
 
-export const patchEditArchive = async (editedArchive, source) => {
+export const patchEditArchive = async (editedArchive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(editedArchive);
     const url = `${defaultAPIURL}/edit/${serverMetaArchive._id}`;
     const data = formBuilder(serverMetaArchive);
@@ -179,8 +182,9 @@ export const patchEditArchive = async (editedArchive, source) => {
   }
 };
 
-export const deleteArchive = async (archive, source) => {
+export const deleteArchive = async (archive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/delete/${archive._id}`;
     return await axios.delete(url, { cancelToken: source.token });
   } catch (e) {

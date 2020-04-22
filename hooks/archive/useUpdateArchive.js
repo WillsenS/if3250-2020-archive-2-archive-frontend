@@ -4,7 +4,7 @@ import {convertToClientJson} from "../../utils/JsonConverter";
 import {postSubmitArchive, patchEditArchive, deleteArchive, getArchiveList} from "../../resources/archive";
 
 
-export default function useUpdateArchive() {
+export default function useUpdateArchive(token) {
 
     const [updatedArchive, setUpdatedArchive] = useState({});
     const [error, setError] = useState(false);
@@ -31,7 +31,7 @@ export default function useUpdateArchive() {
         const updateArchiveList = async () => {
             try {
                 setLoading(true);
-                const res = await getArchiveList('*', 1, '', source);
+                const res = await getArchiveList('*', 1, '', source, token);
                 if (res.message === 'OK') {
                     const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
                     if (mounted) {
@@ -58,13 +58,13 @@ export default function useUpdateArchive() {
                     let res;
                     switch (action) {
                         case SUBMIT:
-                            res = await postSubmitArchive(updatedArchive, source);
+                            res = await postSubmitArchive(updatedArchive, source, token);
                             break;
                         case EDIT:
-                            res = await patchEditArchive(updatedArchive, source);
+                            res = await patchEditArchive(updatedArchive, source, token);
                             break;
                         case DELETE:
-                            res = await deleteArchive(updatedArchive, source);
+                            res = await deleteArchive(updatedArchive, source, token);
                             break;
                     }
                     if (res.status === 200) {
@@ -98,7 +98,7 @@ export default function useUpdateArchive() {
             setLoading(true);
             try {
                 setLoading(true);
-                const res = await getArchiveList(query, page, null, source);
+                const res = await getArchiveList(query, page, null, source, token);
                 if (res.message === 'OK') {
                     const updatedArchiveList = res.data.map(archive => convertToClientJson(archive));
                     if (mounted) {
