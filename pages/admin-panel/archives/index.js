@@ -3,7 +3,6 @@ import AdminLayout from "../../../src/components/Admin/Layout";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import useUpdateArchive from "../../../hooks/archive/useUpdateArchive";
-import Admin from "../index";
 
 const SUBMIT = 1;
 const EDIT = 2;
