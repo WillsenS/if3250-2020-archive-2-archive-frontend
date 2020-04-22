@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable dot-notation */
 const axios = require("axios");
 
 const { defaultAPIURL } = require("../config");
@@ -28,6 +26,8 @@ exports.checkSSORedirect = () => {
           validateStatus,
           withCredentials,
         });
+
+        console.log(response);
 
         res.cookie("token", response.token, { httpOnly: true });
 

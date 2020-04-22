@@ -6,7 +6,6 @@ axios.defaults.withCredentials = true;
 const withCredentials = true;
 
 exports.getAuthCheck = (token) =>
-  // eslint-disable-next-line no-async-promise-executor
   new Promise(async (resolve, reject) => {
     try {
       axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
@@ -25,12 +24,11 @@ exports.getAuthCheck = (token) =>
   });
 
 exports.getAuthArchive = (idArchive, token) =>
-  // eslint-disable-next-line no-async-promise-executor
   new Promise(async (resolve, reject) => {
     try {
       axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
 
-      const url = `${defaultAPIURL}/detail/${idArchive}`;
+      const url = `${defaultAPIURL}/archive/detail/${idArchive}`;
       const { data: response } = await axios({
         url,
         method: "get",

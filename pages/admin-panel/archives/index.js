@@ -13,9 +13,7 @@ function Archives({token}) {
   const state = useUpdateArchive(token);
   const section = 3; // section: archive
 
-
   const handlePageRequests = (val) => {
-    console.log(typeof val, val);
     if (val !== state.page) {
       state.setPage(val);
     }

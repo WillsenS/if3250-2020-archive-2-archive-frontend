@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
         margin: "2rem auto"
     },
     table: {
-        // maxWidth: 700
+        maxWitdh: 700
     },
     wrapper: {
         width: "80%",

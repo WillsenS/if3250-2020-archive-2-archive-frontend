@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const compression = require("compression");
 const next = require("next");
 const app = require("express")();
@@ -10,7 +9,7 @@ const port = process.env.PORT || 3000;
 const nextApp = next({ dev: true });
 const handle = nextApp.getRequestHandler();
 const { checkSSORedirect } = require("./handlers/user");
-const { defaultURL, defaultAPIURL } = require("./config");
+const { defaultURL } = require("./config");
 const { getAuthArchive } = require("./resources/auth");
 
 nextApp
@@ -28,7 +27,8 @@ nextApp
     });
 
     app.get("/logout", (req, res) => {
-      res.redirect(defaultAPIURL.concat('/auth/signout'))
+      localStorage.clear(token);
+      res.redirect(defaultURL);
     });
 
     // Blocked pages.
