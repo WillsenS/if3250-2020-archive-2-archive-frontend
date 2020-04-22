@@ -57,29 +57,17 @@ export default function EditKeywordDialog(props) {
   const { data, open, handleClose, handleEdit } = props;
   const classes = useStyles();
 
-  const handleUserSelected = (event) => {
-    setUserId(event.target.value);
-  };
-
-  const handleUnitSelected = (event) => {
-    setRoleId(event.target.value);
-  };
-
   const handleEditClick = () => {
-    if (roleId) {
-      handleEdit(props.data._id, roleId);
-      handleClose();
-    } else {
-      alert("Pilih role untuk user");
-    }
+    handleEdit(data.index, data.keyword);
+    handleClose();
   };
 
   const handleCloseClick = () => {
     handleClose();
   };
 
-  const handleInput = () => {
-    console.log("++");
+  const handleInput = (attr, val) => {
+    props.handleInput(attr, val);
   };
 
   return (
@@ -87,8 +75,8 @@ export default function EditKeywordDialog(props) {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="edit-admin"
-        aria-describedby="form-to-select-admin"
+        aria-labelledby="edit-keyword"
+        aria-describedby="form-to-select-keyword"
         maxWidth="lg"
         classes={{ root: classes.root }}
         disableBackdropClick
@@ -103,14 +91,6 @@ export default function EditKeywordDialog(props) {
                 placeholder=""
                 handleInput={handleInput}
                 value={data.keyword}
-              />
-            </FormControl>
-            <FormControl required className={classes.formControl}>
-              <CustomTextField
-                id="priority"
-                label="priotity"
-                placeholder=""
-                value={data.index}
               />
             </FormControl>
           </Box>

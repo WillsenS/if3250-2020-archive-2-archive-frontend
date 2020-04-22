@@ -35,6 +35,11 @@ export default function KeywordTable(props) {
     setOpenEditKeywordDialog(false);
   };
 
+  const handleInput = (attr, val) => {
+    const newAttrObject = { [attr]: val };
+    setSelectedKeyword({ ...selectedKeyword, ...newAttrObject });
+  };
+
   return (
     <>
       <TableContainer component={Paper} className={classes.wrapper}>
@@ -70,6 +75,7 @@ export default function KeywordTable(props) {
       </TableContainer>
       {/* Popup dialog */}
       <EditKeywordDialog
+        handleInput={handleInput}
         open={openEditKeywordDialog}
         handleClose={handleEditKeywordClose}
         data={selectedKeyword}

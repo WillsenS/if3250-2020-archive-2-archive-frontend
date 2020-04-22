@@ -19,9 +19,23 @@ const Keyword = (props) => {
     setKeywords([...dataKeyword]);
   }, []);
 
+  const handleEditKeywordRequest = (index, keyword) => {
+    const data = [];
+
+    keywords.map((key, idx) => {
+      if (idx !== index) data.push({ keyword: keywords[idx] });
+      else data.push({ keyword });
+    });
+
+    console.log(data);
+  };
+
   return (
     <AdminLayout section={section} title="Pengaturan Data Admin">
-      <KeywordTable dataKeyword={keywords} />
+      <KeywordTable
+        dataKeyword={keywords}
+        handleEditDataRequest={handleEditKeywordRequest}
+      />
     </AdminLayout>
   );
 };
