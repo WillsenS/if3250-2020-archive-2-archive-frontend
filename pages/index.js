@@ -20,7 +20,10 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import Layout from "../layout";
 
 import { StateUserContext } from "../reducers/user";
-import { getLatestArchives } from "../resources/archive";
+import {
+  getMostSearchKeywordOnFile,
+  getLatestArchives,
+} from "../resources/archive";
 
 const useStyles = makeStyles((theme) => ({
   newDocument: {
@@ -154,6 +157,8 @@ const HomepageContent = (props) => {
 
   const { archives } = props;
 
+  const [arrMostSearch, setArrMostSearch] = useState([]);
+
   const latestArchives = archives.map((val, idx) => (
     <Box className={classes.pagination} key={`archive-${idx}`}>
       <Typography variant="h6" color="primary">
@@ -174,16 +179,6 @@ const HomepageContent = (props) => {
     </Box>
   ));
 
-  const arrMostSearch = [
-    "Administrasi",
-    "Surat Keputusan",
-    "Publikasi",
-    "Sekolah",
-    "Rektor",
-    "Institut Teknologi Bandung",
-    "STEI",
-  ];
-
   const arrCategoty = ["Audio", "Photo", "Text", "Video"];
 
   const mostSearch = arrMostSearch.map((val, idx) => (
@@ -201,6 +196,20 @@ const HomepageContent = (props) => {
       </Link>
     </Typography>
   ));
+
+  useEffect(() => {
+    (async function getData() {
+      const response = await getMostSearchKeywordOnFile();
+      const dataKeyword = [];
+      const dataMostSearch = response.data;
+
+      dataMostSearch.map((data) => {
+        dataKeyword.push(data.keyword);
+      });
+
+      setArrMostSearch([...dataKeyword]);
+    })();
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
