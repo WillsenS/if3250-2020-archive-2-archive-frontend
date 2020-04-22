@@ -1,66 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RequestTable from "../../../src/components/Admin/RequestTable";
 import AdminLayout from "../../../src/components/Admin/Layout";
 import Typography from "@material-ui/core/Typography";
 
-let requestList = [
-  {
-    _id: 1,
-    user: {
-      _id: 1,
-      nama: "Johnson",
-    },
-    request: {
-      _id: 1,
-      nama: "Arsip 1",
-      tipe: "Audio",
-    },
-  },
-  {
-    _id: 2,
-    user: {
-      _id: 1,
-      nama: "Johnson",
-    },
-    request: {
-      _id: 2,
-      nama: "Arsip 2",
-      tipe: "Video",
-    },
-  },
-  {
-    _id: 3,
-    user: {
-      _id: 3,
-      nama: "Guinevere",
-    },
-    request: {
-      _id: 3,
-      nama: "Arsip 3",
-      tipe: "Audio",
-    },
-  },
-  {
-    _id: 4,
-    user: {
-      _id: 4,
-      nama: "Belerick",
-    },
-    request: {
-      _id: 4,
-      nama: "Arsip 4",
-      tipe: "Text",
-    },
-  },
-];
+import { getArchiveBorrowRequestList } from "../../../resources/archive";
 
 export default function ArchiveRequest() {
-  const [request, setRequest] = useState(requestList);
+  const [request, setRequest] = useState([]);
 
   const acceptRequest = (id) => {
     const filtered = request.filter((req) => req._id !== id);
     setRequest(filtered);
   };
+
+  const getData = async () => {
+    const response = await getArchiveBorrowRequestList();
+    console.log(response);
+    setRequest([...response.data]);
+  };
+
+  useEffect(() => {
+    console.log("Req");
+    getData();
+  }, []);
 
   return (
     <AdminLayout section={4} title="Data Permintaan Peminjaman Arsip">

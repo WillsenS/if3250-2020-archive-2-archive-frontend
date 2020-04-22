@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import StyledTableCell from "../Custom/Table/StyledTableCell";
 import StyledTableRow from "../Custom/Table/StyledTableRow";
@@ -10,8 +10,8 @@ import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
-import IconButton from "@material-ui/core/IconButton";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import DetailButton from "../Custom/Button/DetailButton";
+import RequestDetail from "../Custom/Dialog/Request/RequestDetail";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,8 +30,28 @@ const useStyles = makeStyles(() => ({
 export default function RequestTable(props) {
   const classes = useStyles();
 
-  const handleClick = (id) => {
-    props.handleClick(id);
+  const dummy = {
+    archive: {
+      judul: "title",
+    },
+    borrower: {
+      fullname: "fullname",
+    },
+    phone: "phone",
+    email: "email",
+    reason: "reason",
+  };
+
+  const [openDetailDialog, setOpenDetailDialog] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(dummy);
+
+  const handleOpenDetailDialog = (data) => {
+    setSelectedRequest({ ...data });
+    setOpenDetailDialog(true);
+  };
+
+  const handleCloseDetailDialog = () => {
+    setOpenDetailDialog(false);
   };
 
   return (
@@ -67,26 +87,21 @@ export default function RequestTable(props) {
               return (
                 <StyledTableRow key={request._id}>
                   <StyledTableCell className={classes.cell}>
-                    {request.user.nama}
+                    {request.borrower.fullname}
                   </StyledTableCell>
                   <StyledTableCell className={classes.cell}>
-                    {request.request.nama}
+                    {request.archive.judul}
                   </StyledTableCell>
                   <StyledTableCell className={classes.cell}>
-                    {request.request.tipe}
+                    {request.reason}
                   </StyledTableCell>
                   <StyledTableCell className={classes.cell}>
-                    <IconButton
-                      aria-label="archive detail"
-                      size="small"
-                      color="primary"
-                      onClick={() => {
-                        handleClick(request._id);
-                      }}
-                      style={{ margin: "0 .5rem" }}
-                    >
-                      <AddCircleIcon />
-                    </IconButton>
+                    <span style={{ display: "flex", justifyContent: "center" }}>
+                      <DetailButton
+                        handleClick={handleOpenDetailDialog}
+                        data={request}
+                      />
+                    </span>
                   </StyledTableCell>
                 </StyledTableRow>
               );
@@ -94,6 +109,13 @@ export default function RequestTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <RequestDetail
+        type="detail"
+        request={selectedRequest}
+        isOpen={openDetailDialog}
+        handleClose={handleCloseDetailDialog}
+      />
     </div>
   );
 }

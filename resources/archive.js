@@ -9,7 +9,6 @@ const withCredentials = true;
 
 /**
  * Most Search Keywoard search from user
- * @param {string} sourceToken Aythentication token
  */
 export const getMostSearchKeyword = () =>
   new Promise(async (resolve, reject) => {
@@ -29,7 +28,6 @@ export const getMostSearchKeyword = () =>
 
 /**
  * Most Search Keywoard search from user
- * @param {string} sourceToken Aythentication token
  */
 export const getMostSearchKeywordOnFile = () =>
   new Promise(async (resolve, reject) => {
@@ -69,10 +67,9 @@ export const changeMostSearchKeywordOnFile = (data) =>
  * @param {string} searchQuery Searchh queay
  * @param {string} currentPage Page number
  * @param {string} fiter The search filter (using google standard)
- * @param {string} sourceToken Aythentication token
+ * @param {string} sourceToken add token source to cancel request if user left the page before the request is finished
  */
 export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
-  //sourceToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
     try {
       const url = `${defaultAPIURL}/archive/search?q=${searchQuery}`;
@@ -96,9 +93,28 @@ export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
   });
 
 /**
+ * Get Array of borrow archive request
+ */
+export const getArchiveBorrowRequestList = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const url = `${defaultAPIURL}/archive/borrow`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+/**
  * Get the title of archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  */
 export const getArchiveTitle = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
@@ -120,7 +136,7 @@ export const getArchiveTitle = (archiveId, token) =>
 /**
  * Get the detail information of archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  */
 export const getArchiveDetail = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
@@ -161,7 +177,7 @@ export const getLatestArchives = () =>
 /**
  * Get the file that want to download from archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  * @param {string} filename Filename of archive
  */
 export const downloadArchive = (archiveId, token, filename) =>
