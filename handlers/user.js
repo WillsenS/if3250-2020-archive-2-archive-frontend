@@ -27,6 +27,8 @@ exports.checkSSORedirect = () => {
           withCredentials,
         });
 
+        console.log(response);
+
         res.cookie("token", response.token, { httpOnly: true });
 
         return res.redirect(defaultURL);
