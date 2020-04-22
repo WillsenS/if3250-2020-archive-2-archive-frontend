@@ -1,8 +1,11 @@
 import axios from "axios";
 import { defaultAPIURL } from "../config";
 
-export const getAdmins = async (role_id, page, source) => {
+axios.defaults.withCredentials = true;
+
+export const getAdmins = async (role_id, page, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/admins`;
     const cancelToken = source ? source.token : null;
     return await axios({
@@ -19,8 +22,9 @@ export const getAdmins = async (role_id, page, source) => {
   }
 };
 
-export const getNonAdmins = async (page, source) => {
+export const getNonAdmins = async (page, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/non-admins`;
     const cancelToken = source ? source.token : null;
     return await axios({
@@ -36,8 +40,9 @@ export const getNonAdmins = async (page, source) => {
   }
 };
 
-export const patchEditUserRole = async (user_id, role_id, source) => {
+export const patchEditUserRole = async (user_id, role_id, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/users/${user_id}`;
     let data = new FormData();
     data.set("kode_role", role_id);
@@ -56,8 +61,9 @@ export const patchEditUserRole = async (user_id, role_id, source) => {
   }
 };
 
-export const patchResetRoleToDefault = async (user_id, source) => {
+export const patchResetRoleToDefault = async (user_id, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/remove-admin/${user_id}`;
     const config = {
       cancelToken: source ? source.token : null,

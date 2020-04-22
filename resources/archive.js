@@ -68,7 +68,7 @@ export const changeMostSearchKeywordOnFile = (data) =>
  * Get Array of archive based on query, pagem and filter
  * @param {string} searchQuery Searchh queay
  * @param {string} currentPage Page number
- * @param {string} fiter The search filter (using google standard)
+ * @param {string} filter The search filter (using google standard)
  * @param {string} sourceToken Aythentication token
  */
 export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
@@ -214,8 +214,9 @@ export const postBorrowArchive = (token, payload) =>
     }
   });
 
-export const postSubmitArchive = async (submittedArchive, source) => {
+export const postSubmitArchive = async (submittedArchive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(submittedArchive);
     const url = `${defaultAPIURL}/archive/upload`;
     const data = formBuilder(serverMetaArchive);
@@ -229,8 +230,9 @@ export const postSubmitArchive = async (submittedArchive, source) => {
   }
 };
 
-export const patchEditArchive = async (editedArchive, source) => {
+export const patchEditArchive = async (editedArchive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(editedArchive);
     const url = `${defaultAPIURL}/archive/edit/${serverMetaArchive._id}`;
     const data = formBuilder(serverMetaArchive);
@@ -244,8 +246,9 @@ export const patchEditArchive = async (editedArchive, source) => {
   }
 };
 
-export const deleteArchive = async (archive, source) => {
+export const deleteArchive = async (archive, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/archive/delete/${archive._id}`;
     return await axios.delete(url, { cancelToken: source.token });
   } catch (e) {
@@ -253,8 +256,9 @@ export const deleteArchive = async (archive, source) => {
   }
 };
 
-export const getStatistic = async () => {
+export const getStatistic = async (token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/statistic`;
     return await axios.get(url);
   } catch (e) {

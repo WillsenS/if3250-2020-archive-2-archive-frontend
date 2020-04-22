@@ -10,6 +10,7 @@ import TableBody from "@material-ui/core/TableBody";
 import StyledTableCell from "../Custom/Table/StyledTableCell";
 import StyledTableRow from "../Custom/Table/StyledTableRow";
 import TableRow from "@material-ui/core/TableRow";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(() => ({
@@ -27,9 +28,11 @@ const useStyles = makeStyles(() => ({
 
 export default function HomeTable(props) {
     const classes = useStyles();
+
     return (
             <Grid item md={12} lg={6}>
                 <Typography variant="h3" component="h2" className={classes.title}>{props.title}</Typography>
+                {props.loading ? <LinearProgress /> : <></>}
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="tabel statistik user">
                         <TableHead>
@@ -45,7 +48,7 @@ export default function HomeTable(props) {
                         <TableBody>
                             <StyledTableRow>
                                 {
-                                  props.dataList.total ? (
+                                  props.dataList.total !== null ? (
                                       <StyledTableCell  className={classes.cell}>{ props.dataList.total }</StyledTableCell>
                                   ) : (<></>)
                                 }
