@@ -8,19 +8,53 @@ axios.defaults.withCredentials = true;
 const withCredentials = true;
 
 /**
- * Get Array of archive based on query, pagem and filter
- * @param {string} searchQuery Searchh queay
- * @param {string} currentPage Page number
- * @param {string} fiter The search filter (using google standard)
+ * Most Search Keywoard search from user
  * @param {string} sourceToken Aythentication token
  */
 export const getMostSearchKeyword = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const url = `${defaultAPIURL}/archive/search/most`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+/**
+ * Most Search Keywoard search from user
+ * @param {string} sourceToken Aythentication token
+ */
+export const getMostSearchKeywordOnFile = () =>
   new Promise(async (resolve, reject) => {
     try {
       const url = `${defaultAPIURL}/keyword/most`;
       const { data: response } = await axios({
         url,
         method: "GET",
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+export const changeMostSearchKeywordOnFile = (data) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const url = `${defaultAPIURL}/keyword/most`;
+      const response = await axios({
+        url,
+        method: "PATCH",
+        data,
         validateStatus,
       });
 

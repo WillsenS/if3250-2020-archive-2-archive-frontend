@@ -20,7 +20,10 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import Layout from "../layout";
 
 import { StateUserContext } from "../reducers/user";
-import { getLatestArchives } from "../resources/archive";
+import {
+  getMostSearchKeywordOnFile,
+  getLatestArchives,
+} from "../resources/archive";
 
 const useStyles = makeStyles((theme) => ({
   newDocument: {
@@ -195,14 +198,17 @@ const HomepageContent = (props) => {
   ));
 
   useEffect(() => {
-    const dataKeyword = [];
-    const dataMostSearch = require("../config/mostSearch.json");
+    (async function getData() {
+      const response = await getMostSearchKeywordOnFile();
+      const dataKeyword = [];
+      const dataMostSearch = response.data;
 
-    dataMostSearch.map((data) => {
-      dataKeyword.push(data.keyword);
-    });
+      dataMostSearch.map((data) => {
+        dataKeyword.push(data.keyword);
+      });
 
-    setArrMostSearch([...dataKeyword]);
+      setArrMostSearch([...dataKeyword]);
+    })();
   }, []);
 
   return (
