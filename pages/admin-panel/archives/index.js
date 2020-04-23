@@ -8,8 +8,8 @@ const SUBMIT = 1;
 const EDIT = 2;
 const DELETE = 3;
 
-export default function Archives() {
-  const state = useUpdateArchive();
+function Archives({ token }) {
+  const state = useUpdateArchive(token);
   const section = 3; // section: archive
 
   const handlePageRequests = (val) => {
@@ -43,6 +43,7 @@ export default function Archives() {
     <AdminLayout section={section} title="Pengaturan Data Arsip">
       <ArchiveTable
         searchQuery={state.query}
+        // @ts-ignore
         currentPage={state.page}
         loading={state.loading}
         error={state.error}
@@ -58,3 +59,10 @@ export default function Archives() {
     </AdminLayout>
   );
 }
+
+Archives.getInitialProps = ({ req, query }) => {
+  if (req && req.cookies) return { ...query, token: req.cookies.token };
+  else return query;
+};
+
+export default Archives;

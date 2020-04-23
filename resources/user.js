@@ -1,8 +1,19 @@
+// @ts-nocheck
 import axios from "axios";
 import { defaultAPIURL } from "../config";
 
-export const getAdmins = async (role_id, page, source) => {
+axios.defaults.withCredentials = true;
+
+/**
+ * Get admin list
+ * @param {string} [role_id] Admin role id, optional
+ * @param {number} [page] Page number, optional
+ * @param {object} source Axios request token
+ * @param {string} token Authentication token
+ */
+export const getAdmins = async (role_id, page, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/admins`;
     const cancelToken = source ? source.token : null;
     return await axios({
@@ -19,8 +30,15 @@ export const getAdmins = async (role_id, page, source) => {
   }
 };
 
-export const getNonAdmins = async (page, source) => {
+/**
+ * Get non-admin list
+ * @param {number} [page] Page number, optional
+ * @param {object} source Axios request token
+ * @param {string} token Authentication token
+ */
+export const getNonAdmins = async (page, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/non-admins`;
     const cancelToken = source ? source.token : null;
     return await axios({
@@ -36,8 +54,17 @@ export const getNonAdmins = async (page, source) => {
   }
 };
 
-export const patchEditUserRole = async (user_id, role_id, source) => {
+/**
+ * Edit user role
+ * @param {string} user_id User id
+ * @param {number} role_id New role id
+ * @param {object} source Axios request token
+ * @param {string} token Authentication token
+ */
+export const patchEditUserRole = async (user_id, role_id, source, token) => {
   try {
+    console.log("auth: ", token);
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/users/${user_id}`;
     let data = new FormData();
     data.set("kode_role", role_id);
@@ -56,8 +83,15 @@ export const patchEditUserRole = async (user_id, role_id, source) => {
   }
 };
 
-export const patchResetRoleToDefault = async (user_id, source) => {
+/**
+ * Remove admin access from user, reset to default access
+ * @param {string} user_id User id
+ * @param {object} source Axios request token
+ * @param {string} token Authentication token
+ */
+export const patchResetRoleToDefault = async (user_id, source, token) => {
   try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/remove-admin/${user_id}`;
     const config = {
       cancelToken: source ? source.token : null,

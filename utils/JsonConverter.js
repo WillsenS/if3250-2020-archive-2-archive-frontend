@@ -1,4 +1,8 @@
-//Convert JSON sebelum dikirim supaya formatnya sesuai dengan backend
+/**
+ * Convert client version of archive data properties to server version of property name, without changing the data
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 export const convertToServerJson = (archive) => {
   switch (archive.type) {
     case "Audio":
@@ -14,7 +18,13 @@ export const convertToServerJson = (archive) => {
       break;
   }
 };
-//Convert JSON sebelum dipakai di client supaya formatnya sesuai dengan front-end
+
+/**
+ * Convert server version of archive data properties to client version of property name,
+ * without changing the data so it can be used in the front-end
+ * @param {object} archive Archive data to be used in the client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 export const convertToClientJson = (archive) => {
   switch (archive.tipe) {
     case "Audio":
@@ -31,6 +41,11 @@ export const convertToClientJson = (archive) => {
   }
 };
 
+/**
+ * (Helper function) Returns object with mandatory metadata, server version
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 const getDefaultServerArchiveMeta = (archive) => {
   return {
     _id: archive._id,
@@ -47,7 +62,11 @@ const getDefaultServerArchiveMeta = (archive) => {
     filetoupload: archive.file,
   };
 };
-
+/**
+ * (Helper function) Returns object with ONLY server audio metadata
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 const convertToServerAudioArchive = (archive) => {
   const defaultMeta = getDefaultServerArchiveMeta(archive);
   const typeSpecificMeta = {
@@ -57,6 +76,11 @@ const convertToServerAudioArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY server video metadata
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 const convertToServerVideoArchive = (archive) => {
   const defaultMeta = getDefaultServerArchiveMeta(archive);
   const typeSpecificMeta = {
@@ -66,6 +90,11 @@ const convertToServerVideoArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY server photo metadata
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 const convertToServerPhotoArchive = (archive) => {
   const defaultMeta = getDefaultServerArchiveMeta(archive);
   const typeSpecificMeta = {
@@ -78,6 +107,11 @@ const convertToServerPhotoArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY server text metadata
+ * @param {object} archive Archive data to be sent to the server
+ * @returns {object} Archive object with converted properties (server version)
+ */
 const convertToServerTextArchive = (archive) => {
   const defaultMeta = getDefaultServerArchiveMeta(archive);
   const typeSpecificMeta = {
@@ -87,6 +121,11 @@ const convertToServerTextArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with mandatory metadata, client version
+ * @param {object} archive Archive data to be used inside the client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 const getDefaultClientArchiveMeta = (archive) => {
   return {
     _id: archive._id,
@@ -103,7 +142,11 @@ const getDefaultClientArchiveMeta = (archive) => {
     file: archive.file,
   };
 };
-
+/**
+ * (Helper function) Returns object with ONLY client audio metadata
+ * @param {object} archive Archive data to be used inside client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 const convertToClientAudioArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
   const type = archive.tipe.toLowerCase();
@@ -114,6 +157,11 @@ const convertToClientAudioArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY client video metadata
+ * @param {object} archive Archive data to be used inside client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 const convertToClientVideoArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
   const type = archive.tipe.toLowerCase();
@@ -124,6 +172,11 @@ const convertToClientVideoArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY client photo metadata
+ * @param {object} archive Archive data to be used inside client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 const convertToClientPhotoArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
   const type = archive.tipe.toLowerCase();
@@ -137,6 +190,11 @@ const convertToClientPhotoArchive = (archive) => {
   return { ...defaultMeta, ...typeSpecificMeta };
 };
 
+/**
+ * (Helper function) Returns object with ONLY client text metadata
+ * @param {object} archive Archive data to be used inside client components
+ * @returns {object} Archive object with converted properties (client version)
+ */
 const convertToClientTextArchive = (archive) => {
   const defaultMeta = getDefaultClientArchiveMeta(archive);
   const type = archive.tipe.toLowerCase();
