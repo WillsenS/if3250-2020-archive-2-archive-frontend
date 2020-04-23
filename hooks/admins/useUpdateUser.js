@@ -116,6 +116,7 @@ export default function useUpdateUser(authToken) {
         setError(errorText);
       } finally {
         setLoading(false);
+        setAction(IDLE);
       }
     })();
 
