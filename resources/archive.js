@@ -10,7 +10,6 @@ const withCredentials = true;
 
 /**
  * Most Search Keywoard search from user
- *
  */
 export const getMostSearchKeyword = () =>
   new Promise(async (resolve, reject) => {
@@ -30,7 +29,6 @@ export const getMostSearchKeyword = () =>
 
 /**
  * Most Search Keywoard search from user
- *
  */
 export const getMostSearchKeywordOnFile = () =>
   new Promise(async (resolve, reject) => {
@@ -95,6 +93,25 @@ export const getArchiveList = (
           page: currentPage,
           filters,
         },
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+/**
+ * Get Array of borrow archive request
+ */
+export const getArchiveBorrowRequestList = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const url = `${defaultAPIURL}/archive/borrow`;
+      const { data: response } = await axios({
+        url,
+        method: "GET",
         validateStatus,
       });
 
@@ -192,6 +209,24 @@ export const downloadArchive = (archiveId, token, filename) =>
         link.setAttribute("download", filename);
         document.body.appendChild(link);
         link.click();
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+export const patchArchiveBorrowRequest = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      // axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/archive/borrow/${payload._id}`;
+      const { data: response } = await axios({
+        url,
+        method: "PATCH",
+        data: payload,
+        validateStatus,
       });
 
       resolve(response);
