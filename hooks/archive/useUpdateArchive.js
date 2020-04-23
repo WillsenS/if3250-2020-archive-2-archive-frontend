@@ -8,7 +8,12 @@ import {
   getArchiveList,
 } from "../../resources/archive";
 
-export default function useUpdateArchive(token) {
+/**
+ * Custom hooks for controlling archive section logic.
+ * @param {string} authToken Authentication authToken
+ * @returns {object} Archive object state, with self-documenting property names
+ */
+export default function useUpdateArchive(authToken) {
   const [updatedArchive, setUpdatedArchive] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +40,7 @@ export default function useUpdateArchive(token) {
         "Gagal melakukan update pada tabel arsip. Silahkan coba beberapa saat lagi";
       try {
         setLoading(true);
-        const res = await getArchiveList("*", 1, "", source, token);
+        const res = await getArchiveList("*", 1, "", source, authToken);
         if (res.message === "OK") {
           const updatedArchiveList = res.data.map((archive) =>
             convertToClientJson(archive)
@@ -65,13 +70,13 @@ export default function useUpdateArchive(token) {
           let res;
           switch (action) {
             case SUBMIT:
-              res = await postSubmitArchive(updatedArchive, source, token);
+              res = await postSubmitArchive(updatedArchive, source, authToken);
               break;
             case EDIT:
-              res = await patchEditArchive(updatedArchive, source, token);
+              res = await patchEditArchive(updatedArchive, source, authToken);
               break;
             case DELETE:
-              res = await deleteArchive(updatedArchive, source, token);
+              res = await deleteArchive(updatedArchive, source, authToken);
               break;
           }
           if (res.status === 200) {
@@ -106,7 +111,7 @@ export default function useUpdateArchive(token) {
       setLoading(true);
       try {
         setLoading(true);
-        const res = await getArchiveList(query, page, null, source, token);
+        const res = await getArchiveList(query, page, null, source, authToken);
         if (res.message === "OK") {
           const updatedArchiveList = res.data.map((archive) =>
             convertToClientJson(archive)

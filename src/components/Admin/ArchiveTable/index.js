@@ -274,7 +274,7 @@ ArchiveTable.propTypes = {
   archives: PropTypes.array,
   page: PropTypes.number,
   loading: PropTypes.bool,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   totalPages: PropTypes.number,
   searchQuery: PropTypes.string,
   classification: PropTypes.array,

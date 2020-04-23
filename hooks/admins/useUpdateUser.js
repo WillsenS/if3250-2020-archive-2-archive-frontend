@@ -7,6 +7,11 @@ import {
 } from "../../resources/user";
 import axios from "axios";
 
+/**
+ * Custom hooks for controlling role management section logic.
+ * @param {string} authToken Authentication token
+ * @returns {object} Archive object state, with self-documenting names
+ */
 export default function useUpdateUser(authToken) {
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
@@ -128,9 +133,9 @@ export default function useUpdateUser(authToken) {
 
   // Pagination and search handler
   useEffect(() => {
-    // TODO: Will be updated to handle user search too
+    // TODO: Ideally, admin search functionality should be integrated within this handler
     const errorText =
-      "Gagal melakukan pencarian dan update halama. Silahkan coba beberapa saat lagi";
+      "Gagal melakukan pencarian dan update halaman. Silahkan coba beberapa saat lagi";
     let mounted = true;
     if (query.length <= 0) return;
     let sourceToken = axios.CancelToken.source();
