@@ -105,9 +105,10 @@ export const getArchiveList = (
 /**
  * Get Array of borrow archive request
  */
-export const getArchiveBorrowRequestList = () =>
+export const getArchiveBorrowRequestList = (token) =>
   new Promise(async (resolve, reject) => {
     try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
       const url = `${defaultAPIURL}/archive/borrow`;
       const { data: response } = await axios({
         url,
@@ -217,10 +218,10 @@ export const downloadArchive = (archiveId, token, filename) =>
     }
   });
 
-export const patchArchiveBorrowRequest = (payload) =>
+export const patchArchiveBorrowRequest = (token, payload) =>
   new Promise(async (resolve, reject) => {
     try {
-      // axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
       const url = `${defaultAPIURL}/archive/borrow/${payload._id}`;
       const { data: response } = await axios({
         url,

@@ -56,23 +56,16 @@ const Header = (props) => {
   if (!user) {
     navbarUser = (
       <Grid container spacing={0}>
-        <Grid item lg={6} className={classes.grid}>
+        <Grid item lg={8} className={classes.grid}>
           <div className={classes.login}>
             <Typography variant="h4">
               <NavLink href="/login">LOGIN</NavLink>
             </Typography>
           </div>
         </Grid>
-        <Grid item lg={6} className={classes.grid}>
-          <div className={classes.login}>
-            <Typography variant="h4">
-              <NavLink href="/admin-panel">ADMIN PANEL</NavLink>
-            </Typography>
-          </div>
-        </Grid>
       </Grid>
     );
-  } else {
+  } else if (user.role === 1 || user.role === 2) {
     navbarUser = (
       <Grid container spacing={0}>
         <Grid item lg={4} className={classes.grid}>
@@ -85,6 +78,23 @@ const Header = (props) => {
             <Typography variant="h4">
               <NavLink href="/admin-panel">ADMIN PANEL</NavLink>
             </Typography>
+          </div>
+        </Grid>
+        <Grid item lg={4} className={classes.grid}>
+          <div className={classes.login}>
+            <Typography variant="h4">
+              <NavLink href="/logout">LOGOUT</NavLink>
+            </Typography>
+          </div>
+        </Grid>
+      </Grid>
+    );
+  } else {
+    navbarUser = (
+      <Grid container spacing={0}>
+        <Grid item lg={4} className={classes.grid}>
+          <div className={classes.login}>
+            <Typography variant="h4">{user.fullname}</Typography>
           </div>
         </Grid>
         <Grid item lg={4} className={classes.grid}>

@@ -8,7 +8,7 @@ import {
   patchArchiveBorrowRequest,
 } from "../../../resources/archive";
 
-export default function ArchiveRequest() {
+export default function ArchiveRequest(props) {
   const [request, setRequest] = useState([]);
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("success");
@@ -16,7 +16,7 @@ export default function ArchiveRequest() {
 
   const acceptRequest = async (payload) => {
     payload.status = 1;
-    const response = await patchArchiveBorrowRequest(payload);
+    const response = await patchArchiveBorrowRequest(props.token, payload);
 
     if (!response.error) {
       getData();
@@ -32,7 +32,7 @@ export default function ArchiveRequest() {
 
   const rejectRequest = async (payload) => {
     payload.status = 2;
-    const response = await patchArchiveBorrowRequest(payload);
+    const response = await patchArchiveBorrowRequest(props.token, payload);
 
     if (!response.error) {
       getData();
@@ -47,8 +47,10 @@ export default function ArchiveRequest() {
   };
 
   const getData = async () => {
-    const response = await getArchiveBorrowRequestList();
-    setRequest([...response.data]);
+    const response = await getArchiveBorrowRequestList(props.token);
+    if (!response.error) {
+      setRequest([...response.data]);
+    }
   };
 
   useEffect(() => {
@@ -76,3 +78,11 @@ export default function ArchiveRequest() {
     </AdminLayout>
   );
 }
+
+ArchiveRequest.getInitialProps = ({ req }) => {
+  if (req && req.cookies) {
+    return { token: req.cookies.token };
+  } else {
+    return {};
+  }
+};
