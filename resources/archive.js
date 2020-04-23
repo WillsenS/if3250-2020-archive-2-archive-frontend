@@ -207,6 +207,24 @@ export const downloadArchive = (archiveId, token, filename) =>
     }
   });
 
+export const patchArchiveBorrowRequest = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      // axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+      const url = `${defaultAPIURL}/archive/borrow/${payload._id}`;
+      const { data: response } = await axios({
+        url,
+        method: "PATCH",
+        data: payload,
+        validateStatus,
+      });
+
+      resolve(response);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
 /**
  * Post new borrow archive request
  * @param {object} payload Information needed for apply request

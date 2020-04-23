@@ -40,16 +40,16 @@ function RequestListItem(props) {
   );
 }
 
-export default function RequestDetail(props) {
-  const { isOpen, handleClose, handleAccept, request } = props;
+export default function RequestReject(props) {
+  const { isOpen, handleClose, handleReject, request } = props;
   const classes = useStyles();
 
   return (
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      aria-labelledby="request-detail"
-      aria-describedby="list-request-detail"
+      aria-labelledby="request-reject"
+      aria-describedby="list-request-reject"
       className={classes.root}
       maxWidth={false}
       disableBackdropClick
@@ -76,8 +76,8 @@ export default function RequestDetail(props) {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleAccept} color="default">
-          Pinjamkan
+        <Button onClick={handleReject} color="default">
+          Tolak
         </Button>
         <Button onClick={handleClose} color="default">
           Kembali
