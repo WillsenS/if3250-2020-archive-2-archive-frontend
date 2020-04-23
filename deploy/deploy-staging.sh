@@ -13,6 +13,6 @@ sudo bash -c 'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
 
 # Deploy to staging server
 echo "Deploying to ${STAGING_SERVER}"
-ssh ubuntu@${STAGING_SERVER} 'bash' < ./deploy/pull-staging.sh
+ssh ubuntu@${STAGING_SERVER} 'bash' < ./deploy/clone-staging.sh
 
 ssh ubuntu@${STAGING_SERVER} 'bash' < ./deploy/update-restart-staging.sh
