@@ -18,6 +18,7 @@ import DeleteConfirmDialog from "../Custom/Dialog/Admin/DeleteConfirmDialog";
 import AddAdminDialog from "../Custom/Dialog/Admin/AddAdminDialog";
 import EditAdminDialog from "../Custom/Dialog/Admin/EditAdminDialog";
 import AdminPagination from "../Custom/Pagination/AdminPagination";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 //PropTypes validation
 import PropTypes from "prop-types";
@@ -44,6 +45,8 @@ export default function AdminTable(props) {
     loading,
     error,
   } = props;
+
+  console.log("loading: ", loading);
 
   const handleDeleteAdminOpen = (admin) => {
     setSelectedAdmin(admin);
@@ -87,6 +90,7 @@ export default function AdminTable(props) {
         <AddButton handleClick={handleAddAdminOpen}>Tambah Admin</AddButton>
       </div>
       <TableContainer component={Paper} className={classes.wrapper}>
+        {loading ? <LinearProgress /> : <></>}
         <Table
           className={classes.table}
           aria-label="admin list table"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   getNonAdmins,
   getAdmins,
@@ -28,7 +28,6 @@ export default function useUpdateUser(authToken) {
     const updateTableError =
       "Gagal melakukan update pada tabel admin, silahkan coba beberapa saat lagi";
     try {
-      setError("");
       setLoading(true);
       const sourceToken = axios.CancelToken.source();
       const [getAdminRes, getNonAdminRes] = await Promise.all([
