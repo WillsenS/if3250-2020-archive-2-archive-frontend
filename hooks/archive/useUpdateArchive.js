@@ -42,16 +42,15 @@ export default function useUpdateArchive(token) {
             setArchiveList([...updatedArchiveList]);
             setPage(res.currentPage);
             setTotalPages(res.totalPages);
-            setLoading(false);
             setAction(NONE);
           }
         } else {
-          setLoading(false);
           setError(true);
         }
       } catch (e) {
-        setLoading(false);
         setError(true);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -74,14 +73,14 @@ export default function useUpdateArchive(token) {
           if (res.status === 200) {
             await updateArchiveList();
           } else {
-            setLoading(false);
             setError(true);
             setAction(NONE);
           }
         } catch (e) {
-          setLoading(false);
           setError(true);
           setAction(NONE);
+        } finally {
+          setLoading(false);
         }
       }
     })();
@@ -110,14 +109,13 @@ export default function useUpdateArchive(token) {
             setArchiveList([...updatedArchiveList]);
             setPage(res.currentPage);
             setTotalPages(res.totalPages);
-            setLoading(false);
           }
         } else {
           setError(true);
-          setLoading(false);
         }
       } catch (e) {
         setError(true);
+      } finally {
         setLoading(false);
       }
     })();
