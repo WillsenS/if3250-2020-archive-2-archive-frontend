@@ -14,7 +14,7 @@ export default function useUpdateUser(authToken) {
   const [totalPages, setTotalPages] = useState(0);
   const [query, setQuery] = useState("*");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [updateUser, setUpdateUser] = useState({
     userId: "",
     roleId: 0,
@@ -25,8 +25,10 @@ export default function useUpdateUser(authToken) {
   const [action, setAction] = useState(IDLE);
 
   const handleUpdateTables = async (role_id, pages) => {
+    const updateTableError =
+      "Gagal melakukan update pada tabel admin, silahkan coba beberapa saat lagi";
     try {
-      setError(false);
+      setError("");
       setLoading(true);
       const sourceToken = axios.CancelToken.source();
       const [getAdminRes, getNonAdminRes] = await Promise.all([
@@ -40,10 +42,10 @@ export default function useUpdateUser(authToken) {
         setPage(getAdminRes.data.currentPage);
         setTotalPages(getAdminRes.data.totalPages);
       } else {
-        setError(true);
+        setError(updateTableError);
       }
     } catch (err) {
-      setError(true);
+      setError(updateTableError);
     } finally {
       setLoading(false);
     }
@@ -72,6 +74,8 @@ export default function useUpdateUser(authToken) {
     let mounted = true;
     let sourceToken = axios.CancelToken.source();
     (async () => {
+      const errorText =
+        "Gagal melakukan update pada user. Silahkan coba beberapa saat lagi";
       try {
         setLoading(true);
         let res;
@@ -99,10 +103,10 @@ export default function useUpdateUser(authToken) {
             await handleUpdateTables();
           }
         } else {
-          setError(true);
+          setError(errorText);
         }
       } catch (err) {
-        setError(true);
+        setError(errorText);
       } finally {
         setLoading(false);
       }
@@ -117,6 +121,8 @@ export default function useUpdateUser(authToken) {
   // Pagination and search handler
   useEffect(() => {
     // TODO: Will be updated to handle user search too
+    const errorText =
+      "Gagal melakukan pencarian dan update halama. Silahkan coba beberapa saat lagi";
     let mounted = true;
     if (query.length <= 0) return;
     let sourceToken = axios.CancelToken.source();
@@ -129,7 +135,7 @@ export default function useUpdateUser(authToken) {
         }
       })();
     } catch (err) {
-      setError(true);
+      setError(errorText);
     } finally {
       setLoading(false);
     }
@@ -138,6 +144,13 @@ export default function useUpdateUser(authToken) {
       sourceToken.cancel("Request cancelled because user left the page");
     };
   }, [query, page]);
+
+  // Error handler
+  useEffect(() => {
+    if (error.length <= 0) return;
+    alert(error);
+    setError("");
+  }, [error]);
 
   return {
     error,

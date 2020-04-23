@@ -159,5 +159,5 @@ AdminTable.propTypes = {
   handleEditDataRequest: PropTypes.func,
   handleSearch: PropTypes.func,
   loading: PropTypes.bool,
-  error: PropTypes.bool,
+  error: PropTypes.string,
 };
