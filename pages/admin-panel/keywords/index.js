@@ -11,7 +11,7 @@ import {
 const Keyword = (props) => {
   const [keywords, setKeywords] = useState([]);
 
-  const section = 2; //Section: Admin
+  const section = 5;
 
   async function getData() {
     const response = await getMostSearchKeywordOnFile();
@@ -44,13 +44,25 @@ const Keyword = (props) => {
   };
 
   return (
-    <AdminLayout section={section} title="Pengaturan Data Admin">
+    <AdminLayout
+      section={section}
+      title="Pengaturan Data Keyword"
+      token={props.token}
+    >
       <KeywordTable
         dataKeyword={keywords}
         handleEditDataRequest={handleEditKeywordRequest}
       />
     </AdminLayout>
   );
+};
+
+Keyword.getInitialProps = ({ req }) => {
+  if (req && req.cookies) {
+    return { token: req.cookies.token };
+  } else {
+    return {};
+  }
 };
 
 export default Keyword;

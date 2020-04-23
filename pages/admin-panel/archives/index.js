@@ -40,7 +40,7 @@ function Archives({ token }) {
   };
 
   return (
-    <AdminLayout section={section} title="Pengaturan Data Arsip">
+    <AdminLayout section={section} title="Pengaturan Data Arsip" token={token}>
       <ArchiveTable
         searchQuery={state.query}
         // @ts-ignore

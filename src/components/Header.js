@@ -7,11 +7,10 @@ import {
   Toolbar,
   Typography,
   Grid,
+  Link,
 } from "@material-ui/core";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import NavLink from "./Link/NavLink";
-import Link from "next/link";
 
 //PropTypes validation
 import PropTypes from "prop-types";
@@ -58,9 +57,9 @@ const Header = (props) => {
       <Grid container spacing={0}>
         <Grid item lg={8} className={classes.grid}>
           <div className={classes.login}>
-            <Typography variant="h4">
-              <NavLink href="/login">LOGIN</NavLink>
-            </Typography>
+            <Link href="/login" color="inherit">
+              <Typography variant="h4">LOGIN</Typography>
+            </Link>
           </div>
         </Grid>
       </Grid>
@@ -75,16 +74,16 @@ const Header = (props) => {
         </Grid>
         <Grid item lg={4} className={classes.grid}>
           <div className={classes.login}>
-            <Typography variant="h4">
-              <NavLink href="/admin-panel">ADMIN PANEL</NavLink>
-            </Typography>
+            <Link href="/admin-panel" color="inherit">
+              <Typography variant="h4">ADMIN PANEL</Typography>
+            </Link>
           </div>
         </Grid>
         <Grid item lg={4} className={classes.grid}>
           <div className={classes.login}>
-            <Typography variant="h4">
-              <NavLink href="/logout">LOGOUT</NavLink>
-            </Typography>
+            <Link href="/logout" color="inherit">
+              <Typography variant="h4">LOGOUT</Typography>
+            </Link>
           </div>
         </Grid>
       </Grid>
@@ -99,9 +98,9 @@ const Header = (props) => {
         </Grid>
         <Grid item lg={4} className={classes.grid}>
           <div className={classes.login}>
-            <Typography variant="h4">
-              <NavLink href="/logout">LOGOUT</NavLink>
-            </Typography>
+            <Link href="/logout" color="inherit">
+              <Typography variant="h4">LOGOUT</Typography>
+            </Link>
           </div>
         </Grid>
       </Grid>
@@ -128,7 +127,7 @@ const Header = (props) => {
                 <Grid item xs={6} className={classes.grid}>
                   <Box className={classes.title}>
                     <Box>
-                      <Link href="/">
+                      <Link href="/" color="inherit">
                         <Typography
                           variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                           className={classes.yellow}
@@ -138,7 +137,7 @@ const Header = (props) => {
                       </Link>
                     </Box>
                     <Box>
-                      <Link href="/">
+                      <Link href="/" color="inherit">
                         <Typography
                           variant={isWidthDown("sm", props.width) ? "h4" : "h3"}
                         >

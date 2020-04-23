@@ -13,12 +13,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Admin({ token }) {
+const Admin = (props) => {
   const classes = useStyles();
   const [users, setUsers] = useState({});
   const [archives, setArchives] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { token } = props;
 
   useEffect(() => {
     setLoading(true);
@@ -62,11 +64,14 @@ function Admin({ token }) {
       </AdminLayout>
     </>
   );
-}
+};
 
-Admin.getInitialProps = ({ req, query }) => {
-  if (req && req.cookies) return { ...query, token: req.cookies.token };
-  else return query;
+Admin.getInitialProps = ({ req }) => {
+  if (req && req.cookies) {
+    return { token: req.cookies.token };
+  } else {
+    return {};
+  }
 };
 
 export default Admin;

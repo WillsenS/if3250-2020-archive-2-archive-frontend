@@ -9,7 +9,11 @@ function AdminUsers(props) {
   const section = 2; //Section: Admin
 
   return (
-    <AdminLayout section={section} title="Pengaturan Data Admin">
+    <AdminLayout
+      section={section}
+      title="Pengaturan Data Admin"
+      token={props.token}
+    >
       <AdminTable
         dataAdmin={state.admins}
         dataUser={state.users}
@@ -27,9 +31,12 @@ function AdminUsers(props) {
   );
 }
 
-AdminUsers.getInitialProps = ({ req, query }) => {
-  if (req && req.cookies) return { ...query, token: req.cookies.token };
-  else return query;
+AdminUsers.getInitialProps = ({ req }) => {
+  if (req && req.cookies) {
+    return { token: req.cookies.token };
+  } else {
+    return {};
+  }
 };
 
 export default AdminUsers;

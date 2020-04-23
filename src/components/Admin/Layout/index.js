@@ -15,7 +15,7 @@ import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import Link from "next/link";
+import Link from "@material-ui/core/Link";
 import HomeIcon from "@material-ui/icons/Home";
 //Custom
 import useStyles from "./style";
@@ -59,7 +59,7 @@ function AdminLayout(props) {
       </div>
       <Divider />
       <List>
-        <Link href="/admin-panel">
+        <Link href="/admin-panel" color="inherit">
           <ListItem
             button
             key={"Home"}
@@ -72,7 +72,7 @@ function AdminLayout(props) {
             <ListItemText primary={"Home"} />
           </ListItem>
         </Link>
-        <Link href="/admin-panel/admins">
+        <Link href="/admin-panel/admins" color="inherit">
           <ListItem
             button
             key={"Admins"}
@@ -85,7 +85,7 @@ function AdminLayout(props) {
             <ListItemText primary={"Admin"} />
           </ListItem>
         </Link>
-        <Link href="/admin-panel/archives">
+        <Link href="/admin-panel/archives" color="inherit">
           <ListItem
             button
             key={"Archives"}
@@ -98,7 +98,7 @@ function AdminLayout(props) {
             <ListItemText primary={"Arsip"} />
           </ListItem>
         </Link>
-        <Link href="/admin-panel/archive-requests">
+        <Link href="/admin-panel/archive-requests" color="inherit">
           <ListItem
             button
             key={"Archives"}
@@ -109,6 +109,19 @@ function AdminLayout(props) {
               <EventAvailableIcon classes={{ root: classes.icon }} />
             </ListItemIcon>
             <ListItemText primary={"Peminjaman"} />
+          </ListItem>
+        </Link>
+        <Link href="/admin-panel/keywords" color="inherit">
+          <ListItem
+            button
+            key={"Keywords"}
+            classes={{ root: section === 5 ? classes.currentLink : "" }}
+            className={classes.buttonHover}
+          >
+            <ListItemIcon>
+              <FindInPageIcon classes={{ root: classes.icon }} />
+            </ListItemIcon>
+            <ListItemText primary={"Keyword"} />
           </ListItem>
         </Link>
       </List>
