@@ -86,6 +86,13 @@ export default function useUpdateUser(authToken) {
               sourceToken,
               authToken
             );
+            if (res.status === 200) {
+              if (mounted) {
+                await handleUpdateTables();
+              } else {
+                setError(errorText);
+              }
+            }
             break;
           case DELETE_ADMIN:
             res = await patchResetRoleToDefault(
@@ -93,18 +100,19 @@ export default function useUpdateUser(authToken) {
               sourceToken,
               authToken
             );
+            if (res.status === 200) {
+              if (mounted) {
+                await handleUpdateTables();
+              } else {
+                setError(errorText);
+              }
+            }
             break;
           default:
             break;
         }
-        if (res.status === 200) {
-          if (mounted) {
-            await handleUpdateTables();
-          }
-        } else {
-          setError(errorText);
-        }
       } catch (err) {
+        alert(`error: ${err}`);
         setError(errorText);
       } finally {
         setLoading(false);

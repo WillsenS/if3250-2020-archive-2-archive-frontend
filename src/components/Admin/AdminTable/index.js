@@ -46,8 +46,6 @@ export default function AdminTable(props) {
     error,
   } = props;
 
-  console.log("loading: ", loading);
-
   const handleDeleteAdminOpen = (admin) => {
     setSelectedAdmin(admin);
     setOpenDeleteAdminDialog(true);
