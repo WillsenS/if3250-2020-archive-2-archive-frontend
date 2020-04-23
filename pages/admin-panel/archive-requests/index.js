@@ -58,7 +58,11 @@ export default function ArchiveRequest(props) {
   }, []);
 
   return (
-    <AdminLayout section={4} title="Data Permintaan Peminjaman Arsip">
+    <AdminLayout
+      section={4}
+      title="Data Permintaan Peminjaman Arsip"
+      token={props.token}
+    >
       {request.length > 0 ? (
         <RequestTable
           title="Daftar Permintaan Peminjaman Arsip"
