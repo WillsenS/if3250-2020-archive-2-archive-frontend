@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 /**
  * Get admin list
- * @param {number} [role_id] Admin role id, optional
+ * @param {string} [role_id] Admin role id, optional
  * @param {number} [page] Page number, optional
  * @param {object} source Axios request token
  * @param {string} token Authentication token
@@ -56,7 +56,7 @@ export const getNonAdmins = async (page, source, token) => {
 
 /**
  * Edit user role
- * @param {number} user_id User id
+ * @param {string} user_id User id
  * @param {number} role_id New role id
  * @param {object} source Axios request token
  * @param {string} token Authentication token
@@ -85,7 +85,7 @@ export const patchEditUserRole = async (user_id, role_id, source, token) => {
 
 /**
  * Remove admin access from user, reset to default access
- * @param {number} user_id User id
+ * @param {string} user_id User id
  * @param {object} source Axios request token
  * @param {string} token Authentication token
  */
