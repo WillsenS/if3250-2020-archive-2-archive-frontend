@@ -34,8 +34,6 @@ export default function useUpdateUser(authToken) {
         // No page num specified , server will provide all non-admin users
         getNonAdmins(null, sourceToken, authToken),
       ]);
-      console.log(getAdminRes);
-      console.log(getNonAdminRes);
       if (getAdminRes.status === 200 && getNonAdminRes.status === 200) {
         setAdmins(getAdminRes.data.data);
         setUsers(getNonAdminRes.data.data);
@@ -71,7 +69,6 @@ export default function useUpdateUser(authToken) {
 
   // Admin update handler
   useEffect(() => {
-    console.log("update handler kepanggil");
     let mounted = true;
     let sourceToken = axios.CancelToken.source();
     (async () => {
@@ -119,19 +116,15 @@ export default function useUpdateUser(authToken) {
 
   // Pagination and search handler
   useEffect(() => {
-    console.log("search handler kepanggil");
     // TODO: Will be updated to handle user search too
     let mounted = true;
     if (query.length <= 0) return;
-    console.log("sampe sini");
     let sourceToken = axios.CancelToken.source();
     try {
       setLoading(true);
       (async () => {
-        console.log("udah didalem iife");
-        console.log(mounted);
-        // Unspecified role_id, will get all admins from server
         if (mounted) {
+          // Unspecified role_id, will get all admins from server
           await handleUpdateTables(null, page);
         }
       })();
