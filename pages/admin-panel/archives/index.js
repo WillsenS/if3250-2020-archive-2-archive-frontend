@@ -8,7 +8,7 @@ const SUBMIT = 1;
 const EDIT = 2;
 const DELETE = 3;
 
-function Archives({token}) {
+function Archives({ token }) {
   const state = useUpdateArchive(token);
   const section = 3; // section: archive
 
@@ -43,6 +43,7 @@ function Archives({token}) {
     <AdminLayout section={section} title="Pengaturan Data Arsip">
       <ArchiveTable
         searchQuery={state.query}
+        // @ts-ignore
         currentPage={state.page}
         loading={state.loading}
         error={state.error}
@@ -58,8 +59,6 @@ function Archives({token}) {
     </AdminLayout>
   );
 }
-
-
 
 Archives.getInitialProps = ({ req, query }) => {
   if (req && req.cookies) return { ...query, token: req.cookies.token };

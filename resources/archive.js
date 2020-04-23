@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from "axios";
 import { defaultAPIURL } from "../config";
 import formBuilder from "../utils/FormBuilder";
@@ -9,7 +10,7 @@ const withCredentials = true;
 
 /**
  * Most Search Keywoard search from user
- * @param {string} sourceToken Aythentication token
+ *
  */
 export const getMostSearchKeyword = () =>
   new Promise(async (resolve, reject) => {
@@ -29,7 +30,7 @@ export const getMostSearchKeyword = () =>
 
 /**
  * Most Search Keywoard search from user
- * @param {string} sourceToken Aythentication token
+ *
  */
 export const getMostSearchKeywordOnFile = () =>
   new Promise(async (resolve, reject) => {
@@ -67,17 +68,25 @@ export const changeMostSearchKeywordOnFile = (data) =>
 /**
  * Get Array of archive based on query, pagem and filter
  * @param {string} searchQuery Searchh queay
- * @param {string} currentPage Page number
- * @param {string} filter The search filter (using google standard)
- * @param {string} sourceToken Aythentication token
+ * @param {number} currentPage Page number
+ * @param {array} filter The search filter (using google standard)
+ * @param {object} axiosRequestToken Axios cancellation token object
+ * @param {object} token Authentication token
  */
-export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
-  //sourceToken: add token source to cancel request if user left the page before the request is finished
+export const getArchiveList = (
+  searchQuery,
+  currentPage,
+  filter,
+  axiosRequestToken,
+  token
+) =>
+  //axiosRequestToken: add token source to cancel request if user left the page before the request is finished
   new Promise(async (resolve, reject) => {
     try {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
       const url = `${defaultAPIURL}/archive/search?q=${searchQuery}`;
       const filters = filter ? filter.join(",") : null;
-      const cancelToken = sourceToken ? sourceToken.token : null;
+      const cancelToken = axiosRequestToken ? axiosRequestToken.token : null;
       const { data: response } = await axios({
         url,
         cancelToken,
@@ -98,7 +107,7 @@ export const getArchiveList = (searchQuery, currentPage, filter, sourceToken) =>
 /**
  * Get the title of archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  */
 export const getArchiveTitle = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
@@ -120,7 +129,7 @@ export const getArchiveTitle = (archiveId, token) =>
 /**
  * Get the detail information of archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  */
 export const getArchiveDetail = (archiveId, token) =>
   new Promise(async (resolve, reject) => {
@@ -161,7 +170,7 @@ export const getLatestArchives = () =>
 /**
  * Get the file that want to download from archive based its id
  * @param {string} archiveId id of archive
- * @param {string} sourceToken Aythentication token
+ * @param {string} token Authentication token
  * @param {string} filename Filename of archive
  */
 export const downloadArchive = (archiveId, token, filename) =>
@@ -194,7 +203,7 @@ export const downloadArchive = (archiveId, token, filename) =>
 /**
  * Post new borrow archive request
  * @param {object} payload Information needed for apply request
- * @param {string} token Aythentication token
+ * @param {string} token Authentication token
  */
 export const postBorrowArchive = (token, payload) =>
   new Promise(async (resolve, reject) => {
@@ -214,14 +223,24 @@ export const postBorrowArchive = (token, payload) =>
     }
   });
 
-export const postSubmitArchive = async (submittedArchive, source, token) => {
+/**
+ * Post new archive data to server
+ * @param {object} submittedArchive archive object to be processed
+ * @param {object} axiosRequestToken axios req token
+ * @param {string} token Authentication token
+ */
+export const postSubmitArchive = async (
+  submittedArchive,
+  axiosRequestToken,
+  token
+) => {
   try {
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(submittedArchive);
     const url = `${defaultAPIURL}/archive/upload`;
     const data = formBuilder(serverMetaArchive);
     const config = {
-      cancelToken: source.token,
+      cancelToken: axiosRequestToken.token,
       headers: { "content-type": "multipart/form-data" },
     };
     return await axios.post(url, data, config);
@@ -230,7 +249,17 @@ export const postSubmitArchive = async (submittedArchive, source, token) => {
   }
 };
 
-export const patchEditArchive = async (editedArchive, source, token) => {
+/**
+ * Post edited archive data to server
+ * @param {object} editedArchive archive object to be processed
+ * @param {object} axiosRequestToken axios req token
+ * @param {string} token Authentication token
+ */
+export const patchEditArchive = async (
+  editedArchive,
+  axiosRequestToken,
+  token
+) => {
   try {
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const serverMetaArchive = convertToServerJson(editedArchive);
@@ -238,7 +267,7 @@ export const patchEditArchive = async (editedArchive, source, token) => {
     const data = formBuilder(serverMetaArchive);
     const config = {
       headers: { "content-type": "multipart/form-data" },
-      cancelToken: source.token,
+      cancelToken: axiosRequestToken.token,
     };
     return await axios.patch(url, data, config);
   } catch (e) {
@@ -246,16 +275,27 @@ export const patchEditArchive = async (editedArchive, source, token) => {
   }
 };
 
-export const deleteArchive = async (archive, source, token) => {
+/**
+ * Post edited archive data to server
+ * @param {object} archive archive object to be deleted
+ * @param {object} axiosRequestToken axios req token
+ * @param {string} token Authentication token
+ */
+export const deleteArchive = async (archive, axiosRequestToken, token) => {
   try {
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/archive/delete/${archive._id}`;
-    return await axios.delete(url, { cancelToken: source.token });
+    return await axios.delete(url, { cancelToken: axiosRequestToken.token });
   } catch (e) {
     throw "Error deleting archive";
   }
 };
 
+/**
+ *
+ * Get archive and user statistics
+ * @param {string} token Authentication token
+ */
 export const getStatistic = async (token) => {
   try {
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
