@@ -117,7 +117,6 @@ export default function useUpdateUser(authToken) {
             break;
         }
       } catch (err) {
-        alert(`error: ${err}`);
         setError(errorText);
       } finally {
         setLoading(false);
