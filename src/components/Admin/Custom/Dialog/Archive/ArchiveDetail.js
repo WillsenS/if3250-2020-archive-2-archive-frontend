@@ -70,7 +70,7 @@ export default function ArchiveDetail(props) {
   };
 
   moment.locale("id");
-
+  console.log(archive);
   return (
     <Dialog
       open={isOpen}
@@ -119,7 +119,7 @@ export default function ArchiveDetail(props) {
           <ArchiveListItem
             label="Tanggal Pembuatan Arsip"
             // data={moment(archive.date).format("LL")} <-- To be deprecated, got warning on web console
-              data={archive.date}
+            data={archive.date}
           />
           <ArchiveListItem label="Format File" data={archive.mime} />
           {archive.type === "Video" || archive.type === "Audio" ? (
@@ -158,6 +158,10 @@ export default function ArchiveDetail(props) {
           ) : (
             <></>
           )}
+          <ArchiveListItem
+            label="Lokasi Simpan Arsip"
+            data={archive.archiveLocation}
+          />
         </List>
       </DialogContent>
       <DialogActions>
