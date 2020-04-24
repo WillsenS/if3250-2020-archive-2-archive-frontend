@@ -7,8 +7,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  navButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
   contentWrapper: {
-    marginLeft: drawerWidth,
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: drawerWidth,
+    },
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
@@ -59,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   content: {
+    position: "relative",
     flexGrow: 1,
     padding: theme.spacing(3),
   },
