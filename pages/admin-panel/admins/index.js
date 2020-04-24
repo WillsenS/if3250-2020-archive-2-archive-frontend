@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import useUpdateUsers from "../../../hooks/admins/useUpdateUser";
-import AdminLayout from "../../../src/components/Admin/Layout";
+import HighAdminLayout from "../../../src/components/Admin/Layout/HighAdmin";
 import AdminTable from "../../../src/components/Admin/AdminTable";
 
 function AdminUsers(props) {
@@ -9,7 +9,7 @@ function AdminUsers(props) {
   const section = 2; //Section: Admin
 
   return (
-    <AdminLayout
+    <HighAdminLayout
       section={section}
       title="Pengaturan Data Admin"
       token={props.token}
@@ -27,7 +27,7 @@ function AdminUsers(props) {
         loading={state.loading}
         error={state.error}
       />
-    </AdminLayout>
+    </HighAdminLayout>
   );
 }
 
