@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import Error from "next/error";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -72,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 const Detail = (props) => {
   const classes = useStyles();
   const { archiveId, token } = props;
+  const [error, setError] = useState(false);
   const [archive, setArchive] = useState({});
   const [file, setFile] = useState({});
 
@@ -82,47 +84,49 @@ const Detail = (props) => {
   const fetchArchiveDetail = async (archiveId, token) => {
     try {
       const response = await getArchiveDetail(archiveId, token);
-      setFile(response.data.file);
+      if (response && !response.error) {
+        setFile(response.data.file);
 
-      const notIncludedKey = [
-        "_id",
-        "file",
-        "createdAt",
-        "updatedAt",
-        "__v",
-        "keamanan_terbuka",
-        "waktu_hapus",
-      ];
+        const notIncludedKey = [
+          "_id",
+          "file",
+          "createdAt",
+          "updatedAt",
+          "__v",
+          "keamanan_terbuka",
+          "waktu_hapus",
+        ];
 
-      notIncludedKey.map((key) => {
-        delete response.data[key];
-      });
+        notIncludedKey.map((key) => {
+          delete response.data[key];
+        });
 
-      const types = ["photo", "audio", "video", "text"];
+        const types = ["photo", "audio", "video", "text"];
 
-      types.map((type) => {
-        if (response.data[type]) {
-          const data = response.data[type];
+        types.map((type) => {
+          if (response.data[type]) {
+            const data = response.data[type];
 
-          notIncludedKey.map((key) => {
-            delete data[key];
-          });
+            notIncludedKey.map((key) => {
+              delete data[key];
+            });
 
-          response.data = { ...response.data, ...data };
+            response.data = { ...response.data, ...data };
+          }
+          delete response.data[type];
+        });
+
+        moment.locale("id");
+        const date = moment(response.data["waktu_kegiatan"]).format("LL");
+
+        if (date) {
+          response.data["waktu_kegiatan"] = date;
         }
-        delete response.data[type];
-      });
 
-      moment.locale("id");
-      const date = moment(response.data["waktu_kegiatan"]).format("LL");
-
-      if (date) {
-        response.data["waktu_kegiatan"] = date;
-      }
-
-      setArchive(response.data);
+        setArchive(response.data);
+      } else setError(true);
     } catch (err) {
-      console.error(err);
+      setError(true);
     }
   };
 
@@ -150,6 +154,8 @@ const Detail = (props) => {
       <Viewer fileUrl={`${defaultPublicURL}${file.path}`} defaultScale={1} />
     </div>
   );
+
+  if (error) return <Error statusCode={500} />;
 
   return (
     <>
