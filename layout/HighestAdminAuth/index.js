@@ -7,7 +7,7 @@ import { DispatchUserContext, StateUserContext } from "../../reducers/user";
 
 const HIGHEST_ADMIN_ROLE = 1;
 
-const AllAdminAuth = (props) => {
+const HighestAdminAuth = (props) => {
   const { children, title, token, ...rest } = props;
 
   const userState = useContext(StateUserContext);
@@ -59,4 +59,4 @@ const AllAdminAuth = (props) => {
   );
 };
 
-export default AllAdminAuth;
+export default HighestAdminAuth;

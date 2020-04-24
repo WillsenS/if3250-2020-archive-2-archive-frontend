@@ -17,6 +17,7 @@ const AllAdminAuth = (props) => {
   const doAuth = async () => {
     try {
       const response = await getAuthCheck(token);
+      console.log("RESPONSE:", response);
       if (response.error) {
         switch (response.error.code) {
           case 401:
@@ -28,7 +29,10 @@ const AllAdminAuth = (props) => {
         }
       } else {
         const { data } = response;
-        if (data.role === HIGHEST_ADMIN_ROLE || data.role >= MINIMUM_ADMIN_ROLE) {
+        if (
+          data.role === HIGHEST_ADMIN_ROLE ||
+          data.role >= MINIMUM_ADMIN_ROLE
+        ) {
           userDispatch({
             type: "set_user",
             payload: data,
