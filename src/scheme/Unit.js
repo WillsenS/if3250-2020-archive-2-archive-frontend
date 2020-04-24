@@ -64,7 +64,7 @@ const Role = [
     _id: 16,
   },
   {
-    label: "DIERRENC/DIRKEU",
+    label: "DIERRENC",
     _id: 17,
   },
   {
@@ -80,144 +80,104 @@ const Role = [
     _id: 20,
   },
   {
-    label: "DITPEG/UPT PMO",
+    label: "DITKHI",
     _id: 21,
   },
   {
-    label: "DITKHI",
+    label: "DIT HUA",
     _id: 22,
   },
   {
-    label: "DIT HUA",
+    label: "DIT BANG",
     _id: 23,
   },
   {
-    label: "DIT HUA/DIT AU",
+    label: "DIT RENC",
     _id: 24,
   },
   {
-    label: "DIT BANG",
+    label: "DITLOG",
     _id: 25,
   },
   {
-    label: "DIT RENC",
+    label: "DIT SP",
     _id: 26,
   },
   {
-    label: "DITLOG",
+    label: "DITKEU",
     _id: 27,
   },
   {
-    label: "DIT SP",
+    label: "DITSP",
     _id: 28,
   },
   {
-    label: "DITRENC/DITKEU",
+    label: "UPT K3L",
     _id: 29,
   },
   {
-    label: "DITKEU",
+    label: "DITSTI",
     _id: 30,
   },
   {
-    label: "DITLOG/DITKEU",
+    label: "DIT STI/E-Learning",
     _id: 31,
   },
   {
-    label: "DITKEU/DITPEG",
+    label: "UPT PMO",
     _id: 32,
   },
   {
-    label: "DITKEU/DITLOG/DITPEG",
+    label: "LPPM",
     _id: 33,
   },
   {
-    label: "DITKEU/SPI",
+    label: "SPI",
     _id: 34,
   },
   {
-    label: "DITSP",
+    label: "DITDIK",
     _id: 35,
   },
   {
-    label: "UPT K3L",
+    label: "BPUDL",
     _id: 36,
   },
   {
-    label: "DITPEG/DIT AU",
+    label: "UUP Penerbit",
     _id: 37,
   },
   {
-    label: "DIT AU/DITPEG",
+    label: "UPT Perpustakaan",
     _id: 38,
   },
   {
-    label: "DITSTI",
+    label: "Lab/Studio",
     _id: 39,
   },
   {
-    label: "DIT STI/E-Learning",
+    label: "DT HUA",
     _id: 40,
   },
   {
-    label: "UPT PMO",
+    label: "LPIK",
     _id: 41,
   },
   {
-    label: "UPT PMO/DITPEG",
+    label: "MWA",
     _id: 42,
   },
   {
-    label: "LPPM",
+    label: "SA",
     _id: 43,
   },
   {
-    label: "SPI",
+    label: "FGB",
     _id: 44,
   },
   {
-    label: "DITDIK",
-    _id: 46,
-  },
-  {
-    label: "BPUDL",
-    _id: 47,
-  },
-  {
-    label: "UUP Penerbit",
-    _id: 48,
-  },
-  {
-    label: "UPT Perpustakaan",
-    _id: 49,
-  },
-  {
-    label: "Lab/Studio",
-    _id: 50,
-  },
-  {
-    label: "DT HUA",
-    _id: 51,
-  },
-  {
-    label: "LPIK",
-    _id: 52,
-  },
-  {
-    label: "MWA",
-    _id: 53,
-  },
-  {
-    label: "SA",
-    _id: 54,
-  },
-  {
-    label: "FGB",
-    _id: 55,
-  },
-  {
     label: "Komite Audit",
-    _id: 56,
+    _id: 45,
   },
 ];
 
