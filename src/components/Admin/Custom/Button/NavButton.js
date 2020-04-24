@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   button: {
+    zIndex: 1000,
+    boxShadow: theme.shadows[2],
     borderRadius: "50%",
     margin: "1.5rem",
     color: "#fff",

@@ -10,6 +10,9 @@ import { getStatistic } from "../../resources/archive";
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
+    display: "flex",
+    alignItems: "center",
+    minHeight: "40vh",
   },
 }));
 
