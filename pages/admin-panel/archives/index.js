@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import AllAdminLayout from "../../../src/components/Admin/Layout/AllAdmin";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import useUpdateArchive from "../../../hooks/archive/useUpdateArchive";
+import { StateUserContext } from "../../../reducers/user";
 
 const SUBMIT = 1;
 const EDIT = 2;
@@ -39,6 +40,8 @@ function Archives({ token }) {
     state.updateArchive({ ...selectedArchive });
   };
 
+  const userState = React.useContext(StateUserContext);
+
   return (
     <AllAdminLayout
       section={section}
@@ -46,8 +49,8 @@ function Archives({ token }) {
       token={token}
     >
       <ArchiveTable
+        user={userState.user}
         searchQuery={state.query}
-        // @ts-ignore
         currentPage={state.page}
         loading={state.loading}
         error={state.error}
