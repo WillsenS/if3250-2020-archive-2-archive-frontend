@@ -5,7 +5,10 @@ import Router from "next/router";
 import { getAuthCheck } from "../../resources/auth";
 import { DispatchUserContext, StateUserContext } from "../../reducers/user";
 
-const AdminPanelLayout = (props) => {
+const HIGHEST_ADMIN_ROLE = 1;
+const MINIMUM_ADMIN_ROLE = 3; // All admins (except highest) has role number with value minimum 3
+
+const AllAdminAuth = (props) => {
   const { children, title, token, ...rest } = props;
 
   const userState = useContext(StateUserContext);
@@ -25,7 +28,7 @@ const AdminPanelLayout = (props) => {
         }
       } else {
         const { data } = response;
-        if (data.role === 1 || data.role === 3) {
+        if (data.role === HIGHEST_ADMIN_ROLE || data.role >= MINIMUM_ADMIN_ROLE) {
           userDispatch({
             type: "set_user",
             payload: data,
@@ -57,4 +60,4 @@ const AdminPanelLayout = (props) => {
   );
 };
 
-export default AdminPanelLayout;
+export default AllAdminAuth;

@@ -25,7 +25,7 @@ import Header from "../../Header";
 import Footer from "../../Footer";
 import NavButton from "../Custom/Button/NavButton";
 
-import AdminPanelLayout from "../../../../layout/AdminPanelLayout";
+import AllAdminAuth from "../../../../layout/AllAdminAuth";
 import { StateUserContext } from "../../../../reducers/user";
 
 function AdminLayout(props) {
@@ -42,6 +42,27 @@ function AdminLayout(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  let adminsSidebarMenu;
+  const role = 2;
+
+  if (role == 1) {
+    adminsSidebarMenu = (
+      <Link href="/admin-panel/admins" color="inherit">
+        <ListItem
+          button
+          key={"Admins"}
+          classes={{ root: section === 2 ? classes.currentLink : "" }}
+          className={classes.buttonHover}
+        >
+          <ListItemIcon>
+            <SupervisorAccountIcon classes={{ root: classes.icon }} />
+          </ListItemIcon>
+          <ListItemText primary={"Admin"} />
+        </ListItem>
+      </Link>
+    )
+  }
 
   const drawer = (
     <div>
@@ -74,19 +95,7 @@ function AdminLayout(props) {
             <ListItemText primary={"Home"} />
           </ListItem>
         </Link>
-        <Link href="/admin-panel/admins" color="inherit">
-          <ListItem
-            button
-            key={"Admins"}
-            classes={{ root: section === 2 ? classes.currentLink : "" }}
-            className={classes.buttonHover}
-          >
-            <ListItemIcon>
-              <SupervisorAccountIcon classes={{ root: classes.icon }} />
-            </ListItemIcon>
-            <ListItemText primary={"Admin"} />
-          </ListItem>
-        </Link>
+        {adminsSidebarMenu}
         <Link href="/admin-panel/archives" color="inherit">
           <ListItem
             button
@@ -133,7 +142,7 @@ function AdminLayout(props) {
 
   return (
     <>
-      <AdminPanelLayout token={token} className={classes.root}>
+      <AllAdminAuth token={token} className={classes.root}>
         <CssBaseline />
         <nav className={classes.drawer} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -174,7 +183,7 @@ function AdminLayout(props) {
           </main>
           <Footer />
         </span>
-      </AdminPanelLayout>
+      </AllAdminAuth>
     </>
   );
 }
