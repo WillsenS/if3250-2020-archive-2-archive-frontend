@@ -149,6 +149,8 @@ const Borrow = (props) => {
     fetchArchiveTitle(archiveId);
   }, []);
 
+  console.log(userState.user);
+
   return (
     <Authenticated token={token}>
       <ThemeProvider theme={theme}>

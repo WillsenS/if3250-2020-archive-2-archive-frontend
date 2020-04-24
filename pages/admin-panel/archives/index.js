@@ -1,5 +1,5 @@
 import React from "react";
-import AdminLayout from "../../../src/components/Admin/Layout";
+import AllAdminLayout from "../../../src/components/Admin/Layout/AllAdmin";
 import ArchiveTable from "../../../src/components/Admin/ArchiveTable";
 import Classification from "../../../src/scheme/Classification";
 import useUpdateArchive from "../../../hooks/archive/useUpdateArchive";
@@ -40,7 +40,11 @@ function Archives({ token }) {
   };
 
   return (
-    <AdminLayout section={section} title="Pengaturan Data Arsip" token={token}>
+    <AllAdminLayout
+      section={section}
+      title="Pengaturan Data Arsip"
+      token={token}
+    >
       <ArchiveTable
         searchQuery={state.query}
         // @ts-ignore
@@ -56,7 +60,7 @@ function Archives({ token }) {
         handleEditRequests={handleEditArchiveRequest}
         handleDeleteRequests={handleDeleteArchiveRequest}
       />
-    </AdminLayout>
+    </AllAdminLayout>
   );
 }
 

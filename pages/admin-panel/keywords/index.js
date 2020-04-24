@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import AdminLayout from "../../../src/components/Admin/Layout";
+import HighAdminLayout from "../../../src/components/Admin/Layout/HighAdmin";
 import KeywordTable from "../../../src/components/Admin/KeywordTable";
 
 import {
@@ -44,7 +44,7 @@ const Keyword = (props) => {
   };
 
   return (
-    <AdminLayout
+    <HighAdminLayout
       section={section}
       title="Pengaturan Data Keyword"
       token={props.token}
@@ -53,7 +53,7 @@ const Keyword = (props) => {
         dataKeyword={keywords}
         handleEditDataRequest={handleEditKeywordRequest}
       />
-    </AdminLayout>
+    </HighAdminLayout>
   );
 };
 
