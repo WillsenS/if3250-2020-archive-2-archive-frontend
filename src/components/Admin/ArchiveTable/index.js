@@ -56,8 +56,6 @@ export default function ArchiveTable(props) {
   const { classification } = props;
   const { loading } = props;
 
-  console.log(user);
-
   const handleOpenDetailDialog = (data) => {
     setSelectedArchive({ ...data });
     setOpenDetailDialog(true);

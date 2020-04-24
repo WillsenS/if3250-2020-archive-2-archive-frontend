@@ -17,7 +17,6 @@ const AllAdminAuth = (props) => {
   const doAuth = async () => {
     try {
       const response = await getAuthCheck(token);
-      console.log("RESPONSE:", response);
       if (response.error) {
         switch (response.error.code) {
           case 401:
