@@ -17,11 +17,13 @@ import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import HomeIcon from "@material-ui/icons/Home";
+
 //Custom
 import useStyles from "./style";
 import profile from "../../../../public/static/img/pp.jpg";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import NavButton from "../Custom/Button/NavButton";
 
 import AdminPanelLayout from "../../../../layout/AdminPanelLayout";
 import { StateUserContext } from "../../../../reducers/user";
@@ -167,7 +169,7 @@ function AdminLayout(props) {
         <span className={classes.contentWrapper}>
           <Header user={userState.user} />
           <main className={classes.content}>
-            <div className={classes.toolbar} />
+            <NavButton handleClick={handleDrawerToggle} />
             {props.children ? props.children : ""}
           </main>
           <Footer />

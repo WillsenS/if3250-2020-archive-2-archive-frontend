@@ -9,8 +9,8 @@ import {
 } from "../../resources/archive";
 
 /**
- * Custom hooks for controlling archive section logic.
- * @param {string} authToken Authentication authToken
+ * Custom hook for controlling archive section logic.
+ * @param {string} authToken Authentication token
  * @returns {object} Archive object state, with self-documenting property names
  */
 export default function useUpdateArchive(authToken) {
