@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 /**
- * Custom hooks for controlling role management section logic.
+ * Custom hook for controlling role management section logic.
  * @param {string} authToken Authentication token
  * @returns {object} Archive object state, with self-documenting names
  */
