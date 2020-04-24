@@ -70,7 +70,6 @@ export default function ArchiveDetail(props) {
   };
 
   moment.locale("id");
-  console.log(archive);
   return (
     <Dialog
       open={isOpen}
