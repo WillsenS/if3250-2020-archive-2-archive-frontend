@@ -11,62 +11,76 @@ import StyledTableCell from "../Custom/Table/StyledTableCell";
 import StyledTableRow from "../Custom/Table/StyledTableRow";
 import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const useStyles = makeStyles(() => ({
-    root: {
-        flexGrow: 1,
-    },
-    title: {
-        marginBottom: '1rem'
-    },
-    cell: {
-        textAlign: 'center',
-        fontSize: '0.8rem'
-    }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  table: {
+    width: "100%",
+  },
+  title: {
+    marginBottom: "1rem",
+  },
+  cell: {
+    textAlign: "center",
+    fontSize: "0.8rem",
+  },
 }));
 
 export default function HomeTable(props) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-            <Grid item md={12} lg={6}>
-                <Typography variant="h3" component="h2" className={classes.title}>{props.title}</Typography>
-                {props.loading ? <LinearProgress /> : <></>}
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="tabel statistik user">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell className={classes.cell}>Total</StyledTableCell>
-                                {
-                                    props.dataList.items ? props.dataList.items.map((item, index) => (
-                                        <StyledTableCell key={index} className={classes.cell}>{ item.label }</StyledTableCell>
-                                    )) : (<></>)
-                                }
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <StyledTableRow>
-                                {
-                                  props.dataList.total !== null ? (
-                                      <StyledTableCell  className={classes.cell}>{ props.dataList.total }</StyledTableCell>
-                                  ) : (<></>)
-                                }
-                                {
-                                    props.dataList.items ? props.dataList.items.map((item, index) => (
-                                        <StyledTableCell key={index} className={classes.cell}>{ item.number }</StyledTableCell>
-                                    )) : (<></>)
-                                }
-                            </StyledTableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Grid>
-    );
-
+  return (
+    <Grid item xs={12} md={8} lg={6}>
+      <Typography variant="h3" component="h2" className={classes.title}>
+        {props.title}
+      </Typography>
+      {props.loading ? <LinearProgress /> : <></>}
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="tabel statistik user">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell className={classes.cell}>Total</StyledTableCell>
+              {props.dataList.items ? (
+                props.dataList.items.map((item, index) => (
+                  <StyledTableCell key={index} className={classes.cell}>
+                    {item.label}
+                  </StyledTableCell>
+                ))
+              ) : (
+                <></>
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <StyledTableRow>
+              {props.dataList.total !== null ? (
+                <StyledTableCell className={classes.cell}>
+                  {props.dataList.total}
+                </StyledTableCell>
+              ) : (
+                <></>
+              )}
+              {props.dataList.items ? (
+                props.dataList.items.map((item, index) => (
+                  <StyledTableCell key={index} className={classes.cell}>
+                    {item.number}
+                  </StyledTableCell>
+                ))
+              ) : (
+                <></>
+              )}
+            </StyledTableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grid>
+  );
 }
 
 HomeTable.propTypes = {
-    dataList: PropTypes.object,
-    title: PropTypes.string
+  dataList: PropTypes.object,
+  title: PropTypes.string,
 };
