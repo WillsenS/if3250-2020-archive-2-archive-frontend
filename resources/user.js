@@ -104,3 +104,25 @@ export const patchResetRoleToDefault = async (user_id, source, token) => {
     throw "Gagal mengubah akses admin";
   }
 };
+
+/**
+ * Get user role list
+ * @param {object} source Axios request token
+ * @param {string} token Authentication token
+ */
+export const getUserRoles = async (source, token) => {
+  try {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+    const url = `${defaultAPIURL}/user/roles`;
+    const config = {
+      cancelToken: source ? source.token : null,
+    };
+    return await axios({
+      method: "GET",
+      url,
+      config,
+    });
+  } catch (e) {
+    throw "Gagal mengambil role user";
+  }
+};

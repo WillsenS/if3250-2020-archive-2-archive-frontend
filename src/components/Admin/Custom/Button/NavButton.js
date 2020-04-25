@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1000,
     boxShadow: theme.shadows[2],
     borderRadius: "50%",
-    margin: "1.5rem",
     color: "#fff",
     backgroundColor: "#175389",
     borderColor: "#175389",
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       borderColor: "#1565c0",
     },
     // Add admin panel button positioning here, because for some reason adding it on the parent component wasn't working
-    position: "absolute",
+    position: "sticky",
     top: 10,
     right: 10,
     [theme.breakpoints.up("sm")]: {
