@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import Error from "next/error";
 import { getArchiveList } from "../../../resources/archive";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { Container, Grid, Typography } from "@material-ui/core";
@@ -42,6 +43,7 @@ const SearchPage = (props) => {
   const router = useRouter();
   const { q, page, tipe } = router.query;
 
+  const [error, setError] = useState(false);
   const [isSearch, setIsSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(q || "");
   const [currentPage, setCurrentPage] = useState(page || 1);
@@ -77,25 +79,29 @@ const SearchPage = (props) => {
         arrFilter
       );
 
-      setArchiveList(response.data);
-      setTotalItems(response.count);
-      setTotalPage(response.totalPages);
-      setCurrentPage(response.currentPage);
+      if (response && !response.error) {
+        setArchiveList(response.data);
+        setTotalItems(response.count);
+        setTotalPage(response.totalPages);
+        setCurrentPage(response.currentPage);
 
-      if (isSearch) setFilterCandidate(response.filtersCandidate);
+        if (isSearch) setFilterCandidate(response.filtersCandidate);
 
-      setIsSearch(false);
+        setIsSearch(false);
 
-      if (header.length === 0) {
-        const h = [];
-        Object.keys(response.filtersCandidate).map((key) => {
-          if (filter["tipe"] && key === "tipe") h.push(true);
-          else h.push(false);
-        });
-        setHeader(h);
+        if (header.length === 0) {
+          const h = [];
+          Object.keys(response.filtersCandidate).map((key) => {
+            if (filter["tipe"] && key === "tipe") h.push(true);
+            else h.push(false);
+          });
+          setHeader(h);
+        }
+      } else {
+        setError(true);
       }
     } catch (err) {
-      console.error(err);
+      setError(true);
     }
   };
 
@@ -140,6 +146,8 @@ const SearchPage = (props) => {
 
   const { token } = props;
   const userState = useContext(StateUserContext);
+
+  if (error) return <Error statusCode={500} />;
 
   return (
     <>

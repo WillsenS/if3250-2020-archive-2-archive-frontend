@@ -63,7 +63,6 @@ export const getNonAdmins = async (page, source, token) => {
  */
 export const patchEditUserRole = async (user_id, role_id, source, token) => {
   try {
-    console.log("auth: ", token);
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     const url = `${defaultAPIURL}/users/${user_id}`;
     let data = new FormData();

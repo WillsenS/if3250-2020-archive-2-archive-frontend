@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RequestTable from "../../../src/components/Admin/RequestTable";
-import AdminLayout from "../../../src/components/Admin/Layout";
+import HighAdminLayout from "../../../src/components/Admin/Layout/HighAdmin";
 import Typography from "@material-ui/core/Typography";
 
 import {
@@ -58,7 +58,7 @@ export default function ArchiveRequest(props) {
   }, []);
 
   return (
-    <AdminLayout
+    <HighAdminLayout
       section={4}
       title="Data Permintaan Peminjaman Arsip"
       token={props.token}
@@ -79,7 +79,7 @@ export default function ArchiveRequest(props) {
           Tidak ada permintaan peminjaman arsip
         </Typography>
       )}
-    </AdminLayout>
+    </HighAdminLayout>
   );
 }
 

@@ -64,7 +64,7 @@ const Header = (props) => {
         </Grid>
       </Grid>
     );
-  } else if (user.role === 1 || user.role === 2) {
+  } else if (user.role === 1 || user.role === 3) {
     navbarUser = (
       <Grid container spacing={0}>
         <Grid item lg={4} className={classes.grid}>

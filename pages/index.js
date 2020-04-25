@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import Router from "next/router";
+import Error from "next/error";
 import {
   Box,
   Button,
@@ -155,9 +156,7 @@ const HomepageContent = (props) => {
   const classes = useStyles();
   const data = props.width;
 
-  const { archives } = props;
-
-  const [arrMostSearch, setArrMostSearch] = useState([]);
+  const { archives, arrMostSearch } = props;
 
   const latestArchives = archives.map((val, idx) => (
     <Box className={classes.pagination} key={`archive-${idx}`}>
@@ -196,20 +195,6 @@ const HomepageContent = (props) => {
       </Link>
     </Typography>
   ));
-
-  useEffect(() => {
-    (async function getData() {
-      const response = await getMostSearchKeywordOnFile();
-      const dataKeyword = [];
-      const dataMostSearch = response.data;
-
-      dataMostSearch.map((data) => {
-        dataKeyword.push(data.keyword);
-      });
-
-      setArrMostSearch([...dataKeyword]);
-    })();
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -253,19 +238,44 @@ const Home = (props) => {
   const { token } = props;
   const userState = useContext(StateUserContext);
   const [latestArchives, setLatestArchives] = useState([]);
+  const [error, setError] = useState(false);
+  const [arrMostSearch, setArrMostSearch] = useState([]);
 
   const fetchLatestArchives = async () => {
     try {
       const response = await getLatestArchives();
-      setLatestArchives(response.data);
+      if (response && !response.error) setLatestArchives(response.data);
+      else setError(true);
     } catch (err) {
-      console.error(err);
+      setError(true);
     }
   };
 
   useEffect(() => {
     fetchLatestArchives();
+
+    (async function getData() {
+      try {
+        const response = await getMostSearchKeywordOnFile();
+        if (response && !response.error) {
+          const dataKeyword = [];
+          const dataMostSearch = response.data;
+
+          dataMostSearch.map((data) => {
+            dataKeyword.push(data.keyword);
+          });
+
+          setArrMostSearch([...dataKeyword]);
+        } else {
+          setError(true);
+        }
+      } catch (err) {
+        setError(true);
+      }
+    })();
   }, []);
+
+  if (error) return <Error statusCode={500} />;
 
   return (
     <>
@@ -273,7 +283,11 @@ const Home = (props) => {
         <ThemeProvider theme={theme}>
           <Header user={userState.user} />
           <Welcome width={props.width} />
-          <HomepageContent width={props.width} archives={latestArchives} />
+          <HomepageContent
+            width={props.width}
+            arrMostSearch={arrMostSearch}
+            archives={latestArchives}
+          />
           <Footer />
         </ThemeProvider>
       </Layout>

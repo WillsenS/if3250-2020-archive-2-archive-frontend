@@ -113,50 +113,58 @@ export default function FormArchive(props) {
       >
         <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
         <DialogContent dividers>
-          <DialogContentText>
-            Input data file yang akan ditambahkan
-          </DialogContentText>
-          {/*Tipe Arsip*/}
-          <FormControl required className={classes.formControl}>
-            <InputLabel id="user-label">Tipe</InputLabel>
-            <Select
-              required
-              labelId="tipe-klasifikasi"
-              id="pilih-tipe-klasifikasi"
-              value={archive.type}
-              onChange={handleArchiveTypeChange}
-            >
-              {archiveTypeList.map((type) => {
-                return (
-                  <MenuItem value={type.name} key={type.id}>
-                    {type.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormHelperText>Tipe Klasifikasi Dari Arsip </FormHelperText>
-          </FormControl>
-          {/*Uploader File*/}
-          <Box>
-            <input
-              hidden
-              accept={getArchiveUploaderFilter(archive.type)}
-              className={classes.input}
-              id="archive-upload"
-              type="file"
-              onChange={(e) => handleUpload(e)}
-            />
-            <label htmlFor="archive-upload">
-              <Button variant="contained" color="primary" component="span">
-                Upload Arsip
-              </Button>
-            </label>
-            <Typography component="span">
-              <Box fontWeight="fontWeightLight" m={1} component="span">
-                {archive.file ? archive.file.name : ""}
+          {/* Changed business logic: User can't edit the file itself, only the metadata */}
+          {/* User can do archive reupload if there's some mistake in the uploaded data*/}
+          {!editMode ? (
+            <>
+              <DialogContentText>
+                Input data file yang akan ditambahkan
+              </DialogContentText>
+              <FormControl required className={classes.formControl}>
+                <InputLabel id="user-label">Tipe</InputLabel>
+                <Select
+                  required
+                  labelId="tipe-klasifikasi"
+                  id="pilih-tipe-klasifikasi"
+                  value={archive.type}
+                  onChange={handleArchiveTypeChange}
+                >
+                  {archiveTypeList.map((type) => {
+                    return (
+                      <MenuItem value={type.name} key={type.id}>
+                        {type.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                <FormHelperText>Tipe Klasifikasi Dari Arsip </FormHelperText>
+              </FormControl>
+              <Box>
+                <input
+                  hidden
+                  accept={getArchiveUploaderFilter(archive.type)}
+                  className={classes.input}
+                  id="archive-upload"
+                  type="file"
+                  onChange={(e) => handleUpload(e)}
+                />
+                <label htmlFor="archive-upload">
+                  <Button variant="contained" color="primary" component="span">
+                    Upload Arsip
+                  </Button>
+                </label>
+                <Typography component="span">
+                  <Box fontWeight="fontWeightLight" m={1} component="span">
+                    {archive.file ? archive.file.name : ""}
+                  </Box>
+                </Typography>
               </Box>
-            </Typography>
-          </Box>
+            </>
+          ) : (
+            <></>
+          )}
+          {/*Uploader File*/}
+
           {/* Judul Arsip */}
           <CustomTextField
             id="filename"

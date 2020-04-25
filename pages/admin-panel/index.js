@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import AdminLayout from "../../src/components/Admin/Layout";
+import AllAdminLayout from "../../src/components/Admin/Layout/AllAdmin";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -49,7 +49,7 @@ const Admin = (props) => {
     <span>Terjadi kesalahan pada saat mengambil data</span>
   ) : (
     <>
-      <AdminLayout section={1} title="Home Admin Panel" token={token}>
+      <AllAdminLayout section={1} title="Home Admin Panel" token={token}>
         <Container component="div" className={classes.root}>
           <Grid container spacing={5}>
             <HomeTable
@@ -64,7 +64,7 @@ const Admin = (props) => {
             />
           </Grid>
         </Container>
-      </AdminLayout>
+      </AllAdminLayout>
     </>
   );
 };

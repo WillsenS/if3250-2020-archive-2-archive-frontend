@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import Error from "next/error";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Header from "../../../src/components/Header";
 import Footer from "../../../src/components/Footer";
@@ -55,6 +56,7 @@ const Borrow = (props) => {
 
   const { archiveId, token } = props;
 
+  const [error, setError] = useState(false);
   const [phone, setPhone] = useState("");
   const [title, setTitle] = useState("");
   const [errorPhone, setErrorPhone] = useState(false);
@@ -88,7 +90,7 @@ const Borrow = (props) => {
         setEmail("");
       }
     } catch (err) {
-      console.error(err);
+      setError(true);
     }
   };
 
@@ -139,15 +141,18 @@ const Borrow = (props) => {
   const fetchArchiveTitle = async (archiveId) => {
     try {
       const response = await getArchiveTitle(archiveId);
-      setTitle(response.data);
+      if (response && !response.error) setTitle(response.data);
+      else setError(true);
     } catch (err) {
-      console.error(err);
+      setError(true);
     }
   };
 
   useEffect(() => {
     fetchArchiveTitle(archiveId);
   }, []);
+
+  if (error) return <Error statusCode={500} />;
 
   return (
     <Authenticated token={token}>

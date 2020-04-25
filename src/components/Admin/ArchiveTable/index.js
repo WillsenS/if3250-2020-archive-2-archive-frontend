@@ -50,6 +50,7 @@ export default function ArchiveTable(props) {
     handleEditRequests,
     handleDeleteRequests,
     handleSearch,
+    user,
   } = props;
   //Dynamic form data options
   const { classification } = props;
@@ -195,14 +196,22 @@ export default function ArchiveTable(props) {
                         handleClick={handleOpenDetailDialog}
                         data={archive}
                       />
-                      <EditButton
-                        handleClick={handleOpenEditDialog}
-                        data={archive}
-                      />
-                      <RemoveButton
-                        handleClick={handleOpenDelDialog}
-                        data={archive}
-                      />
+                      {user.role === 1 ? (
+                        <EditButton
+                          handleClick={handleOpenEditDialog}
+                          data={archive}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {user.role === 1 ? (
+                        <RemoveButton
+                          handleClick={handleOpenDelDialog}
+                          data={archive}
+                        />
+                      ) : (
+                        <></>
+                      )}
                     </span>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -238,19 +247,24 @@ export default function ArchiveTable(props) {
         handleInput={handleInput}
         handleSubmitArchive={handleSubmitArchive}
       />
+
       {/*   Edit Archive Modal Component*/}
-      <FormArchive
-        type="edit"
-        archive={selectedArchive}
-        classification={classification}
-        title="Edit Arsip"
-        isOpen={openEditDialog}
-        handleClose={handleCloseEditDialog}
-        handleUpload={handleUpload}
-        handleArchiveTypeChange={handleArchiveTypeChange}
-        handleInput={handleInput}
-        handleSubmitArchive={handleChangeArchive}
-      />
+      {user.role === 1 ? (
+        <FormArchive
+          type="edit"
+          archive={selectedArchive}
+          classification={classification}
+          title="Edit Arsip"
+          isOpen={openEditDialog}
+          handleClose={handleCloseEditDialog}
+          handleUpload={handleUpload}
+          handleArchiveTypeChange={handleArchiveTypeChange}
+          handleInput={handleInput}
+          handleSubmitArchive={handleChangeArchive}
+        />
+      ) : (
+        <></>
+      )}
       {/*    Archive Detail Modal Component*/}
       <ArchiveDetail
         type="detail"
@@ -259,13 +273,17 @@ export default function ArchiveTable(props) {
         handleClose={handleCloseDetailDialog}
       />
       {/*    Delete Archive Modal Component*/}
-      <ArchiveDetail
-        type="delete"
-        archive={selectedArchive}
-        isOpen={openDelDialog}
-        handleClose={handleCloseDelDialog}
-        handleDelete={handleDeleteArchive}
-      />
+      {user.role === 1 ? (
+        <ArchiveDetail
+          type="delete"
+          archive={selectedArchive}
+          isOpen={openDelDialog}
+          handleClose={handleCloseDelDialog}
+          handleDelete={handleDeleteArchive}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

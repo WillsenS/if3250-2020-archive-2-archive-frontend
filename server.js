@@ -46,13 +46,12 @@ nextApp
       const { archiveId } = req.params;
 
       const response = await getAuthArchive(archiveId, token);
-
       if (response.error) {
         switch (response.error.code) {
           case 401:
             return nextApp.render(req, res, "/arsip/pinjam", query);
           default:
-            break;
+            return nextApp.render(req, res, "/arsip/detail", query);
         }
       } else {
         return nextApp.render(req, res, "/arsip/detail", query);
