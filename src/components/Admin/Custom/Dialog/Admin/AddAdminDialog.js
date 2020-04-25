@@ -13,7 +13,6 @@ import {
   MenuItem,
   FormHelperText,
 } from "@material-ui/core";
-import Role from "../../../../../scheme/Unit";
 
 //PropTypes validation
 import PropTypes from "prop-types";
@@ -51,7 +50,13 @@ export default function AddAdminDialog(props) {
   const [userId, setUserId] = React.useState("");
   const [roleId, setRoleId] = React.useState("");
   const classes = useStyles();
-  const { open, handleClose, userList, handleAddNewDataRequest } = props;
+  const {
+    open,
+    handleClose,
+    userList,
+    handleAddNewDataRequest,
+    dataRole,
+  } = props;
 
   const handleNameChange = (event) => {
     setUserId(event.target.value);
@@ -112,9 +117,9 @@ export default function AddAdminDialog(props) {
               value={roleId}
               onChange={handleUnitChange}
             >
-              {Role.map((r) => (
-                <MenuItem value={r._id} key={r._id}>
-                  {r.label}
+              {dataRole.map((r) => (
+                <MenuItem value={r.kode} key={r.kode}>
+                  {r.nama}
                 </MenuItem>
               ))}
             </Select>
@@ -140,6 +145,7 @@ export default function AddAdminDialog(props) {
 AddAdminDialog.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
+  dataRole: PropTypes.array,
   userList: PropTypes.array,
   handleAddNewDataRequest: PropTypes.func,
 };

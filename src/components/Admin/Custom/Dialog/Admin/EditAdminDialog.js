@@ -14,7 +14,6 @@ import {
   FormHelperText,
   Box,
 } from "@material-ui/core";
-import Role from "../../../../../scheme/Unit";
 
 //PropTypes validation
 import PropTypes from "prop-types";
@@ -123,9 +122,9 @@ export default function EditAdminDialog(props) {
                 onChange={handleUnitSelected}
                 displayEmpty
               >
-                {Role.map((r) => (
-                  <MenuItem value={r._id} key={r._id}>
-                    {r.label}
+                {props.dataRole.map((r) => (
+                  <MenuItem value={r.kode} key={r.kode}>
+                    {r.nama}
                   </MenuItem>
                 ))}
               </Select>
@@ -139,7 +138,7 @@ export default function EditAdminDialog(props) {
             <Button
               classes={{ root: classes.buttonExecute }}
               onClick={() => {
-                handleEditClick(props.data);
+                handleEditClick();
               }}
             >
               Ubah
@@ -153,6 +152,7 @@ export default function EditAdminDialog(props) {
 
 EditAdminDialog.propTypes = {
   open: PropTypes.bool,
+  dataRole: PropTypes.array,
   handleClose: PropTypes.func,
   data: PropTypes.object,
   handleEdit: PropTypes.func,

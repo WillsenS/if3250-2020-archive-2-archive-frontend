@@ -4,6 +4,7 @@ import {
   getAdmins,
   patchEditUserRole,
   patchResetRoleToDefault,
+  getUserRoles,
 } from "../../resources/user";
 import axios from "axios";
 
@@ -15,6 +16,7 @@ import axios from "axios";
 export default function useUpdateUser(authToken) {
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
+  const [userRoleList, setUserRoleList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [query, setQuery] = useState("*");
@@ -35,14 +37,20 @@ export default function useUpdateUser(authToken) {
     try {
       setLoading(true);
       const sourceToken = axios.CancelToken.source();
-      const [getAdminRes, getNonAdminRes] = await Promise.all([
+      const [getAdminRes, getNonAdminRes, getUserRolesRes] = await Promise.all([
         getAdmins(role_id, pages, sourceToken, authToken),
         // No page num specified , server will provide all non-admin users
         getNonAdmins(null, sourceToken, authToken),
+        getUserRoles(sourceToken, authToken),
       ]);
-      if (getAdminRes.status === 200 && getNonAdminRes.status === 200) {
+      if (
+        getAdminRes.status === 200 &&
+        getNonAdminRes.status === 200 &&
+        getUserRolesRes.status === 200
+      ) {
         setAdmins(getAdminRes.data.data);
         setUsers(getNonAdminRes.data.data);
+        setUserRoleList(getUserRolesRes.data.data);
         setPage(getAdminRes.data.currentPage);
         setTotalPages(getAdminRes.data.totalPages);
       } else {
@@ -170,6 +178,7 @@ export default function useUpdateUser(authToken) {
     admins,
     users,
     page,
+    userRoleList,
     totalPages,
     handleChangeUserRole,
     handleDeleteAdmin,

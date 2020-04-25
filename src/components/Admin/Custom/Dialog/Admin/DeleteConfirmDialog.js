@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DeleteConfirmDialog(props) {
-  const { open, handleClose, handleDelete, data } = props;
+  const { open, handleClose, handleDelete, data, dataRole } = props;
   const classes = useStyles();
 
-  const handleDeleteClick = (admin_id) => {
-    handleDelete(admin_id);
+  const handleDeleteClick = (adminId) => {
+    handleDelete(adminId);
     handleClose();
   };
 
@@ -49,10 +49,14 @@ export default function DeleteConfirmDialog(props) {
               <ListItemText primary="Nama Admin" secondary={data.fullname} />
             </ListItem>
             <ListItem divider role="listitem">
-              <ListItemText
-                primary="Akses Admin untuk Unit Kerja"
-                secondary={data.role}
-              />
+              {dataRole.length > 0 && data.role ? (
+                <ListItemText
+                  primary="Akses Admin untuk Unit Kerja"
+                  secondary={dataRole[data.role - 1].nama}
+                />
+              ) : (
+                <></>
+              )}
             </ListItem>
           </List>
         </DialogContent>
@@ -78,6 +82,7 @@ export default function DeleteConfirmDialog(props) {
 
 DeleteConfirmDialog.propTypes = {
   open: PropTypes.bool,
+  dataRole: PropTypes.array,
   handleClose: PropTypes.func,
   data: PropTypes.object,
   handleDelete: PropTypes.func,

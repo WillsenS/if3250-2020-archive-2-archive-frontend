@@ -17,6 +17,7 @@ function AdminUsers(props) {
       <AdminTable
         dataAdmin={state.admins}
         dataUser={state.users}
+        dataRole={state.userRoleList}
         page={state.page}
         totalPages={state.totalPages}
         handlePageRequest={state.handlePageRequest}

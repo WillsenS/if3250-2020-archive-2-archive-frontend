@@ -37,6 +37,7 @@ export default function AdminTable(props) {
     currentPage,
     totalPages,
     dataUser,
+    dataRole,
     handlePageRequest,
     handleAddNewDataRequest,
     handleDeleteDataRequest,
@@ -102,24 +103,27 @@ export default function AdminTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataAdmin.map((admin, index) => (
-              <StyledTableRow key={index} hover>
-                <StyledTableCell>{admin.fullname}</StyledTableCell>
-                <StyledTableCell>{admin.role}</StyledTableCell>
-                <StyledTableCell>
-                  <span style={{ display: "flex", justifyContent: "center" }}>
-                    <EditButton
-                      handleClick={handleEditAdminOpen}
-                      data={admin}
-                    />
-                    <RemoveButton
-                      handleClick={handleDeleteAdminOpen}
-                      data={admin}
-                    />
-                  </span>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {dataRole.length > 0 &&
+              dataAdmin.map((admin, index) => (
+                <StyledTableRow key={index} hover>
+                  <StyledTableCell>{admin.fullname}</StyledTableCell>
+                  <StyledTableCell>
+                    {dataRole[admin.role - 1].nama}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <span style={{ display: "flex", justifyContent: "center" }}>
+                      <EditButton
+                        handleClick={handleEditAdminOpen}
+                        data={admin}
+                      />
+                      <RemoveButton
+                        handleClick={handleDeleteAdminOpen}
+                        data={admin}
+                      />
+                    </span>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -133,6 +137,7 @@ export default function AdminTable(props) {
       <AddAdminDialog
         open={openAddAdminDialog}
         handleClose={handleAddAdminClose}
+        dataRole={dataRole}
         userList={dataUser}
         handleAddNewDataRequest={handleAddNewDataRequest}
       />
@@ -140,12 +145,14 @@ export default function AdminTable(props) {
         open={openEditAdminDialog}
         handleClose={handleEditAdminClose}
         data={selectedAdmin}
+        dataRole={dataRole}
         handleEdit={handleEditDataRequest}
       />
       <DeleteConfirmDialog
         open={openDeleteAdminDialog}
         handleClose={handleDeleteAdminClose}
         data={selectedAdmin}
+        dataRole={dataRole}
         handleDelete={handleDeleteDataRequest}
       />
     </>
@@ -155,6 +162,7 @@ export default function AdminTable(props) {
 AdminTable.propTypes = {
   dataAdmin: PropTypes.array,
   dataUser: PropTypes.array,
+  dataRole: PropTypes.array,
   handlePageRequest: PropTypes.func,
   handleAddNewDataRequest: PropTypes.func,
   handleDeleteDataRequest: PropTypes.func,
