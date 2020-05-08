@@ -52,7 +52,9 @@ const HighestAdminAuth = (props) => {
   return (
     <>
       <Head>
-        <title>{title || "Archive Digital Information Center ITB"}</title>
+        <title>
+          {title || "Sistem Informasi Arsip Digital Statis (SIAGA) ITB"}
+        </title>
       </Head>
       {children}
     </>

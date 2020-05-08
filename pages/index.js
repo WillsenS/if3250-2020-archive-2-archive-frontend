@@ -112,13 +112,13 @@ const Welcome = (props) => {
             variant={isWidthDown("xs", data) ? "h3" : "h1"}
             className={classes.yellow}
           >
-            ARCHIVE DIGITAL
+            SISTEM INFORMASI
           </Typography>
           <Typography
             variant={isWidthDown("xs", data) ? "h3" : "h1"}
             className={classes.yellow}
           >
-            INFORMATION CENTER
+            ARSIP DIGITAL STATIS
           </Typography>
           <Typography
             variant={isWidthDown("xs", data) ? "h3" : "h1"}
